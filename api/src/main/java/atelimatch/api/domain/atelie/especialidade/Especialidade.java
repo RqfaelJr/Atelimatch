@@ -1,4 +1,5 @@
-package atelimatch.api.domain.atelie;
+package atelimatch.api.domain.atelie.especialidade;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,4 +11,8 @@ import lombok.NoArgsConstructor;
 public class Especialidade {
     private Integer idEspecialidade;
     private String descricaoEspecialidade;
+
+    public Especialidade(DadosCadastroEspecialidade dados) {
+        this.descricaoEspecialidade = dados.descricaoEspecialidade();
+    }
 }
