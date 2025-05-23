@@ -18,7 +18,9 @@ public class Pessoa {
     private String usuario;
     private String telefone;
     private Estado estado;
-    private Rua rua;
-    private Bairro bairro;
     private Cidade cidade;
+    private Bairro bairro;
+    private Rua rua;
+
+
 }
