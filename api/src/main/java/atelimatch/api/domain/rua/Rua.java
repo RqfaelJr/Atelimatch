@@ -13,4 +13,9 @@ public class Rua {
     private Integer numeroRua;
     private String complemento;
 
+    public Rua(DadosCadastroRua dados) {
+        this.nomeRua = dados.nomeRua();
+        this.numeroRua = dados.numeroRua();
+        this.complemento = dados.complemento();
+    }
 }
