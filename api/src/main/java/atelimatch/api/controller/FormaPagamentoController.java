@@ -27,7 +27,7 @@ public class FormaPagamentoController {
         var formaPagamento = new FormaPagamento(dados);
         repository.save(formaPagamento);
 
-        var uri = uriBuilder.path("/id").buildAndExpand(formaPagamento.getIdFormaPagamento()).toUri();
+        var uri = uriBuilder.path("/{id}").buildAndExpand(formaPagamento.getIdFormaPagamento()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoFormaPagamento(formaPagamento));
     }
 }
