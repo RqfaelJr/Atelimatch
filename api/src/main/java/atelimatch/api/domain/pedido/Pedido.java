@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
@@ -17,8 +17,8 @@ public class Pedido {
     private Atelie atelie;
     private Cliente cliente;
     private Float valorTotal;
-    private LocalDateTime dataEntrega;
-    private LocalDateTime dataPrevisaoEntrega;
-    private String status;
+    private LocalDate dataEntrega;
+    private LocalDate dataPrevisaoEntrega;
+    private Status status;
     private FormaPagamento formaPagamento;
 }
