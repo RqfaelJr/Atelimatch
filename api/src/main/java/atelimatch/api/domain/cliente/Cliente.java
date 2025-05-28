@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
@@ -13,6 +13,6 @@ import java.time.LocalDateTime;
 public class Cliente {
     private Integer idCliente;
     private String cpf;
-    private LocalDateTime dataNascimento;
+    private LocalDate dataNascimento;
     private Pessoa pessoa;
 }
