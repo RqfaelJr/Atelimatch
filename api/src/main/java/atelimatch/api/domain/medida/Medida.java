@@ -10,5 +10,10 @@ import lombok.NoArgsConstructor;
 public class Medida {
     private Integer idMedida;
     private String categoria;
-    private String valorMedida;
+    private Integer valorMedida;
+
+    public Medida(DadosCadastroMedida dados) {
+        this.categoria =dados.categoria();
+        this.valorMedida = dados.valorMedida();
+    }
 }
