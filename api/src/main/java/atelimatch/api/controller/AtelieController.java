@@ -48,4 +48,11 @@ public class AtelieController {
         var dto = cadastro.atualizar(dados);
         return ResponseEntity.ok(dto);
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity remover(@PathVariable Integer id) {
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
