@@ -41,6 +41,8 @@ public class CadastroAtelie {
         var rua = ruaRepository.getReferenceById(dados.idRua());
         atelie.atualizar(dados, bairro, rua);
 
+
+        atelieRepository.save(atelie);
         return new DadosDetalhamentoAtelie(atelie);
     }
 }

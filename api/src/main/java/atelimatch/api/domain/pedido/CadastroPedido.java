@@ -30,4 +30,12 @@ public class CadastroPedido {
         pedidoRepository.save(pedido);
         return new DadosDetalhamentoPedido(pedido);
     }
+
+    public DadosDetalhamentoPedido atualizar(DadosAtualizacaoPedido dados){
+        var pedido = pedidoRepository.getReferenceById(dados.idPedido());
+        pedido.atualizar(dados);
+
+        pedidoRepository.save(pedido);
+        return new DadosDetalhamentoPedido(pedido);
+    }
 }

@@ -21,4 +21,16 @@ public class Pedido {
     private LocalDate dataPrevisaoEntrega;
     private Status status;
     private FormaPagamento formaPagamento;
+
+
+    public void atualizar(DadosAtualizacaoPedido dados) {
+        if (dados.dataEntrega() != null) this.dataEntrega = dados.dataEntrega();
+        if (dados.status() != null) this.status = dados.status();
+        if (dados.dataPrevisaoEntrega() != null) this.dataPrevisaoEntrega = dados.dataPrevisaoEntrega();
+
+    }
+
+    public void excluir() {
+        this.status = Status.CANCELADO;
+    }
 }

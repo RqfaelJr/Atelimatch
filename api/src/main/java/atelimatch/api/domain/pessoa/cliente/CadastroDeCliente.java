@@ -42,6 +42,8 @@ public class CadastroDeCliente {
         var rua = ruaRepository.getReferenceById(dados.idRua());
         cliente.atualizar(dados, bairro, rua, estado, cidade);
 
+        clienteRepository.save(cliente);
+
         return new DadosDetalhamentoCliente(cliente);
     }
 }
