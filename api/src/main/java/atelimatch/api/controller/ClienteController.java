@@ -1,7 +1,7 @@
 package atelimatch.api.controller;
 
-import atelimatch.api.domain.cliente.CadastroDeCliente;
-import atelimatch.api.domain.cliente.DadosCadastroCliente;
+import atelimatch.api.domain.pessoa.cliente.CadastroDeCliente;
+import atelimatch.api.domain.pessoa.cliente.DadosCadastroCliente;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
 package atelimatch.api.controller;
 
-import atelimatch.api.domain.atelie.especialidade.DadosCadastroEspecialidade;
-import atelimatch.api.domain.atelie.especialidade.DadosDetalhamentoEspecialidade;
-import atelimatch.api.domain.atelie.especialidade.Especialidade;
-import atelimatch.api.domain.atelie.especialidade.EspecialidadeRepository;
+import atelimatch.api.domain.pessoa.atelie.especialidade.DadosCadastroEspecialidade;
+import atelimatch.api.domain.pessoa.atelie.especialidade.DadosDetalhamentoEspecialidade;
+import atelimatch.api.domain.pessoa.atelie.especialidade.Especialidade;
+import atelimatch.api.domain.pessoa.atelie.especialidade.EspecialidadeRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

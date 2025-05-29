@@ -1,9 +1,6 @@
 package atelimatch.api.controller;
 
-import atelimatch.api.domain.atelie.AtelieRepository;
-import atelimatch.api.domain.atelie.CadastroAtelie;
-import atelimatch.api.domain.atelie.DadosCadastroAtelie;
-import atelimatch.api.domain.atelie.DadosListagemAtelie;
+import atelimatch.api.domain.pessoa.atelie.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,4 +35,12 @@ public class AtelieController {
         var page = repository.findAll(paginacao).map(DadosListagemAtelie::new);
         return ResponseEntity.ok(page);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity detalhar(@PathVariable Integer id) {
+        var atelie = repository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalhamentoAtelie(atelie));
+    }
+
+
 }

@@ -7,5 +7,6 @@ public enum Status {
     EM_PRODUÇÃO,
     FINALIZADO,
     ENVIADO,
-    ENTREGUE
+    ENTREGUE,
+    CANCELADO
 }

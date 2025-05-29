@@ -1,4 +1,4 @@
-package atelimatch.api.domain.cliente;
+package atelimatch.api.domain.pessoa.cliente;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
