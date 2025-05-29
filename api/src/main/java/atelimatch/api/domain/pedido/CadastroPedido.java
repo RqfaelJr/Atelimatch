@@ -1,8 +1,8 @@
 package atelimatch.api.domain.pedido;
 
+import atelimatch.api.domain.formapagamento.FormaPagamentoRepository;
 import atelimatch.api.domain.pessoa.atelie.AtelieRepository;
 import atelimatch.api.domain.pessoa.cliente.ClienteRepository;
-import atelimatch.api.domain.formapagamento.FormaPagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

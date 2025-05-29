@@ -1,15 +1,13 @@
 package atelimatch.api.domain.pessoa;
+
+import atelimatch.api.domain.bairro.Bairro;
 import atelimatch.api.domain.cidade.Cidade;
 import atelimatch.api.domain.estado.Estado;
 import atelimatch.api.domain.rua.Rua;
-import atelimatch.api.domain.bairro.Bairro;
-import jakarta.persistence.Entity;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @Getter
 @NoArgsConstructor

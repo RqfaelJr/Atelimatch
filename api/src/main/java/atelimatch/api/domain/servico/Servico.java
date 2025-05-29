@@ -1,6 +1,5 @@
 package atelimatch.api.domain.servico;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ public class Servico {
     private Integer tempoMedio;
     private Float valorServico;
 
-    public Servico(@Valid DadosCadastroServico dados) {
+    public Servico(DadosCadastroServico dados) {
         this.nomeServico = dados.nomeServico();
         this.tempoMedio = dados.tempoMedio();
         this.valorServico = dados.valorServico();

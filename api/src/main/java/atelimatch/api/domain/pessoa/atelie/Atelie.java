@@ -5,8 +5,6 @@ import atelimatch.api.domain.cidade.Cidade;
 import atelimatch.api.domain.estado.Estado;
 import atelimatch.api.domain.pessoa.Pessoa;
 import atelimatch.api.domain.rua.Rua;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

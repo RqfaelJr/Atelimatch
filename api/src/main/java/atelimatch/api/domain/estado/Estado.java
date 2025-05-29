@@ -1,6 +1,5 @@
 package atelimatch.api.domain.estado;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

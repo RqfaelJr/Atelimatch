@@ -1,8 +1,8 @@
 package atelimatch.api.domain.pedido;
 
+import atelimatch.api.domain.formapagamento.FormaPagamento;
 import atelimatch.api.domain.pessoa.atelie.Atelie;
 import atelimatch.api.domain.pessoa.cliente.Cliente;
-import atelimatch.api.domain.formapagamento.FormaPagamento;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
