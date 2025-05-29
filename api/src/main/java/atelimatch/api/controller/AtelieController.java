@@ -42,5 +42,5 @@ public class AtelieController {
         return ResponseEntity.ok(new DadosDetalhamentoAtelie(atelie));
     }
 
-
+   
 }

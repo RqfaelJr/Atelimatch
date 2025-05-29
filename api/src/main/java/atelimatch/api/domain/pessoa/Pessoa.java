@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
+@MappedSuperclass // Mudar para entity e @Inheritance(strategy = InheritanceType.JOINED)
 public class Pessoa {
     protected Integer idPessoa;
     protected String nomePessoa;
