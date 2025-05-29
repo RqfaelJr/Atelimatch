@@ -26,7 +26,7 @@ public class AtelieController {
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroAtelie dados, UriComponentsBuilder uriBuilder) {
         var dto = cadastro.cadastrar(dados);
 
-        var uri = uriBuilder.path("/{id}").buildAndExpand(dto.idAtelie()).toUri();
+        var uri = uriBuilder.path("/{id}").buildAndExpand(dto.idPessoa()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
 
@@ -42,5 +42,10 @@ public class AtelieController {
         return ResponseEntity.ok(new DadosDetalhamentoAtelie(atelie));
     }
 
-   
+    @PutMapping
+    @Transactional
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoAtelie dados) {
+        var dto = cadastro.atualizar(dados);
+        return ResponseEntity.ok(dto);
+    }
 }
