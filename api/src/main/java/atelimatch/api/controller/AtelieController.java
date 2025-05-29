@@ -23,7 +23,7 @@ public class AtelieController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroAtelie dados, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DadosDetalhamentoAtelie> cadastrar(@RequestBody @Valid DadosCadastroAtelie dados, UriComponentsBuilder uriBuilder) {
         var dto = cadastro.cadastrar(dados);
 
         var uri = uriBuilder.path("/{id}").buildAndExpand(dto.idPessoa()).toUri();
@@ -37,21 +37,21 @@ public class AtelieController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity detalhar(@PathVariable Integer id) {
+    public ResponseEntity<DadosDetalhamentoAtelie> detalhar(@PathVariable Integer id) {
         var atelie = repository.getReferenceById(id);
         return ResponseEntity.ok(new DadosDetalhamentoAtelie(atelie));
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoAtelie dados) {
+    public ResponseEntity<DadosDetalhamentoAtelie> atualizar(@RequestBody @Valid DadosAtualizacaoAtelie dados) {
         var dto = cadastro.atualizar(dados);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity remover(@PathVariable Integer id) {
+    public ResponseEntity<Void> remover(@PathVariable Integer id) {
         repository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
