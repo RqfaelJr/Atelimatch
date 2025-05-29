@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/pedido")
@@ -20,8 +21,10 @@ public class PedidoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroPedido dados){
+    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroPedido dados, UriComponentsBuilder uriBuilder){
         var dto = cadastro.cadastrar(dados);
-        return ResponseEntity.ok(dto);
+
+        var uri = uriBuilder.path("/{id}").buildAndExpand(dto.idPedido()).toUri();
+        return ResponseEntity.created(uri).body(dto);
     }
 }

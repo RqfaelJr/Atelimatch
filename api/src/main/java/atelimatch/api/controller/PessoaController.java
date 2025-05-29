@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.UriComponentsBuilder;
 
 
 @RestController
@@ -21,9 +22,12 @@ public class PessoaController {
     private CadastrarNovaPessoa cadastro;
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroPessoa dados){
+    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroPessoa dados, UriComponentsBuilder uriBuilder){
         var dto = cadastro.cadastro(dados);
-        return ResponseEntity.ok(dto);
+
+        var uri = uriBuilder.path("/{id}").buildAndExpand(dto.idPessoa()).toUri();
+
+        return ResponseEntity.created(uri).body(dto);
     }
 
 

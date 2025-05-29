@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/atelie")
@@ -25,9 +26,11 @@ public class AtelieController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroAtelie dados) {
+    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroAtelie dados, UriComponentsBuilder uriBuilder) {
         var dto = cadastro.cadastrar(dados);
-        return ResponseEntity.ok(dto);
+
+        var uri = uriBuilder.path("/{id}").buildAndExpand(dto.idAtelie()).toUri();
+        return ResponseEntity.created(uri).body(dto);
     }
 
     @GetMapping
