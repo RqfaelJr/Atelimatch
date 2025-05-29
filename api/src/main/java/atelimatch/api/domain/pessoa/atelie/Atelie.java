@@ -30,26 +30,6 @@ public class Atelie extends Pessoa{
     }
 
     public void atualizar(DadosAtualizacaoAtelie dados, Bairro bairro, Rua rua) {
-        if (dados.nomePessoa() != null) {
-            this.nomePessoa = dados.nomePessoa();
-        }
-        if (dados.email() != null) {
-            this.email = dados.email();
-        }
-        if (dados.senha() != null) {
-            this.senha = dados.senha();
-        }
-        if (dados.usuario() != null) {
-            this.usuario = dados.usuario();
-        }
-        if (dados.telefone() != null) {
-            this.telefone = dados.telefone();
-        }
-        if (bairro != null) {
-            this.bairro = bairro;
-        }
-        if (rua != null) {
-            this.rua = rua;
-        }
+        atualizarDadosComuns(dados.nomePessoa(), dados.email(), dados.senha(), dados.usuario(), dados.telefone(), bairro, rua);
     }
 }

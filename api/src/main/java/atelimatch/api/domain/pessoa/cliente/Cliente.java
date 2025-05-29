@@ -31,4 +31,11 @@ public class Cliente extends Pessoa{
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
     }
+
+    public void atualizar(DadosAtualizacaoCliente dados, Bairro bairro, Rua rua, Estado estado, Cidade cidade) {
+        atualizarDadosComuns(dados.nomePessoa(), dados.email(), dados.senha(), dados.usuario(), dados.telefone(), bairro, rua);
+
+        if (estado != null) this.estado = estado;
+        if (cidade != null) this.cidade = cidade;
+    }
 }

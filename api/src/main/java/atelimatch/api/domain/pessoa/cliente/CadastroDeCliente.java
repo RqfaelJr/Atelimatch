@@ -33,4 +33,15 @@ public class CadastroDeCliente {
 
         return new DadosDetalhamentoCliente(cliente);
     }
+
+    public DadosDetalhamentoCliente atualizar(DadosAtualizacaoCliente dados){
+        var cliente = clienteRepository.getReferenceById(dados.idPessoa());
+        var estado = estadoRepository.getReferenceById(dados.idEstado());
+        var cidade = cidadeRepository.getReferenceById(dados.idCidade());
+        var bairro = bairroRepository.getReferenceById(dados.idBairro());
+        var rua = ruaRepository.getReferenceById(dados.idRua());
+        cliente.atualizar(dados, bairro, rua, estado, cidade);
+
+        return new DadosDetalhamentoCliente(cliente);
+    }
 }

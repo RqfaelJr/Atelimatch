@@ -28,5 +28,13 @@ public class Pessoa {
     protected Bairro bairro;
     protected Rua rua;
 
-
+    protected void atualizarDadosComuns(String nomePessoa, String email, String senha, String usuario, String telefone, Bairro bairro, Rua rua) {
+        if (nomePessoa != null) this.nomePessoa = nomePessoa;
+        if (email != null) this.email = email;
+        if (senha != null) this.senha = senha;
+        if (usuario != null) this.usuario = usuario;
+        if (telefone != null) this.telefone = telefone;
+        if (bairro != null) this.bairro = bairro;
+        if (rua != null) this.rua = rua;
+    }
 }
