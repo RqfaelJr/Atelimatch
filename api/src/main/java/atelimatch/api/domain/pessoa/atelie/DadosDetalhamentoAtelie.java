@@ -13,8 +13,10 @@ public record DadosDetalhamentoAtelie(Integer idPessoa, String nomePessoa,
                                       Estado estado,
                                       Cidade cidade,
                                       Bairro bairro,
-                                      Rua rua) {
+                                      Rua rua,
+                                      Float notaAtelie,
+                                      Integer qntdNotas) {
     public DadosDetalhamentoAtelie(Atelie atelie) {
-        this(atelie.getIdPessoa(), atelie.getNomePessoa(), atelie.getEmail(), atelie.getSenha(), atelie.getUsuario(), atelie.getTelefone(), atelie.getEstado(), atelie.getCidade(), atelie.getBairro(), atelie.getRua());
+        this(atelie.getIdPessoa(), atelie.getNomePessoa(), atelie.getEmail(), atelie.getSenha(), atelie.getUsuario(), atelie.getTelefone(), atelie.getEstado(), atelie.getCidade(), atelie.getBairro(), atelie.getRua(), atelie.getNotaAtelie(), atelie.getQntdNotas());
     }
 }

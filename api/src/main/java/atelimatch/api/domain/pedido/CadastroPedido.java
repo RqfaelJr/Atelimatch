@@ -25,7 +25,7 @@ public class CadastroPedido {
         var atelie = atelieRepository.getReferenceById(dados.idAtelie());
         var cliente = clienteRepository.getReferenceById(dados.idCliente());
         var formaPagamento = formaPagamentoRepository.getReferenceById(dados.idFormaPagamento());
-        var pedido = new Pedido(null, atelie, cliente, dados.valorTotal(), dados.dataEntrega(), dados.dataPrevisaoEntrega(), dados.status(), formaPagamento);
+        var pedido = new Pedido(null, atelie, cliente, dados.valorTotal(), dados.dataEntrega(), dados.dataPrevisaoEntrega(), dados.status(), formaPagamento, dados.foto());
 
         pedidoRepository.save(pedido);
         return new DadosDetalhamentoPedido(pedido);

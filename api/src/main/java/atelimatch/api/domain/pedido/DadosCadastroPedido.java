@@ -20,6 +20,7 @@ public record DadosCadastroPedido(
         @NotBlank
         Status status,
         @NotNull
-        Integer idFormaPagamento
+        Integer idFormaPagamento,
+        byte[] foto
 ) {
 }

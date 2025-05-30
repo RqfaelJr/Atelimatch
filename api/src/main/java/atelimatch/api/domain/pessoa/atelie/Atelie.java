@@ -13,7 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Atelie extends Pessoa{
-    private Integer idAtelie;
+    private Float notaAtelie;
+    private Integer qntdNotas;
+
 
     public Atelie(String nomePessoa, String email, String senha, String usuario, String telefone, Estado estado, Cidade cidade, Bairro bairro, Rua rua) {
         this.nomePessoa = nomePessoa;
@@ -29,5 +31,10 @@ public class Atelie extends Pessoa{
 
     public void atualizar(DadosAtualizacaoAtelie dados, Bairro bairro, Rua rua) {
         atualizarDadosComuns(dados.nomePessoa(), dados.email(), dados.senha(), dados.usuario(), dados.telefone(), bairro, rua);
+        if (dados.notaAtelie() != null) {
+            this.notaAtelie = (this.notaAtelie * this.qntdNotas + dados.notaAtelie()) / (this.qntdNotas + 1);
+            this.qntdNotas++;
+        }
+
     }
 }

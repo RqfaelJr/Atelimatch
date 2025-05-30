@@ -21,6 +21,7 @@ public class Pedido {
     private LocalDate dataPrevisaoEntrega;
     private Status status;
     private FormaPagamento formaPagamento;
+    private byte[] foto;
 
 
     public void atualizar(DadosAtualizacaoPedido dados) {

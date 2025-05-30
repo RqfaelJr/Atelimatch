@@ -14,7 +14,8 @@ public record DadosAtualizacaoAtelie(
         String usuario,
         String telefone,
         Integer idBairro,
-        Integer idRua
+        Integer idRua,
+        Float notaAtelie
 
 ) {
 }
