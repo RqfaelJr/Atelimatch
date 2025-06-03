@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record DadosCadastroPedido(
 
@@ -23,6 +24,8 @@ public record DadosCadastroPedido(
         Status status,
         @NotNull
         Integer idFormaPagamento,
-        byte[] foto
+        byte[] foto,
+        @NotNull
+        List<Integer> idsMedida
 ) {
 }

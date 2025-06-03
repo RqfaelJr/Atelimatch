@@ -1,10 +1,15 @@
 package atelimatch.api.domain.pedido;
 
 import atelimatch.api.domain.formapagamento.FormaPagamentoRepository;
+import atelimatch.api.domain.medida.Medida;
+import atelimatch.api.domain.medida.MedidaRepository;
 import atelimatch.api.domain.pessoa.atelie.AtelieRepository;
 import atelimatch.api.domain.pessoa.cliente.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class CadastroPedido {
@@ -21,11 +26,20 @@ public class CadastroPedido {
     @Autowired
     private FormaPagamentoRepository formaPagamentoRepository;
 
+    @Autowired
+    private MedidaRepository medidaRepository;
+
     public DadosDetalhamentoPedido cadastrar(DadosCadastroPedido dados){
         var atelie = atelieRepository.getReferenceById(dados.idAtelie());
         var cliente = clienteRepository.getReferenceById(dados.idCliente());
         var formaPagamento = formaPagamentoRepository.getReferenceById(dados.idFormaPagamento());
-        var pedido = new Pedido(null, atelie, cliente, dados.valorTotal(), dados.dataEntrega(), dados.dataPrevisaoEntrega(), dados.status(), formaPagamento, dados.foto());
+
+        Set<Medida> medidas = new HashSet<>();
+        for (int i = 0; i < dados.idsMedida().toArray().length; i++) {
+            medidas.add(medidaRepository.getReferenceById(dados.idsMedida().get(i)));
+        }
+
+        var pedido = new Pedido(atelie, cliente, dados.valorTotal(), dados.dataEntrega(), dados.dataPrevisaoEntrega(), dados.status(), formaPagamento, dados.foto(), medidas);
 
         pedidoRepository.save(pedido);
         return new DadosDetalhamentoPedido(pedido);
