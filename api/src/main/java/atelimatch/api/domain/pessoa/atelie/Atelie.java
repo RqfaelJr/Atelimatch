@@ -4,6 +4,7 @@ import atelimatch.api.domain.bairro.Bairro;
 import atelimatch.api.domain.cidade.Cidade;
 import atelimatch.api.domain.estado.Estado;
 import atelimatch.api.domain.pessoa.Pessoa;
+import atelimatch.api.domain.pessoa.atelie.especialidade.Especialidade;
 import atelimatch.api.domain.rua.Rua;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,9 +16,10 @@ import lombok.NoArgsConstructor;
 public class Atelie extends Pessoa{
     private Float notaAvaliacao;
     private Integer qntdNotas;
+    private Especialidade especialidade;
 
 
-    public Atelie(String nomePessoa, String email, String senha, String usuario, String telefone, Estado estado, Cidade cidade, Bairro bairro, Rua rua) {
+    public Atelie(String nomePessoa, String email, String senha, String usuario, String telefone, Estado estado, Cidade cidade, Bairro bairro, Rua rua, Especialidade especialidade) {
         this.nomePessoa = nomePessoa;
         this.email = email;
         this.senha = senha;
@@ -27,6 +29,9 @@ public class Atelie extends Pessoa{
         this.cidade = cidade;
         this.bairro = bairro;
         this.rua = rua;
+        this.especialidade = especialidade;
+        this.notaAvaliacao = 0.0f;
+        this.qntdNotas = 0;
     }
 
     public void atualizar(DadosAtualizacaoAtelie dados, Bairro bairro, Rua rua) {

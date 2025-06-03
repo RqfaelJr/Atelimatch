@@ -14,6 +14,8 @@ public record DadosCadastroPedido(
         @NotBlank
         Float valorTotal,
         @NotBlank
+        String descricaoPedido,
+        @NotBlank
         LocalDate dataEntrega,
         @NotBlank
         LocalDate dataPrevisaoEntrega,

@@ -25,6 +25,8 @@ public record DadosCadastroAtelie(
         @NotBlank
         Integer idBairro,
         @NotBlank
-        Integer idRua
+        Integer idRua,
+        @NotBlank
+        Integer idEspecialidade
 ) {
 }

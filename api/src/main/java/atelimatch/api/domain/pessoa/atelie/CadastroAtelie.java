@@ -3,6 +3,7 @@ package atelimatch.api.domain.pessoa.atelie;
 import atelimatch.api.domain.bairro.BairroRepository;
 import atelimatch.api.domain.cidade.CidadeRepository;
 import atelimatch.api.domain.estado.EstadoRepository;
+import atelimatch.api.domain.pessoa.atelie.especialidade.EspecialidadeRepository;
 import atelimatch.api.domain.rua.RuaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,14 +22,17 @@ public class CadastroAtelie {
     private RuaRepository ruaRepository;
     @Autowired
     private CidadeRepository cidadeRepository;
+    @Autowired
+    private EspecialidadeRepository especialidadeRepository;
 
     public DadosDetalhamentoAtelie cadastrar(DadosCadastroAtelie dados){
         var estado = estadoRepository.getReferenceById(dados.idEstado());
         var cidade = cidadeRepository.getReferenceById(dados.idCidade());
         var bairro = bairroRepository.getReferenceById(dados.idBairro());
         var rua = ruaRepository.getReferenceById(dados.idRua());
+        var especialidade = especialidadeRepository.getReferenceById(dados.idEspecialidade());
 
-        var atelie = new Atelie(dados.nomePessoa(), dados.email(), dados.senha(), dados.usuario(), dados.telefone(), estado, cidade, bairro, rua);
+        var atelie = new Atelie(dados.nomePessoa(), dados.email(), dados.senha(), dados.usuario(), dados.telefone(), estado, cidade, bairro, rua, especialidade);
 
         atelieRepository.save(atelie);
         return new DadosDetalhamentoAtelie(atelie);
