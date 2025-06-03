@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Atelie extends Pessoa{
-    private Float notaAtelie;
+    private Float notaAvaliacao;
     private Integer qntdNotas;
 
 
@@ -32,7 +32,7 @@ public class Atelie extends Pessoa{
     public void atualizar(DadosAtualizacaoAtelie dados, Bairro bairro, Rua rua) {
         atualizarDadosComuns(dados.nomePessoa(), dados.email(), dados.senha(), dados.usuario(), dados.telefone(), bairro, rua);
         if (dados.notaAtelie() != null) {
-            this.notaAtelie = (this.notaAtelie * this.qntdNotas + dados.notaAtelie()) / (this.qntdNotas + 1);
+            this.notaAvaliacao = (this.notaAvaliacao * this.qntdNotas + dados.notaAtelie()) / (this.qntdNotas + 1);
             this.qntdNotas++;
         }
 

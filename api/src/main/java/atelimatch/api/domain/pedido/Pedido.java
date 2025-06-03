@@ -17,6 +17,7 @@ public class Pedido {
     private Atelie atelie;
     private Cliente cliente;
     private Float valorTotal;
+    private String descricaoPedido;
     private LocalDate dataEntrega;
     private LocalDate dataPrevisaoEntrega;
     private Status status;

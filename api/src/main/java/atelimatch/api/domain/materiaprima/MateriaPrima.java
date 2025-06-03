@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 public class MateriaPrima {
     private Integer idMateriaPrima;
     private String nomeMateriaPrima;
-    private Float qtdMateriaPrima;
+    private Float qtdeMateriaPrima;
     private String unidadeMateriaPrima;
 
     public MateriaPrima(DadosCadastroMateriaPrima  dados) {
         this.nomeMateriaPrima = dados.nomeMateriaPrima();
-        this.qtdMateriaPrima = dados.qtdeMateriaPrima();
+        this.qtdeMateriaPrima = dados.qtdeMateriaPrima();
         this.unidadeMateriaPrima = dados.unidadeMateriaPrima();
     }
 }
