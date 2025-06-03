@@ -1,24 +1,29 @@
 package atelimatch.api.domain.pessoa.atelie;
 
-import atelimatch.api.domain.bairro.Bairro;
-import atelimatch.api.domain.cidade.Cidade;
-import atelimatch.api.domain.estado.Estado;
+
 import atelimatch.api.domain.pessoa.atelie.especialidade.Especialidade;
 import atelimatch.api.domain.rua.Rua;
+import atelimatch.api.domain.servico.Servico;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public record DadosDetalhamentoAtelie(Integer idPessoa, String nomePessoa,
                                       String email,
                                       String senha,
                                       String usuario,
                                       String telefone,
-                                      Estado estado,
-                                      Cidade cidade,
-                                      Bairro bairro,
-                                      Rua rua,
+                                      String estado,
+                                      String cidade,
+                                      String bairro,
+                                      String nomeRua,
+                                      Integer numeroRua,
                                       Float notaAtelie,
                                       Integer qntdNotas,
-                                      Especialidade especialidade) {
+                                      String especialidade,
+                                      List<String> servicos
+                                      ) {
     public DadosDetalhamentoAtelie(Atelie atelie) {
-        this(atelie.getIdPessoa(), atelie.getNomePessoa(), atelie.getEmail(), atelie.getSenha(), atelie.getUsuario(), atelie.getTelefone(), atelie.getEstado(), atelie.getCidade(), atelie.getBairro(), atelie.getRua(), atelie.getNotaAvaliacao(), atelie.getQntdNotas(), atelie.getEspecialidade());
+        this(atelie.getIdPessoa(), atelie.getNomePessoa(), atelie.getEmail(), atelie.getSenha(), atelie.getUsuario(), atelie.getTelefone(), atelie.getEstado().getNomeEstado(), atelie.getCidade().getNomeCidade(), atelie.getBairro().getNomeBairro(), atelie.getRua().getNomeRua(), atelie.getRua().getNumeroRua(), atelie.getNotaAvaliacao(), atelie.getQntdNotas(), atelie.getEspecialidade().getDescricaoEspecialidade(), atelie.getServicos().stream().map(Servico::getNomeServico).collect(Collectors.toList()));
     }
 }
