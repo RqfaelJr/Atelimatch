@@ -4,9 +4,11 @@ import atelimatch.api.domain.formapagamento.FormaPagamento;
 import atelimatch.api.domain.medida.Medida;
 import atelimatch.api.domain.pessoa.atelie.Atelie;
 import atelimatch.api.domain.pessoa.cliente.Cliente;
+import atelimatch.api.domain.servico.Servico;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,6 +40,9 @@ public class Pedido {
             inverseJoinColumns = @JoinColumn(name = "idMedida")
     )
     private Set<Medida> medidas = new HashSet<>();
+
+    @OneToMany(mappedBy = "pedido")
+    private Set<Servico> servicos = new HashSet<>();
 
     public Pedido(Atelie atelie, Cliente cliente, Float valorTotal, LocalDate dataEntrega, LocalDate dataPrevisaoEntrega, Status status, FormaPagamento formaPagamento, byte[] foto, Set<Medida> medidas) {
         this.atelie = atelie;

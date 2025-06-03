@@ -1,0 +1,17 @@
+package atelimatch.api.domain.pedido;
+
+import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
+@Embeddable
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class PedidoServicoId implements Serializable {
+    private Integer idAluno;
+    private Integer idPedido;
+}

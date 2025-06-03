@@ -26,6 +26,8 @@ public record DadosCadastroPedido(
         Integer idFormaPagamento,
         byte[] foto,
         @NotNull
-        List<Integer> idsMedida
+        List<Integer> idsMedida,
+        @NotNull
+        List<Integer> idsServico
 ) {
 }

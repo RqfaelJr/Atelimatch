@@ -5,10 +5,13 @@ import atelimatch.api.domain.medida.Medida;
 import atelimatch.api.domain.medida.MedidaRepository;
 import atelimatch.api.domain.pessoa.atelie.AtelieRepository;
 import atelimatch.api.domain.pessoa.cliente.ClienteRepository;
+import atelimatch.api.domain.servico.Servico;
+import atelimatch.api.domain.servico.ServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -29,6 +32,12 @@ public class CadastroPedido {
     @Autowired
     private MedidaRepository medidaRepository;
 
+    @Autowired
+    private ServicoRepository servicoRepository;
+
+    @Autowired
+    private PedidoServicoRepository pedidoServicoRepository;
+
     public DadosDetalhamentoPedido cadastrar(DadosCadastroPedido dados){
         var atelie = atelieRepository.getReferenceById(dados.idAtelie());
         var cliente = clienteRepository.getReferenceById(dados.idCliente());
@@ -41,8 +50,16 @@ public class CadastroPedido {
 
         var pedido = new Pedido(atelie, cliente, dados.valorTotal(), dados.dataEntrega(), dados.dataPrevisaoEntrega(), dados.status(), formaPagamento, dados.foto(), medidas);
 
-        pedidoRepository.save(pedido);
-        return new DadosDetalhamentoPedido(pedido);
+        var pedidoSalvo = pedidoRepository.save(pedido);
+
+        List<Servico> servicos = servicoRepository.findAllById(dados.idsServico());
+
+        for (Servico servico : servicos) {
+            PedidoServico ps = new PedidoServico(new PedidoServicoId(pedidoSalvo.getIdPedido(), servico.getIdServico()), pedido, servico, servico.getValorServico());
+            pedidoServicoRepository.save(ps);
+        }
+
+        return new DadosDetalhamentoPedido(pedidoSalvo);
     }
 
     public DadosDetalhamentoPedido atualizar(DadosAtualizacaoPedido dados){
