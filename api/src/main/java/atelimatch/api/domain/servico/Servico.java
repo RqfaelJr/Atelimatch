@@ -1,7 +1,9 @@
 package atelimatch.api.domain.servico;
 
+import atelimatch.api.domain.materiaprima.MateriaPrima;
 import atelimatch.api.domain.pessoa.atelie.Atelie;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,10 @@ public class Servico {
 
     @ManyToMany(mappedBy = "servicos")
     private Set<Atelie> atelies = new HashSet<>();
+
+    @OneToMany(mappedBy = "servico")
+    private Set<MateriaPrima> materiaPrimas = new HashSet<>();
+
 
 
     public Servico(DadosCadastroServico dados) {
