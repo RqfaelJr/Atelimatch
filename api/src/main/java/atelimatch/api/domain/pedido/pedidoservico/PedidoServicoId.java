@@ -1,4 +1,4 @@
-package atelimatch.api.domain.pedido;
+package atelimatch.api.domain.pedido.pedidoservico;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

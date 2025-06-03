@@ -1,5 +1,6 @@
-package atelimatch.api.domain.pedido;
+package atelimatch.api.domain.pedido.pedidoservico;
 
+import atelimatch.api.domain.pedido.Pedido;
 import atelimatch.api.domain.servico.Servico;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.ManyToOne;

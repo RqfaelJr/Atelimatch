@@ -1,4 +1,4 @@
-package atelimatch.api.domain.pedido;
+package atelimatch.api.domain.pedido.pedidoservico;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
