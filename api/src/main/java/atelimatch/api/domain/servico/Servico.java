@@ -1,8 +1,13 @@
 package atelimatch.api.domain.servico;
 
+import atelimatch.api.domain.pessoa.atelie.Atelie;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -12,6 +17,10 @@ public class Servico {
     private String nomeServico;
     private Integer tempoMedio;
     private Float valorServico;
+
+    @ManyToMany(mappedBy = "servicos")
+    private Set<Atelie> atelies = new HashSet<>();
+
 
     public Servico(DadosCadastroServico dados) {
         this.nomeServico = dados.nomeServico();

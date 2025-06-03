@@ -6,9 +6,16 @@ import atelimatch.api.domain.estado.Estado;
 import atelimatch.api.domain.pessoa.Pessoa;
 import atelimatch.api.domain.pessoa.atelie.especialidade.Especialidade;
 import atelimatch.api.domain.rua.Rua;
+import atelimatch.api.domain.servico.Servico;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -18,8 +25,16 @@ public class Atelie extends Pessoa{
     private Integer qntdNotas;
     private Especialidade especialidade;
 
+    @ManyToMany
+    @JoinTable(
+            name = "AtelieServico",
+            joinColumns = @JoinColumn(name = "idAtelie"),
+            inverseJoinColumns = @JoinColumn(name = "idServico")
+    )
+    private Set<Servico> servicos = new HashSet<>();
 
-    public Atelie(String nomePessoa, String email, String senha, String usuario, String telefone, Estado estado, Cidade cidade, Bairro bairro, Rua rua, Especialidade especialidade) {
+
+    public Atelie(String nomePessoa, String email, String senha, String usuario, String telefone, Estado estado, Cidade cidade, Bairro bairro, Rua rua, Especialidade especialidade, Set<Servico> servicos) {
         this.nomePessoa = nomePessoa;
         this.email = email;
         this.senha = senha;
@@ -32,6 +47,7 @@ public class Atelie extends Pessoa{
         this.especialidade = especialidade;
         this.notaAvaliacao = 0.0f;
         this.qntdNotas = 0;
+        this.servicos = servicos;
     }
 
     public void atualizar(DadosAtualizacaoAtelie dados, Bairro bairro, Rua rua) {
