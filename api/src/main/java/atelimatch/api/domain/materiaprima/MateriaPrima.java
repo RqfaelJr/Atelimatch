@@ -1,6 +1,8 @@
 package atelimatch.api.domain.materiaprima;
 
+import atelimatch.api.domain.servico.MateriaPrimaServico;
 import atelimatch.api.domain.servico.Servico;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,8 +20,8 @@ public class MateriaPrima {
     private Float qtdeMateriaPrima;
     private String unidadeMateriaPrima;
 
-    @OneToMany(mappedBy = "materiaprima")
-    private Set<Servico> servicos = new HashSet<>();
+    @OneToMany(mappedBy = "materiaPrima", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MateriaPrimaServico> servicoMateriasPrima = new HashSet<>();
 
 
     public MateriaPrima(DadosCadastroMateriaPrima  dados) {

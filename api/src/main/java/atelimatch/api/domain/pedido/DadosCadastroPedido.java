@@ -1,5 +1,7 @@
 package atelimatch.api.domain.pedido;
 
+import atelimatch.api.domain.servico.DadosCadastroServico;
+import atelimatch.api.domain.servico.DadosServico;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -28,6 +30,6 @@ public record DadosCadastroPedido(
         @NotNull
         List<Integer> idsMedida,
         @NotNull
-        List<Integer> idsServico
+        List<DadosServico> servicos
 ) {
 }

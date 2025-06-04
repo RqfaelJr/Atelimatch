@@ -1,6 +1,9 @@
 package atelimatch.api.domain.servico;
 
+import atelimatch.api.domain.materiaprima.DadosCadastroMateriaPrima;
 import jakarta.validation.constraints.NotBlank;
+
+import java.util.List;
 
 public record DadosCadastroServico(
 
@@ -9,7 +12,9 @@ public record DadosCadastroServico(
         @NotBlank
         Integer tempoMedio,
         @NotBlank
-        Float valorServico
+        Float valorServico,
+        @NotBlank
+        List<DadosCadastroMateriaPrima> materiasPrima
 
 ) {
 }
