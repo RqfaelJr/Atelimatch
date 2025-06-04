@@ -24,4 +24,11 @@ public class Medida {
         this.categoria =dados.categoria();
         this.valorMedida = dados.valorMedida();
     }
+
+    public DadosDetalhamentoMedida atualizar(DadosAtualizacaoMedida dados) {
+        if (dados.categoria() != null) this.categoria = dados.categoria();
+        if (dados.valorMedida() != null) this.valorMedida = dados.valorMedida();
+
+        return new DadosDetalhamentoMedida(this);
+    }
 }
