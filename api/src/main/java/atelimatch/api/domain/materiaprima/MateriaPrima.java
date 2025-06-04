@@ -29,4 +29,12 @@ public class MateriaPrima {
         this.qtdeMateriaPrima = dados.qtdeMateriaPrima();
         this.unidadeMateriaPrima = dados.unidadeMateriaPrima();
     }
+
+    public DadosDetalhamentoMateriaPrima atualizar(DadosAtualizacaoMateriaPrima dados) {
+        if (dados.nomeMateriaPrima() != null) this.nomeMateriaPrima = dados.nomeMateriaPrima();
+        if (dados.qtdeMateriaPrima() != null) this.qtdeMateriaPrima = dados.qtdeMateriaPrima();
+        if (dados.unidadeMateriaPrima() != null) this.unidadeMateriaPrima = dados.unidadeMateriaPrima();
+
+        return new DadosDetalhamentoMateriaPrima(this);
+    }
 }

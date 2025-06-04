@@ -1,18 +1,11 @@
 package atelimatch.api.controller;
 
-
-import atelimatch.api.domain.materiaprima.DadosCadastroMateriaPrima;
-import atelimatch.api.domain.materiaprima.DadosDetalhamentoMateriaPrima;
-import atelimatch.api.domain.materiaprima.MateriaPrima;
-import atelimatch.api.domain.materiaprima.MateriaPrimaRepository;
+import atelimatch.api.domain.materiaprima.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
@@ -24,11 +17,32 @@ public class MateriaPrimaController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastro(@RequestBody @Valid DadosCadastroMateriaPrima dados, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DadosDetalhamentoMateriaPrima> cadastro(@RequestBody @Valid DadosCadastroMateriaPrima dados, UriComponentsBuilder uriBuilder) {
         var materiaPrima = new MateriaPrima(dados);
         repository.save(materiaPrima);
 
         var uri = uriBuilder.path("/{id}").buildAndExpand(materiaPrima.getIdMateriaPrima()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoMateriaPrima(materiaPrima));
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<DadosDetalhamentoMateriaPrima> atualizar(@RequestBody @Valid DadosAtualizacaoMateriaPrima dados) {
+        var materiaPrima = repository.getReferenceById(dados.idMateriaPrima());
+        var materiaPrimaAtualizado = materiaPrima.atualizar(dados);
+        return ResponseEntity.ok(materiaPrimaAtualizado);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> remover(@PathVariable Integer id) {
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DadosDetalhamentoMateriaPrima> detalhar(@PathVariable Integer id) {
+        var materiaPrima = repository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalhamentoMateriaPrima(materiaPrima));
     }
 }
