@@ -1,17 +1,11 @@
 package atelimatch.api.controller;
 
-import atelimatch.api.domain.servico.DadosCadastroServico;
-import atelimatch.api.domain.servico.DadosDetalhamentoServico;
-import atelimatch.api.domain.servico.Servico;
-import atelimatch.api.domain.servico.ServicoRepository;
+import atelimatch.api.domain.servico.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
@@ -23,11 +17,32 @@ public class ServicoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastro(@RequestBody @Valid DadosCadastroServico dados, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<DadosDetalhamentoServico> cadastro(@RequestBody @Valid DadosCadastroServico dados, UriComponentsBuilder uriBuilder){
         var servico = new Servico(dados);
         repository.save(servico);
 
         var uri = uriBuilder.path("/{id}").buildAndExpand(servico.getIdServico()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoServico(servico));
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<DadosDetalhamentoServico> atualizar(@RequestBody @Valid DadosAtualizacaoServico dados){
+        var servico = repository.getReferenceById(dados.idServico());
+        var servicoAtualizado = servico.atualizar(dados);
+        return ResponseEntity.ok(servicoAtualizado);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> remover(@PathVariable Integer id) {
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DadosDetalhamentoServico> detalhar(@PathVariable Integer id) {
+        var servico = repository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalhamentoServico(servico));
     }
 }

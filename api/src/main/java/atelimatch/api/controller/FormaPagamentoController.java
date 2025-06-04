@@ -19,7 +19,7 @@ public class FormaPagamentoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastro(@RequestBody @Valid DadosCadastroFormaPagamento dados, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DadosDetalhamentoFormaPagamento> cadastro(@RequestBody @Valid DadosCadastroFormaPagamento dados, UriComponentsBuilder uriBuilder) {
         var formaPagamento = new FormaPagamento(dados);
         repository.save(formaPagamento);
 

@@ -17,7 +17,9 @@ public class MedidaController {
     @Autowired
     private MedidaRepository repository;
 
-    public ResponseEntity cadastro(@RequestBody @Valid DadosCadastroMedida dados, UriComponentsBuilder uriBuilder) {
+    @PostMapping
+    @Transactional
+    public ResponseEntity<DadosDetalhamentoMedida> cadastro(@RequestBody @Valid DadosCadastroMedida dados, UriComponentsBuilder uriBuilder) {
         var medida = new Medida(dados);
         repository.save(medida);
 

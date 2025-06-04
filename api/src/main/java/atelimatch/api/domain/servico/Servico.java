@@ -37,4 +37,12 @@ public class Servico {
         this.tempoMedio = dados.tempoMedio();
         this.valorServico = dados.valorServico();
     }
+
+    public DadosDetalhamentoServico atualizar(DadosAtualizacaoServico dados){
+        if (dados.nomeServico() != null) this.nomeServico = dados.nomeServico();
+        if (dados.tempoMedio() != null) this.tempoMedio = dados.tempoMedio();
+        if (dados.valorServico() != null) this.valorServico = dados.valorServico();
+
+        return new DadosDetalhamentoServico(this);
+    }
 }
