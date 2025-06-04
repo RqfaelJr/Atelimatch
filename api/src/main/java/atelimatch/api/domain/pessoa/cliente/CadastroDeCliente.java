@@ -1,11 +1,7 @@
 package atelimatch.api.domain.pessoa.cliente;
 
-import atelimatch.api.domain.bairro.BairroRepository;
-import atelimatch.api.domain.cidade.CidadeRepository;
-import atelimatch.api.domain.endereco.DadosAtualizacaoEndereco;
+
 import atelimatch.api.domain.endereco.EnderecoRepository;
-import atelimatch.api.domain.estado.EstadoRepository;
-import atelimatch.api.domain.rua.RuaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,12 +1,9 @@
 package atelimatch.api.domain.pessoa.atelie;
 
-import atelimatch.api.domain.bairro.Bairro;
-import atelimatch.api.domain.cidade.Cidade;
+
 import atelimatch.api.domain.endereco.Endereco;
-import atelimatch.api.domain.estado.Estado;
 import atelimatch.api.domain.pessoa.Pessoa;
 import atelimatch.api.domain.pessoa.atelie.especialidade.Especialidade;
-import atelimatch.api.domain.rua.Rua;
 import atelimatch.api.domain.servico.Servico;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;

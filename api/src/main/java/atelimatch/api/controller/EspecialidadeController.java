@@ -1,17 +1,13 @@
 package atelimatch.api.controller;
 
-import atelimatch.api.domain.pessoa.atelie.especialidade.DadosCadastroEspecialidade;
-import atelimatch.api.domain.pessoa.atelie.especialidade.DadosDetalhamentoEspecialidade;
-import atelimatch.api.domain.pessoa.atelie.especialidade.Especialidade;
-import atelimatch.api.domain.pessoa.atelie.especialidade.EspecialidadeRepository;
+import atelimatch.api.domain.endereco.DadosAtualizacaoEndereco;
+import atelimatch.api.domain.endereco.DadosDetalhamentoEndereco;
+import atelimatch.api.domain.pessoa.atelie.especialidade.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
@@ -22,11 +18,32 @@ public class EspecialidadeController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroEspecialidade dados, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DadosDetalhamentoEspecialidade> cadastrar(@RequestBody @Valid DadosCadastroEspecialidade dados, UriComponentsBuilder uriBuilder) {
         var especialidade = new Especialidade(dados);
         repository.save(especialidade);
 
         var uri = uriBuilder.path("/{id}").buildAndExpand(especialidade.getIdEspecialidade()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoEspecialidade(especialidade));
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<DadosDetalhamentoEspecialidade> atualizar(@RequestBody @Valid DadosAtualizacaoEspecialidade dados) {
+        var especialidade = repository.getReferenceById(dados.idEspecialidade());
+        var especialidadeAtualizado = especialidade.atualizar(dados);
+        return ResponseEntity.ok(especialidadeAtualizado);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> remover(@PathVariable Integer id) {
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DadosDetalhamentoEspecialidade> detalhar(@PathVariable Integer id) {
+        var especialidade = repository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalhamentoEspecialidade(especialidade));
     }
 }

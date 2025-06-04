@@ -1,11 +1,7 @@
 package atelimatch.api.domain.pessoa;
 
-import atelimatch.api.domain.bairro.Bairro;
-import atelimatch.api.domain.cidade.Cidade;
-import atelimatch.api.domain.endereco.DadosAtualizacaoEndereco;
+
 import atelimatch.api.domain.endereco.Endereco;
-import atelimatch.api.domain.estado.Estado;
-import atelimatch.api.domain.rua.Rua;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
