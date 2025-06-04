@@ -1,17 +1,13 @@
 package atelimatch.api.controller;
 
-import atelimatch.api.domain.formapagamento.DadosCadastroFormaPagamento;
-import atelimatch.api.domain.formapagamento.DadosDetalhamentoFormaPagamento;
-import atelimatch.api.domain.formapagamento.FormaPagamento;
-import atelimatch.api.domain.formapagamento.FormaPagamentoRepository;
+import atelimatch.api.domain.formapagamento.*;
+import atelimatch.api.domain.pessoa.atelie.especialidade.DadosAtualizacaoEspecialidade;
+import atelimatch.api.domain.pessoa.atelie.especialidade.DadosDetalhamentoEspecialidade;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
@@ -29,5 +25,26 @@ public class FormaPagamentoController {
 
         var uri = uriBuilder.path("/{id}").buildAndExpand(formaPagamento.getIdFormaPagamento()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoFormaPagamento(formaPagamento));
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<DadosDetalhamentoFormaPagamento> atualizar(@RequestBody @Valid DadosAtualizacaoFormaPagamento dados) {
+        var formaPagamento = repository.getReferenceById(dados.idFormaPagamento());
+        var formaPagamentoAtualizado = formaPagamento.atualizar(dados);
+        return ResponseEntity.ok(formaPagamentoAtualizado);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> remover(@PathVariable Integer id) {
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DadosDetalhamentoFormaPagamento> detalhar(@PathVariable Integer id) {
+        var formaPagamento = repository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalhamentoFormaPagamento(formaPagamento));
     }
 }

@@ -14,4 +14,9 @@ public class FormaPagamento {
     public FormaPagamento(DadosCadastroFormaPagamento dados) {
         this.nomeFormaPagamento = dados.nomeFormaPagamento();
     }
+
+    public DadosDetalhamentoFormaPagamento atualizar(DadosAtualizacaoFormaPagamento dados) {
+        this.nomeFormaPagamento = dados.nomeFormaPagamento();
+        return new DadosDetalhamentoFormaPagamento(this);
+    }
 }
