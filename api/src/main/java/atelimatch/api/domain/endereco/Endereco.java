@@ -30,7 +30,7 @@ public class Endereco {
         this.numero = dados.numero();
     }
 
-    public void atualizarDados(DadosAtualizacaoEndereco dados) {
+    public DadosDetalhamentoEndereco atualizarDados(DadosAtualizacaoEndereco dados) {
         if (dados.rua() != null) {
             this.rua = dados.rua();
         }
@@ -55,6 +55,8 @@ public class Endereco {
         if (dados.numero() != null) {
             this.numero = dados.numero();
         }
+
+        return new DadosDetalhamentoEndereco(this);
     }
 }
 
