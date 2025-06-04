@@ -2,6 +2,8 @@ package atelimatch.api.domain.pessoa.cliente;
 
 import atelimatch.api.domain.bairro.BairroRepository;
 import atelimatch.api.domain.cidade.CidadeRepository;
+import atelimatch.api.domain.endereco.DadosAtualizacaoEndereco;
+import atelimatch.api.domain.endereco.EnderecoRepository;
 import atelimatch.api.domain.estado.EstadoRepository;
 import atelimatch.api.domain.rua.RuaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +15,14 @@ public class CadastroDeCliente {
     private ClienteRepository clienteRepository;
 
     @Autowired
-    private BairroRepository bairroRepository;
-    @Autowired
-    private EstadoRepository estadoRepository;
-    @Autowired
-    private RuaRepository ruaRepository;
-    @Autowired
-    private CidadeRepository cidadeRepository;
+    private EnderecoRepository enderecoRepository;
 
     public DadosDetalhamentoCliente cadastrar(DadosCadastroCliente dados){
-        var estado = estadoRepository.getReferenceById(dados.idEstado());
-        var cidade = cidadeRepository.getReferenceById(dados.idCidade());
-        var bairro = bairroRepository.getReferenceById(dados.idBairro());
-        var rua = ruaRepository.getReferenceById(dados.idRua());
+
+        var endereco = enderecoRepository.getReferenceById(dados.idEndereco());
 
 
-        var cliente = new Cliente(dados.nomePessoa(), dados.email(), dados.senha(), dados.usuario(), dados.telefone(), estado, cidade, bairro, rua, dados.cpf(), dados.dataNascimento());
+        var cliente = new Cliente(dados.nomePessoa(), dados.email(), dados.senha(), dados.usuario(), dados.telefone(), endereco, dados.cpf(), dados.dataNascimento());
         clienteRepository.save(cliente);
 
         return new DadosDetalhamentoCliente(cliente);
@@ -36,11 +30,8 @@ public class CadastroDeCliente {
 
     public DadosDetalhamentoCliente atualizar(DadosAtualizacaoCliente dados){
         var cliente = clienteRepository.getReferenceById(dados.idPessoa());
-        var estado = estadoRepository.getReferenceById(dados.idEstado());
-        var cidade = cidadeRepository.getReferenceById(dados.idCidade());
-        var bairro = bairroRepository.getReferenceById(dados.idBairro());
-        var rua = ruaRepository.getReferenceById(dados.idRua());
-        cliente.atualizar(dados, bairro, rua, estado, cidade);
+        var endereco = enderecoRepository.getReferenceById(dados.idEndereco());
+        cliente.atualizar(dados, endereco);
 
         clienteRepository.save(cliente);
 

@@ -22,16 +22,16 @@ public record DadosCadastroAtelie(
         @Pattern(regexp = "^\\d{2}\\.?\\d{3}\\.?\\d{3}/?\\d{4}-?\\d{2}$\n")
         String cnpj,
         @NotNull
-        Integer idEstado,
-        @NotNull
-        Integer idCidade,
-        @NotNull
-        Integer idBairro,
-        @NotNull
-        Integer idRua,
+        Integer idEndereco,
         @NotNull
         Integer idEspecialidade,
         @NotNull
-        List<Integer> idsServico
+        List<Integer> idsServico,
+        @NotBlank
+        Integer inicio01,
+        @NotBlank
+        Integer fim01,
+        Integer inicio02,
+        Integer fim02
 ) {
 }

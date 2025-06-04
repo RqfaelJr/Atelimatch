@@ -17,13 +17,7 @@ public record DadosAtualizacaoCliente(
 
         String telefone,
 
-        Integer idEstado,
-
-        Integer idCidade,
-
-        Integer idBairro,
-
-        Integer idRua
+        Integer idEndereco
 
 
 ) {

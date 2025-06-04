@@ -22,13 +22,7 @@ public record DadosCadastroCliente(
         @Pattern(regexp = "^\\d{2}\\.?\\d{3}\\.?\\d{3}/?\\d{4}-?\\d{2}$\n")
         String cnpj,
         @NotBlank
-        Integer idEstado,
-        @NotBlank
-        Integer idCidade,
-        @NotBlank
-        Integer idBairro,
-        @NotBlank
-        Integer idRua,
+        Integer idEndereco,
         @NotBlank
         @Pattern(regexp = "\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}")
         String cpf,
