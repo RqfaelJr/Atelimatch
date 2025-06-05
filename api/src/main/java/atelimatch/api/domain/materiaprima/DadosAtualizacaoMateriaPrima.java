@@ -10,7 +10,7 @@ public record DadosAtualizacaoMateriaPrima(
         Integer idMateriaPrima,
         @NotBlank
         String nomeMateriaPrima,
-        @NotBlank
+        @NotNull
         Float qtdeMateriaPrima,
         @NotBlank
         String unidadeMateriaPrima

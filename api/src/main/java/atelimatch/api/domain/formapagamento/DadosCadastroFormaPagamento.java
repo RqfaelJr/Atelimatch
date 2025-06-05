@@ -1,9 +1,9 @@
 package atelimatch.api.domain.formapagamento;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public record DadosCadastroFormaPagamento(
-        @NotNull
+        @NotBlank
         String nomeFormaPagamento
 
 ) {

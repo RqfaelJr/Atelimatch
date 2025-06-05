@@ -1,5 +1,6 @@
 package atelimatch.api.domain.pedido;
 
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -9,11 +10,10 @@ public record DadosAtualizacaoPedido(
 
         @NotNull
         Integer idPedido,
-        @NotBlank
+        @Future
         LocalDate dataEntrega,
-        @NotBlank
+        @Future
         LocalDate dataPrevisaoEntrega,
-        @NotBlank
         Status status
 
 ) {

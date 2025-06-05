@@ -1,8 +1,6 @@
 package atelimatch.api.controller;
 
-import atelimatch.api.domain.endereco.DadosAtualizacaoEndereco;
-import atelimatch.api.domain.endereco.DadosDetalhamentoEndereco;
-import atelimatch.api.domain.pessoa.atelie.especialidade.*;
+import atelimatch.api.domain.especialidade.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

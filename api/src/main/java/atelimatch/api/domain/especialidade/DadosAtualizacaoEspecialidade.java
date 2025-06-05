@@ -1,4 +1,4 @@
-package atelimatch.api.domain.pessoa.atelie.especialidade;
+package atelimatch.api.domain.especialidade;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,7 +1,7 @@
 package atelimatch.api.domain.pessoa.atelie;
 
 import atelimatch.api.domain.endereco.EnderecoRepository;
-import atelimatch.api.domain.pessoa.atelie.especialidade.EspecialidadeRepository;
+import atelimatch.api.domain.especialidade.EspecialidadeRepository;
 import atelimatch.api.domain.servico.Servico;
 import atelimatch.api.domain.servico.ServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;

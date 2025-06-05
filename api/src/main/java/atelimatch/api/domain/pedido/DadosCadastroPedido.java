@@ -2,6 +2,7 @@ package atelimatch.api.domain.pedido;
 
 import atelimatch.api.domain.servico.DadosCadastroServico;
 import atelimatch.api.domain.servico.DadosServico;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -14,13 +15,12 @@ public record DadosCadastroPedido(
         Integer idAtelie,
         @NotNull
         Integer idCliente,
-        @NotBlank
+        @NotNull
         Float valorTotal,
         @NotBlank
         String descricaoPedido,
         @NotBlank
-        LocalDate dataEntrega,
-        @NotBlank
+        @Future
         LocalDate dataPrevisaoEntrega,
         @NotBlank
         Status status,
@@ -29,7 +29,7 @@ public record DadosCadastroPedido(
         byte[] foto,
         @NotNull
         List<Integer> idsMedida,
-        @NotNull
+        @NotBlank
         List<DadosServico> servicos
 ) {
 }

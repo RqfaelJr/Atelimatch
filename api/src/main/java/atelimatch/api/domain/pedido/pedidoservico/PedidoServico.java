@@ -2,16 +2,18 @@ package atelimatch.api.domain.pedido.pedidoservico;
 
 import atelimatch.api.domain.pedido.Pedido;
 import atelimatch.api.domain.servico.Servico;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Table(name = "PedidoServico")
+@Entity(name = "PedidoServico")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "idPedidoServico")
 public class PedidoServico {
 
     @EmbeddedId

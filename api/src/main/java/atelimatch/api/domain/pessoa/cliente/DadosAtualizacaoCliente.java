@@ -8,9 +8,6 @@ public record DadosAtualizacaoCliente(
         Integer idPessoa,
         String nomePessoa,
 
-        @Email
-        String email,
-
         String senha,
 
         String usuario,

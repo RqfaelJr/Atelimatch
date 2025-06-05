@@ -1,14 +1,20 @@
 package atelimatch.api.domain.endereco;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Table(name = "Endereco")
+@Entity(name = "Endereco")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "idEndereco")
 public class Endereco {
 
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idEndereco;
     private String rua;
     private String bairro;

@@ -2,19 +2,24 @@ package atelimatch.api.domain.materiaprima;
 
 import atelimatch.api.domain.servico.MateriaPrimaServico;
 import atelimatch.api.domain.servico.Servico;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Table(name = "MateriaPrima")
+@Entity(name = "MateriaPrima")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "idMateriaPrima")
 public class MateriaPrima {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idMateriaPrima;
     private String nomeMateriaPrima;
     private Float qtdeMateriaPrima;

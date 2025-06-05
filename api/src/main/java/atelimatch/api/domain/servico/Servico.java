@@ -4,20 +4,24 @@ import atelimatch.api.domain.materiaprima.MateriaPrima;
 import atelimatch.api.domain.pedido.Pedido;
 import atelimatch.api.domain.pedido.pedidoservico.PedidoServico;
 import atelimatch.api.domain.pessoa.atelie.Atelie;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Table(name = "Servico")
+@Entity(name = "Servico")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "idServico")
 public class Servico {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idServico;
     private String nomeServico;
     private Integer tempoMedio;

@@ -1,8 +1,6 @@
 package atelimatch.api.controller;
 
 import atelimatch.api.domain.formapagamento.*;
-import atelimatch.api.domain.pessoa.atelie.especialidade.DadosAtualizacaoEspecialidade;
-import atelimatch.api.domain.pessoa.atelie.especialidade.DadosDetalhamentoEspecialidade;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/formaPagamento")
+@RequestMapping("/formapagamento")
 public class FormaPagamentoController {
 
     @Autowired

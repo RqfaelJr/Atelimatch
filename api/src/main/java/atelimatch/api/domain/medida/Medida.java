@@ -1,18 +1,24 @@
 package atelimatch.api.domain.medida;
 
 import atelimatch.api.domain.pedido.Pedido;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Table(name = "Medida")
+@Entity(name = "Medida")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "idMedida")
 public class Medida {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idMedida;
     private String categoria;
     private Integer valorMedida;

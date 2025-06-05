@@ -9,6 +9,7 @@ import atelimatch.api.domain.servico.Servico;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,18 +17,30 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+@Table(name = "Pedido")
+@Entity(name = "Pedido")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Pedido {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPedido;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idAtelie")
     private Atelie atelie;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idCliente")
     private Cliente cliente;
     private Float valorTotal;
     private String descricaoPedido;
     private LocalDate dataEntrega;
     private LocalDate dataPrevisaoEntrega;
+    @Enumerated(EnumType.ORDINAL)
     private Status status;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idFormaPagamento")
     private FormaPagamento formaPagamento;
     private byte[] foto;
 
@@ -42,11 +55,10 @@ public class Pedido {
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PedidoServico> pedidoServicos = new HashSet<>();
 
-    public Pedido(Atelie atelie, Cliente cliente, Float valorTotal, LocalDate dataEntrega, LocalDate dataPrevisaoEntrega, Status status, FormaPagamento formaPagamento, byte[] foto, Set<Medida> medidas) {
+    public Pedido(Atelie atelie, Cliente cliente, Float valorTotal, LocalDate dataPrevisaoEntrega, Status status, FormaPagamento formaPagamento, byte[] foto, Set<Medida> medidas) {
         this.atelie = atelie;
         this.cliente = cliente;
         this.valorTotal = valorTotal;
-        this.dataEntrega = dataEntrega;
         this.dataPrevisaoEntrega = dataPrevisaoEntrega;
         this.status = status;
         this.formaPagamento = formaPagamento;

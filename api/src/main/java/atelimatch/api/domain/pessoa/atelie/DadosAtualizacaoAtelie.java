@@ -10,8 +10,6 @@ public record DadosAtualizacaoAtelie(
         @NotNull
         Integer idPessoa,
         String nomePessoa,
-        @Email
-        String email,
         String senha,
         String usuario,
         String telefone,

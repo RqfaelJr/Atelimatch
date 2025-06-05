@@ -1,13 +1,13 @@
 package atelimatch.api.domain.servico;
 
 import atelimatch.api.domain.materiaprima.MateriaPrima;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Table(name = "MateriaPrimaServico")
+@Entity(name = "MateriaPrimaServico")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +18,7 @@ public class MateriaPrimaServico {
 
     @ManyToOne
     @MapsId("idServico")
-    private Servico Servico;
+    private Servico servico;
 
     @ManyToOne
     @MapsId("idMateriaPrima")

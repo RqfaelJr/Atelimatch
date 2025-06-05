@@ -27,9 +27,9 @@ public record DadosCadastroAtelie(
         Integer idEspecialidade,
         @NotNull
         List<Integer> idsServico,
-        @NotBlank
+        @NotNull
         Integer inicio01,
-        @NotBlank
+        @NotNull
         Integer fim01,
         Integer inicio02,
         Integer fim02

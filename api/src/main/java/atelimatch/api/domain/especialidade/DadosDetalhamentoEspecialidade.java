@@ -1,4 +1,4 @@
-package atelimatch.api.domain.pessoa.atelie.especialidade;
+package atelimatch.api.domain.especialidade;
 
 public record DadosDetalhamentoEspecialidade(Integer idEspecialidade, String descricaoEspecialidade) {
 

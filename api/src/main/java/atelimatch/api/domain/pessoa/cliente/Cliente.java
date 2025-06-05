@@ -3,12 +3,16 @@ package atelimatch.api.domain.pessoa.cliente;
 
 import atelimatch.api.domain.endereco.Endereco;
 import atelimatch.api.domain.pessoa.Pessoa;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "Cliente")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +32,7 @@ public class Cliente extends Pessoa{
     }
 
     public void atualizar(DadosAtualizacaoCliente dados, Endereco endereco) {
-        atualizarDadosComuns(dados.nomePessoa(), dados.email(), dados.senha(), dados.usuario(), dados.telefone(), endereco);
+        atualizarDadosComuns(dados.nomePessoa(), dados.senha(), dados.usuario(), dados.telefone(), endereco);
 
     }
 }

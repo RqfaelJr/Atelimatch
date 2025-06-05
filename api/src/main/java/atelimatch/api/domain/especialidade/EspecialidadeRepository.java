@@ -1,4 +1,4 @@
-package atelimatch.api.domain.pessoa.atelie.especialidade;
+package atelimatch.api.domain.especialidade;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

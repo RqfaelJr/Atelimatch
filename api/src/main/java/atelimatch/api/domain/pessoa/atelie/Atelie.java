@@ -3,11 +3,9 @@ package atelimatch.api.domain.pessoa.atelie;
 
 import atelimatch.api.domain.endereco.Endereco;
 import atelimatch.api.domain.pessoa.Pessoa;
-import atelimatch.api.domain.pessoa.atelie.especialidade.Especialidade;
+import atelimatch.api.domain.especialidade.Especialidade;
 import atelimatch.api.domain.servico.Servico;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,12 +13,15 @@ import lombok.NoArgsConstructor;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Atelie extends Pessoa{
     private Float notaAvaliacao;
     private Integer qntdNotas;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idEspecialidade")
     private Especialidade especialidade;
     private Integer inicio01;
     private Integer fim01;
@@ -55,7 +56,7 @@ public class Atelie extends Pessoa{
     }
 
     public void atualizar(DadosAtualizacaoAtelie dados, Endereco endereco) {
-        atualizarDadosComuns(dados.nomePessoa(), dados.email(), dados.senha(), dados.usuario(), dados.telefone(), endereco);
+        atualizarDadosComuns(dados.nomePessoa(), dados.senha(), dados.usuario(), dados.telefone(), endereco);
         if (dados.notaAtelie() != null) {
             this.notaAvaliacao = (this.notaAvaliacao * this.qntdNotas + dados.notaAtelie()) / (this.qntdNotas + 1);
             this.qntdNotas++;
