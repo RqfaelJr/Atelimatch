@@ -26,8 +26,12 @@ public class CadastroDeCliente {
 
     public DadosDetalhamentoCliente atualizar(DadosAtualizacaoCliente dados){
         var cliente = clienteRepository.getReferenceById(dados.idPessoa());
-        var endereco = enderecoRepository.getReferenceById(dados.idEndereco());
-        cliente.atualizar(dados, endereco);
+        if (dados.idEndereco() != null) {
+            var endereco = enderecoRepository.getReferenceById(dados.idEndereco());
+            cliente.atualizar(dados, endereco);
+        } else {
+            cliente.atualizar(dados, null);
+        }
 
         clienteRepository.save(cliente);
 

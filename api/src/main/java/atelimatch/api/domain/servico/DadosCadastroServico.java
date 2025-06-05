@@ -13,9 +13,7 @@ public record DadosCadastroServico(
         @NotNull
         Integer tempoMedio,
         @NotNull
-        Float valorServico,
-        @NotBlank
-        List<DadosCadastroMateriaPrima> materiasPrima
+        Float valorServico
 
 ) {
 }

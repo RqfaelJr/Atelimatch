@@ -42,11 +42,12 @@ public class Pedido {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idFormaPagamento")
     private FormaPagamento formaPagamento;
+    @Column(name = "foto_peca")
     private byte[] foto;
 
     @ManyToMany
     @JoinTable(
-            name = "PedidoMedida",
+            name = "medida_pedido",
             joinColumns = @JoinColumn(name = "idPedido"),
             inverseJoinColumns = @JoinColumn(name = "idMedida")
     )
@@ -55,10 +56,11 @@ public class Pedido {
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PedidoServico> pedidoServicos = new HashSet<>();
 
-    public Pedido(Atelie atelie, Cliente cliente, Float valorTotal, LocalDate dataPrevisaoEntrega, Status status, FormaPagamento formaPagamento, byte[] foto, Set<Medida> medidas) {
+    public Pedido(Atelie atelie, Cliente cliente, Float valorTotal, String descricaoPedido, LocalDate dataPrevisaoEntrega, Status status, FormaPagamento formaPagamento, byte[] foto, Set<Medida> medidas) {
         this.atelie = atelie;
         this.cliente = cliente;
         this.valorTotal = valorTotal;
+        this.descricaoPedido = descricaoPedido;
         this.dataPrevisaoEntrega = dataPrevisaoEntrega;
         this.status = status;
         this.formaPagamento = formaPagamento;

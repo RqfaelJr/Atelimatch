@@ -17,27 +17,32 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@PrimaryKeyJoinColumn(name = "id_atelie")
 public class Atelie extends Pessoa{
     private Float notaAvaliacao;
     private Integer qntdNotas;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idEspecialidade")
     private Especialidade especialidade;
+    @Column(name = "inicio_01")
     private Integer inicio01;
+    @Column(name = "fim_01")
     private Integer fim01;
+    @Column(name = "inicio_02")
     private Integer inicio02;
+    @Column(name = "fim_02")
     private Integer fim02;
 
     @ManyToMany
     @JoinTable(
-            name = "AtelieServico",
-            joinColumns = @JoinColumn(name = "idAtelie"),
-            inverseJoinColumns = @JoinColumn(name = "idServico")
+            name = "atelie_servico",
+            joinColumns = @JoinColumn(name = "id_atelie"),
+            inverseJoinColumns = @JoinColumn(name = "id_servico")
     )
     private Set<Servico> servicos = new HashSet<>();
 
 
-    public Atelie(String nomePessoa, String email, String senha, String usuario, String telefone, Endereco endereco, Especialidade especialidade, Set<Servico> servicos, Integer inicio01, Integer fim01, Integer inicio02, Integer fim02) {
+    public Atelie(String nomePessoa, String email, String senha, String usuario, String telefone, Endereco endereco, Especialidade especialidade, Integer inicio01, Integer fim01, Integer inicio02, Integer fim02) {
         this.nomePessoa = nomePessoa;
         this.email = email;
         this.senha = senha;
@@ -47,7 +52,6 @@ public class Atelie extends Pessoa{
         this.especialidade = especialidade;
         this.notaAvaliacao = 0.0f;
         this.qntdNotas = 0;
-        this.servicos = servicos;
         this.inicio01 = inicio01;
         this.fim01 = fim01;
         this.inicio02 = inicio02;
@@ -64,7 +68,7 @@ public class Atelie extends Pessoa{
         if (dados.inicio01() != null) this.inicio01 = dados.inicio01();
         if (dados.fim01() != null) this.inicio01 = dados.fim01();
         this.inicio02 = dados.inicio02();
-        this.fim02 = dados.inicio02();
+        this.fim02 = dados.fim02();
 
     }
 }

@@ -34,6 +34,7 @@ public class Pessoa {
         if (senha != null) this.senha = senha;
         if (usuario != null) this.usuario = usuario;
         if (telefone != null) this.telefone = telefone;
-        this.endereco = endereco;
+        if (endereco != null) this.endereco = endereco;
+
     }
 }

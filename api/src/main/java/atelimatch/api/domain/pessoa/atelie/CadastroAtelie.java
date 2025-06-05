@@ -4,6 +4,7 @@ import atelimatch.api.domain.endereco.EnderecoRepository;
 import atelimatch.api.domain.especialidade.EspecialidadeRepository;
 import atelimatch.api.domain.servico.Servico;
 import atelimatch.api.domain.servico.ServicoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@Transactional
 public class CadastroAtelie {
 
     @Autowired
@@ -24,24 +26,28 @@ public class CadastroAtelie {
     @Autowired
     private ServicoRepository servicoRepository;
 
-    public DadosDetalhamentoAtelie cadastrar(DadosCadastroAtelie dados){
+    public DadosDetalhamentoAtelie cadastrar(DadosCadastroAtelie dados) {
         var endereco = enderecoRepository.getReferenceById(dados.idEndereco());
         var especialidade = especialidadeRepository.getReferenceById(dados.idEspecialidade());
         Set<Servico> servicos = new HashSet<>();
         for (int i = 0; i < dados.idsServico().toArray().length; i++) {
             servicos.add(servicoRepository.getReferenceById(dados.idsServico().get(i)));
         }
+        var atelie = new Atelie(dados.nomePessoa(), dados.email(), dados.senha(), dados.usuario(), dados.telefone(), endereco, especialidade, dados.inicio01(), dados.fim01(), dados.inicio02(), dados.fim02());
+        atelie.getServicos().addAll(servicos);
+        atelie = atelieRepository.saveAndFlush(atelie);
 
-        var atelie = new Atelie(dados.nomePessoa(), dados.email(), dados.senha(), dados.usuario(), dados.telefone(), endereco, especialidade, servicos, dados.inicio01(), dados.fim01(), dados.inicio02(), dados.fim02());
-
-        atelieRepository.save(atelie);
         return new DadosDetalhamentoAtelie(atelie);
     }
 
-    public DadosDetalhamentoAtelie atualizar(DadosAtualizacaoAtelie dados){
+    public DadosDetalhamentoAtelie atualizar(DadosAtualizacaoAtelie dados) {
         var atelie = atelieRepository.getReferenceById(dados.idPessoa());
-        var endereco = enderecoRepository.getReferenceById(dados.idEndereco());
-        atelie.atualizar(dados, endereco);
+        if (dados.idEndereco() != null) {
+            var endereco = enderecoRepository.getReferenceById(dados.idEndereco());
+            atelie.atualizar(dados, endereco);
+        } else {
+            atelie.atualizar(dados, null);
+        }
 
 
         atelieRepository.save(atelie);

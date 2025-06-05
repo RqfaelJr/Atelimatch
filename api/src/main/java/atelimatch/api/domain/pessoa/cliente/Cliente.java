@@ -4,6 +4,7 @@ package atelimatch.api.domain.pessoa.cliente;
 import atelimatch.api.domain.endereco.Endereco;
 import atelimatch.api.domain.pessoa.Pessoa;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@PrimaryKeyJoinColumn(name = "id_cliente")
 public class Cliente extends Pessoa{
     private String cpf;
     private LocalDate dataNascimento;

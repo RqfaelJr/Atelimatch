@@ -23,7 +23,7 @@ public class Endereco {
     private String estado;
     private String cidade;
     private String complemento;
-    private String numero;
+    private Integer numero;
 
     public Endereco(DadosCadastroEndereco dados) {
         this.rua = dados.rua();

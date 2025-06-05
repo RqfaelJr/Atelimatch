@@ -21,9 +21,11 @@ public class PedidoServico {
 
     @ManyToOne
     @MapsId("idPedido")
+    @JoinColumn(name = "id_pedido")
     private Pedido pedido;
     @ManyToOne
     @MapsId("idServico")
+    @JoinColumn(name = "id_servico")
     private Servico servico;
     private Float valorServicoPedido;
 }

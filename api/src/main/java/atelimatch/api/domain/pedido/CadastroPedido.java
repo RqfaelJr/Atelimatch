@@ -51,7 +51,7 @@ public class CadastroPedido {
             medidas.add(medidaRepository.getReferenceById(dados.idsMedida().get(i)));
         }
 
-        var pedido = new Pedido(atelie, cliente, dados.valorTotal(), dados.dataPrevisaoEntrega(), dados.status(), formaPagamento, dados.foto(), medidas);
+        var pedido = new Pedido(atelie, cliente, dados.valorTotal(), dados.descricaoPedido(), dados.dataPrevisaoEntrega(), dados.status(), formaPagamento, dados.foto(), medidas);
 
         Set<PedidoServico> pedidoServicos = new HashSet<>();
 

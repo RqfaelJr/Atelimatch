@@ -15,6 +15,6 @@ public record DadosAtualizacaoEndereco(
         String uf,
         String estado,
         String complemento,
-        String numero
+        Integer numero
 ) {
 }
