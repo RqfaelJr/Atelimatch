@@ -1,9 +1,14 @@
-package atelimatch.api.domain.bancoDados;
+package atelimatch.api.service.bancoDados;
 
+import atelimatch.api.domain.pessoa.atelie.Atelie;
+import atelimatch.api.domain.pessoa.atelie.DadosListagemAtelie;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,8 +17,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Service
 public class BancoDadosServico {
@@ -38,5 +42,11 @@ public class BancoDadosServico {
                 }
             }
         }
+    public Page<DadosListagemAtelie> buscarAtelie(String sql, Pageable pageable) {
+        List<DadosListagemAtelie> resultado = jdbcTemplate.query(sql + " LIMIT " + pageable.getPageSize() + " OFFSET " + pageable.getOffset(), (rs, rowNum) -> new DadosListagemAtelie(
+                rs.getString("nome_pessoa")));
+
+        return new PageImpl<>(resultado, pageable, resultado.size());
     }
+}
 

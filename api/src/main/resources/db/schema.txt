@@ -1,0 +1,115 @@
+CREATE TABLE endereco (
+                          id_endereco SERIAL PRIMARY KEY,
+                          estado VARCHAR(100) NOT NULL,
+                          bairro VARCHAR(100) NOT NULL,
+                          uf CHAR(2) NOT NULL,
+                          cidade VARCHAR(100) NOT NULL,
+                          rua VARCHAR(100) NOT NULL,
+                          cep VARCHAR(8) NOT NULL,
+                          numero INTEGER,
+                          complemento VARCHAR(100)
+);
+CREATE TABLE pessoa (
+                        id_pessoa SERIAL PRIMARY KEY,
+                        email VARCHAR(100) NOT NULL UNIQUE,
+                        senha VARCHAR(50) NOT NULL,
+                        usuario VARCHAR(50) NOT NULL UNIQUE,
+                        nome_pessoa VARCHAR(100) NOT NULL,
+                        telefone VARCHAR(11) NOT NULL UNIQUE,
+                        cnpj CHAR(14) UNIQUE,
+                        id_endereco INTEGER,
+                        FOREIGN KEY(id_endereco) REFERENCES endereco (id_endereco)
+);
+CREATE TABLE especialidade (
+                               id_especialidade SERIAL PRIMARY KEY,
+                               descricao_especialidade VARCHAR(100) NOT NULL UNIQUE
+);
+CREATE TABLE medida (
+                        id_medida SERIAL PRIMARY KEY,
+                        categoria VARCHAR(100) NOT NULL,
+                        valor_medida DECIMAL(10,2) NOT NULL,
+                        UNIQUE (categoria, valor_medida)
+);
+CREATE TABLE materia_prima (
+                               id_materia_prima SERIAL PRIMARY KEY,
+                               qtde_materia_prima DECIMAL(10,2) NOT NULL,
+                               unidade_materia_prima VARCHAR(10) NOT NULL,
+                               nome_materia_prima VARCHAR(100) NOT NULL
+);
+CREATE TABLE cliente (
+                         id_cliente SERIAL PRIMARY KEY,
+                         data_nascimento DATE NOT NULL,
+                         cpf CHAR(11) UNIQUE,
+                         id_pessoa INTEGER,
+                         FOREIGN KEY(id_pessoa) REFERENCES pessoa(id_pessoa)
+);
+CREATE TABLE servico (
+                         id_servico SERIAL PRIMARY KEY,
+                         tempo_medio INTEGER NOT NULL,
+                         valor_servico DECIMAL(10,2) NOT NULL,
+                         nome_servico VARCHAR(100) NOT NULL
+);
+CREATE TABLE forma_pagamento (
+                                 id_forma_pagamento SERIAL PRIMARY KEY,
+                                 nome_forma_pagamento VARCHAR(100) NOT NULL UNIQUE
+);
+CREATE TABLE atelie (
+                        id_atelie SERIAL PRIMARY KEY,
+                        qntd_notas INTEGER NOT NULL,
+                        nota_avaliacao DECIMAL(10,2) NOT NULL,
+                        inicio_01 INTEGER NOT NULL,
+                        fim_01 INTEGER NOT NULL,
+                        inicio_02 INTEGER,
+                        fim_02 INTEGER,
+                        id_pessoa INTEGER,
+                        id_especialidade INTEGER,
+                        FOREIGN KEY(id_pessoa) REFERENCES pessoa(id_pessoa),
+                        FOREIGN KEY(id_especialidade) REFERENCES especialidade (id_especialidade)
+);
+CREATE TABLE pedido (
+                        id_pedido SERIAL PRIMARY KEY,
+                        status INTEGER NOT NULL,
+                        data_entrega DATE,
+                        valor_total DECIMAL(10,2) NOT NULL,
+                        data_previsao_entrega DATE,
+                        id_atelie INTEGER,
+                        id_cliente INTEGER,
+                        foto_peca BYTEA,
+                        descricao_pedido VARCHAR(100) NOT NULL,
+                        id_forma_pagamento INTEGER,
+                        FOREIGN KEY(id_forma_pagamento) REFERENCES forma_pagamento (id_forma_pagamento),
+                        FOREIGN KEY(id_atelie) REFERENCES atelie (id_atelie),
+                        FOREIGN KEY(id_cliente) REFERENCES cliente (id_cliente)
+);
+CREATE TABLE materia_prima_servico (
+                                       id_servico INTEGER,
+                                       id_materia_prima INTEGER,
+                                       PRIMARY KEY(id_servico, id_materia_prima),
+                                       valor_materia_servico DECIMAL(10,2) NOT NULL,
+                                       unidade_medida_materia_servico VARCHAR(10) NOT NULL,
+                                       FOREIGN KEY(id_servico) REFERENCES servico (id_servico),
+                                       FOREIGN KEY(id_materia_prima) REFERENCES materia_prima (id_materia_prima)
+);
+
+CREATE TABLE atelie_servico (
+                                id_atelie INTEGER,
+                                id_servico INTEGER,
+                                PRIMARY KEY(id_atelie, id_servico),
+                                FOREIGN KEY(id_atelie) REFERENCES atelie (id_atelie),
+                                FOREIGN KEY(id_servico) REFERENCES servico (id_servico)
+);
+CREATE TABLE pedido_servico (
+                                id_servico INTEGER,
+                                id_pedido INTEGER,
+                                PRIMARY KEY(id_servico, id_pedido),
+                                valor_servico_pedido DECIMAL(10,2) NOT NULL,
+                                FOREIGN KEY(id_servico) REFERENCES servico (id_servico),
+                                FOREIGN KEY(id_pedido) REFERENCES pedido (id_pedido)
+);
+CREATE TABLE medida_pedido (
+                               id_medida INTEGER,
+                               id_pedido INTEGER,
+                               PRIMARY KEY(id_medida, id_pedido),
+                               FOREIGN KEY(id_medida) REFERENCES medida (id_medida),
+                               FOREIGN KEY(id_pedido) REFERENCES pedido (id_pedido)
+);

@@ -1,4 +1,7 @@
 package atelimatch.api.domain.especialidade;
 
-public class DadosListagemEspecialidade {
+public record DadosListagemEspecialidade(String nome) {
+    public DadosListagemEspecialidade(Especialidade especialidade) {
+        this(especialidade.getDescricaoEspecialidade());
+    }
 }

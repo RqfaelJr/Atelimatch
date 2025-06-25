@@ -1,6 +1,8 @@
 package atelimatch.api.controller;
 
 import atelimatch.api.domain.pessoa.atelie.*;
+import atelimatch.api.service.bancoDados.BancoDadosServico;
+import atelimatch.api.service.ia.GroqAI;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/atelie")
 public class AtelieController {
@@ -20,6 +24,11 @@ public class AtelieController {
 
     @Autowired
     private AtelieRepository repository;
+
+    @Autowired
+    private GroqAI iaService;
+    @Autowired
+    private BancoDadosServico bancoDadosServico;
 
     @PostMapping
     @Transactional
@@ -55,4 +64,12 @@ public class AtelieController {
         repository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/ia")
+    public ResponseEntity<Page<DadosListagemAtelie>> listarComIA(@PageableDefault(size = 10) Pageable paginacao, @RequestBody String string) throws IOException, InterruptedException {
+        String sql = iaService.consultaAI(string);
+        var page = bancoDadosServico.buscarAtelie(sql, paginacao);
+        return ResponseEntity.ok(page);
+    }
+
 }

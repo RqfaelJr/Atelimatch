@@ -11,23 +11,22 @@ public record DadosCadastroCliente(
 
         @NotBlank
         String nomePessoa,
+        @Pattern(regexp = "\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}")
+        String cpf,
         @NotBlank
         @Email
         String email,
         @NotBlank
-        String senha,
+        String telefone,
+        @NotNull
+        LocalDate dataNascimento,
         @NotBlank
         String usuario,
         @NotBlank
-        String telefone,
+        String senha,
         @Pattern(regexp = "^\\d{2}\\.?\\d{3}\\.?\\d{3}/?\\d{4}-?\\d{2}$\n")
         String cnpj,
         @NotNull
-        Integer idEndereco,
-        @Pattern(regexp = "\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}")
-        String cpf,
-        @NotNull
-        LocalDate dataNascimento
-
+        Integer idEndereco
 ) {
 }
