@@ -14,12 +14,11 @@ public record DadosCadastroAtelie(
         @Email
         String email,
         @NotBlank
-        String senha,
+        String telefone,
         @NotBlank
         String usuario,
         @NotBlank
-        String telefone,
-        @Pattern(regexp = "^\\d{2}\\.?\\d{3}\\.?\\d{3}/?\\d{4}-?\\d{2}$\n")
+        String senha,
         String cnpj,
         @NotNull
         Integer idEndereco,

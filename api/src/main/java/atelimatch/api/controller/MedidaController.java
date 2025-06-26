@@ -1,10 +1,12 @@
 package atelimatch.api.controller;
 
-import atelimatch.api.domain.endereco.DadosAtualizacaoEndereco;
-import atelimatch.api.domain.endereco.DadosDetalhamentoEndereco;
+
 import atelimatch.api.domain.medida.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -47,5 +49,12 @@ public class MedidaController {
         var medida = repository.getReferenceById(id);
         return ResponseEntity.ok(new DadosDetalhamentoMedida(medida));
     }
+
+    @GetMapping()
+    public ResponseEntity<Page<DadosListagemMedida>> listar(@PageableDefault(size = 10) Pageable paginacao) {
+        var page = repository.findAll(paginacao).map(DadosListagemMedida::new);
+        return ResponseEntity.ok(page);
+    }
+
 
 }

@@ -15,18 +15,18 @@ public record DadosCadastroPedido(
         Integer idAtelie,
         @NotNull
         Integer idCliente,
-        @NotNull
-        Float valorTotal,
         @NotBlank
         String descricaoPedido,
-        @Future
-        LocalDate dataPrevisaoEntrega,
         Status status,
         @NotNull
-        Integer idFormaPagamento,
-        byte[] foto,
-        @NotNull
         List<Integer> idsMedida,
-        List<DadosServico> servicos
+        List<DadosServico> servicos,
+        byte[] foto,
+        @Future
+        LocalDate dataPrevisaoEntrega,
+        @NotNull
+        Float valorTotal,
+        @NotNull
+        Integer idFormaPagamento
 ) {
 }

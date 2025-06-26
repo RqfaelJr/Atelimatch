@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JoinColumn(name = "id_pessoa")
     protected Integer idPessoa;
     protected String nomePessoa;
     protected String email;
