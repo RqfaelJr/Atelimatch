@@ -157,7 +157,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label for="atelie-nome" class="block text-sm font-medium text-gray-700">Nome do Ateliê/Costureira</label>
-                        <input type="text" id="atelie-nome" name="nome" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                        <input type="text" id="atelie-nome" name="nomePessoa" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
                     </div>
                     
                     <div>
@@ -184,19 +184,41 @@
                         <label for="atelie-confirmar-senha" class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
                         <input type="password" id="atelie-confirmar-senha" name="confirmarSenha" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
                     </div>
+
+                    <div>
+                        <label for="atelie-cnpj" class="block text-sm font-medium text-gray-700">CNPJ</label>
+                        <input type="text" id="atelie-cnpj" name="cnpj" maxlength="18" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+
+                    <input type="hidden" id="endereco-id" name="idEndereco">
+                    <input type="hidden" id="especialidade-id" name="idEspecialidade">
+                    <input type="hidden" id="servico-ids" name="idsServico">
+
+
+                    <div>
+                        <label for="atelie-horario-01" class="block text-sm font-medium text-gray-700">Horário de Inicio</label>
+                        <input type="number" id="atelie-horario-01" name="inicio01" min="0" max="23" step="1" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+
+                    <div>
+                        <label for="atelie-fim-01" class="block text-sm font-medium text-gray-700">Horário de Saída</label>
+                        <input type="number" id="atelie-fim-01" name="fim01" min="0" max="23" step="1" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+
+                        
+                        
                 </div>
                 <h3 class="text-lg font-medium text-gray-900 mt-6">Especialidade</h3>
                 <button type="button" id="btn-escolher-especialidade" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                 Escolher Especialidade</button>
 
-                <input type="hidden" id="especialidade-id" name="especialidade"> 
-            
                 <h3 class="text-lg font-medium text-gray-900 mt-6">Endereço</h3>
-                <input type="hidden" id="endereco-id-atelie" name="endereco_id">
-
                 <button type="button" id="btn-cadastrar-endereco-atelie" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                 Cadastrar Endereço</button>
                 
+                <h3 class="text-lg font-medium text-gray-900 mt-6">Serviço</h3>
+                <button type="button" id="btn-escolher-servico" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                Escolher Serviços</button>
                 
                 <div class="flex justify-between pt-4">
                     <button type="button" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" id="btn-voltar-modal-atelie">
@@ -281,7 +303,9 @@
       <h2 class="text-2xl font-bold mb-4">Escolher Especialidade</h2>
       <form id="form-especialidade" class="space-y-4">
         <div id="lista-especialidade">
-          <!-- Aqui aparecerão os checkboxes carregados pela API -->
+            <select id="select-especialidade">
+                
+            </select>
         </div>
         <div class="flex justify-between pt-4">
           <button type="button" id="btn-cancelar-especialidade" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
@@ -294,6 +318,29 @@
       </form>
     </div>
   </div>
+
+  <div id="modal-servico" class="modal-overlay">
+    <div class="modal-content w-full max-w-lg animate-fade-in">
+      <h2 class="text-2xl font-bold mb-4">Escolher Serviços</h2>
+      <form id="form-servico" class="space-y-4">
+        <div id="lista-servico">
+            <select id="select-servico">
+                
+            </select>
+        </div>
+        <div class="flex justify-between pt-4">
+          <button type="button" id="btn-cancelar-servico" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
+            Cancelar
+          </button>
+          <button type="submit" class="btn-primary py-2 px-4 rounded-md text-white bg-primary hover:bg-primary-dark">
+            Salvar Serviços
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
     <div id="main-app" class="page hidden"> 
         <div class="flex h-screen overflow-hidden">
             <div class="hidden md:flex md:flex-shrink-0">
@@ -319,19 +366,6 @@
                                     <i class="fas fa-store mr-3 text-primary"></i>
                                     Ateliês
                                 </a>
-                                <a href="#" class="sidebar-item group flex items-center px-2 py-3 text-sm font-medium rounded-md" id="nav-servico">
-                                    <i class="fas fa-tshirt mr-3 text-primary"></i>
-                                    Serviços
-                                </a>
-                                <a href="#" class="sidebar-item group flex items-center px-2 py-3 text-sm font-medium rounded-md" id="nav-mensagens">
-                                    <i class="fas fa-comments mr-3 text-primary"></i>
-                                    Mensagens
-                                    <span class="ml-auto inline-block py-0.5 px-2 text-xs font-medium rounded-full bg-primary text-white">3</span>
-                                </a>
-                                <a href="#" class="sidebar-item group flex items-center px-2 py-3 text-sm font-medium rounded-md" id="nav-favoritos">
-                                    <i class="fas fa-heart mr-3 text-primary"></i>
-                                    Favoritos 
-                                </a>
                                 <a href="#" class="sidebar-item group flex items-center px-2 py-3 text-sm font-medium rounded-md" id="nav-sair">
                                     <i class="fas fa-sign-out-alt mr-3 text-primary"></i>
                                     Sair
@@ -347,7 +381,7 @@
                                     </div>
                                 </div>
                                 <div class="ml-3">
-                                    <p class="text-sm font-medium text-gray-700">Maria Silva</p>
+                                    <p class="text-sm font-medium text-gray-700 name-user">Maria Silva</p>
                                     <a href="#" class="text-xs font-medium text-primary hover:text-primary-dark">Ver perfil</a>
                                 </div>
                                 <div class="ml-auto">
@@ -401,7 +435,7 @@
                                     <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none">
                                         <i class="fas fa-search ml-3"></i>
                                     </div>
-                                    <input id="search-field" class="block w-full h-full pl-10 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm" placeholder="Pesquisar ateliês, serviços..." type="search">
+                                    <input id="search-field" class="block w-full h-full pl-10 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm" placeholder="Pesquisar ateliês com IA" type="search">
                                 </div>
                             </div>
                         </div>
@@ -443,502 +477,115 @@
                                 <div class="bg-gradient-to-r from-primary to-primary-dark rounded-lg shadow-lg p-6 mt-6 text-white">
                                     <div class="flex flex-col md:flex-row items-center justify-between">
                                         <div class="mb-4 md:mb-0">
-                                            <h2 class="text-xl font-bold">Bem-vinda, Maria!</h2>
+                                            <h2 class="text-xl font-bold">Olá, <span class="user-name">Maria!</span></h2>
                                             <p class="mt-1">Encontre os melhores ateliês para seus projetos de costura.</p>
                                         </div>
-                                        <button class="bg-white text-primary font-medium py-2 px-4 rounded-md shadow hover:shadow-lg transition-all">
+                                        <button id="btn-novo-pedido" class="bg-white text-primary font-medium py-2 px-4 rounded-md shadow hover:shadow-lg transition-all">
                                             Novo Pedido
                                         </button>
                                     </div>
                                 </div>
                                 
-                                <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                                    <div class="bg-white overflow-hidden shadow rounded-lg card">
-                                        <div class="px-4 py-5 sm:p-6">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 bg-primary-light rounded-md p-3">
-                                                    <i class="fas fa-clipboard-list text-primary text-xl"></i>
-                                                </div>
-                                                <div class="ml-5 w-0 flex-1">
-                                                    <dl>
-                                                        <dt class="text-sm font-medium text-gray-500 truncate">Pedidos Ativos</dt>
-                                                        <dd class="flex items-baseline">
-                                                            <div class="text-2xl font-semibold text-gray-900">3</div>
-                                                        </dd>
-                                                    </dl>
-                                                </div>
+                                <div id="modal-pedido" class="modal-overlay">
+                                    <div class="modal-content w-full max-w-lg animate-fade-in">
+                                        <h2 class="text-2xl font-bold mb-4">Novo Pedido</h2>
+                                        <form id="form-pedido" class="space-y-4">
+                                            <div>
+                                                <label for="modal-atelie" class="block text-sm font-medium text-gray-700">Ateliê</label>
+                                                <select id="modal-atelie" required class="block w-full border border-gray-300 rounded-md p-2">
+                                                    
+                                                </select>
+                                                
                                             </div>
-                                        </div>
-                                        <div class="bg-gray-50 px-4 py-4 sm:px-6">
-                                            <div class="text-sm">
-                                                <a href="#" class="font-medium text-primary hover:text-primary-dark">
-                                                    Ver todos os pedidos <i class="fas fa-arrow-right ml-1"></i>
-                                                </a>
+                                            <div>
+                                                <label for="modal-descricao" class="block text-sm font-medium text-gray-700">Descrição</label>
+                                                <input type="text" id="modal-descricao" required class="block w-full border border-gray-300 rounded-md p-2"></input>
                                             </div>
-                                        </div>
+                                            <div>
+                                                <label for="fileUpload" class="block text-sm font-medium text-gray-700">Escolher Foto</label>
+                                                <input type="file" id="fileUpload" name="photo" accept="image/*" class="mt-1">
+                                            </div>
+                                            <input type="hidden" id="medida-id" name="idsMedidas">
+                                            <div>
+                                                <h3 class="text-lg font-medium text-gray-900 mt-6">Medidas</h3>
+                                                <button type="button" id="btn-escolher-medida" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                                Adcionar Medidas</button>
+                                            </div>
+                                            <input type="hidden" id="servico-ids" name="idsServico">
+                                            <div>
+                                                <h3 class="text-lg font-medium text-gray-900 mt-6">Serviços</h3>
+                                                <button type="button" id="btn-adcionar-servico" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                                Adicionar Serviços</button>
+                                            </div>
+                                            <div>
+                                                <label for="modal-dataPrevisao" class="block text-sm font-medium text-gray-700">Data Previsão de Entrega</label>
+                                                <input type="date" id="modal-dataPrevisao" disabled class="block w-full border border-gray-300 rounded-md p-2">
+                                            </div>
+                                            <div>
+                                                <label for="modal-valor" class="block text-sm font-medium text-gray-700">Valor Total</label>
+                                                <input type="text" id="modal-valor" disabled class="block w-full border border-gray-300 rounded-md p-2"></input>
+                                            </div>
+                                            
+                                            <input type="hidden" id="formaPagamento-id" name="idFormaPagamento">
+                                            
+                                            <div>
+                                                <h3 class="text-lg font-medium text-gray-900 mt-6">Forma de Pagamento</h3>
+                                                <button type="button" id="btn-escolher-formaPagamento" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                                Escolher Forma de Pagamento</button>
+                                            </div>
+                                            <div class="flex justify-between pt-4">
+                                                <button type="button" id="btn-cancelar-pedido" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white">
+                                                    Cancelar
+                                                </button>
+                                                <button type="submit" class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark">
+                                                    Fazer Pedido
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
+                                </div>                            
                                     
-                                    <div class="bg-white overflow-hidden shadow rounded-lg card">
-                                        <div class="px-4 py-5 sm:p-6">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 bg-primary-light rounded-md p-3">
-                                                    <i class="fas fa-heart text-primary text-xl"></i>
-                                                </div>
-                                                <div class="ml-5 w-0 flex-1">
-                                                    <dl>
-                                                        <dt class="text-sm font-medium text-gray-500 truncate">Ateliês Favoritos</dt>
-                                                        <dd class="flex items-baseline">
-                                                            <div class="text-2xl font-semibold text-gray-900">7</div>
-                                                        </dd>
-                                                    </dl>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="bg-gray-50 px-4 py-4 sm:px-6">
-                                            <div class="text-sm">
-                                                <a href="#" class="font-medium text-primary hover:text-primary-dark">
-                                                    Ver favoritos <i class="fas fa-arrow-right ml-1"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="bg-white overflow-hidden shadow rounded-lg card">
-                                        <div class="px-4 py-5 sm:p-6">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 bg-primary-light rounded-md p-3">
-                                                    <i class="fas fa-comments text-primary text-xl"></i>
-                                                </div>
-                                                <div class="ml-5 w-0 flex-1">
-                                                    <dl>
-                                                        <dt class="text-sm font-medium text-gray-500 truncate">Mensagens Não Lidas</dt>
-                                                        <dd class="flex items-baseline">
-                                                            <div class="text-2xl font-semibold text-gray-900">3</div>
-                                                        </dd>
-                                                    </dl>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="bg-gray-50 px-4 py-4 sm:px-6">
-                                            <div class="text-sm">
-                                                <a href="#" class="font-medium text-primary hover:text-primary-dark">
-                                                    Ver mensagens <i class="fas fa-arrow-right ml-1"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <h2 class="text-lg font-medium text-gray-900 mt-8">Pedidos Recentes</h2>
-                                <div class="mt-4 bg-white shadow overflow-hidden sm:rounded-md">
-                                    <ul class="divide-y divide-gray-200">
-                                        <li>
-                                            <a href="#" class="block hover:bg-gray-50">
-                                                <div class="px-4 py-4 sm:px-6">
-                                                    <div class="flex items-center justify-between">
-                                                        <p class="text-sm font-medium text-primary truncate">
-                                                            Ajuste de Vestido de Festa
-                                                        </p>
-                                                        <div class="ml-2 flex-shrink-0 flex">
-                                                            <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                                Em andamento
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-2 sm:flex sm:justify-between">
-                                                        <div class="sm:flex">
-                                                            <p class="flex items-center text-sm text-gray-500">
-                                                                <i class="fas fa-store flex-shrink-0 mr-1.5 text-gray-400"></i>
-                                                                Ateliê da Rosa
-                                                            </p>
-                                                        </div>
-                                                        <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                                            <i class="fas fa-calendar flex-shrink-0 mr-1.5 text-gray-400"></i>
-                                                            <p>
-                                                                Entrega: <time datetime="2023-06-15">15/06/2023</time>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
+                                <div id="modal-medida" class="modal-overlay">
+                                    <div class="modal-content w-full max-w-lg animate-fade-in">
+                                      <h2 class="text-2xl font-bold mb-4">Escolher Medidas</h2>
+                                      <form id="form-medida" class="space-y-4">
+                                        <div id="lista-medida">
                                         
-                                        <li>
-                                            <a href="#" class="block hover:bg-gray-50">
-                                                <div class="px-4 py-4 sm:px-6">
-                                                    <div class="flex items-center justify-between">
-                                                        <p class="text-sm font-medium text-primary truncate">
-                                                            Confecção de Blusa sob Medida
-                                                        </p>
-                                                        <div class="ml-2 flex-shrink-0 flex">
-                                                            <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                                                Aguardando aprovação
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-2 sm:flex sm:justify-between">
-                                                        <div class="sm:flex">
-                                                            <p class="flex items-center text-sm text-gray-500">
-                                                                <i class="fas fa-store flex-shrink-0 mr-1.5 text-gray-400"></i>
-                                                                Costura & Arte
-                                                            </p>
-                                                        </div>
-                                                        <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                                            <i class="fas fa-calendar flex-shrink-0 mr-1.5 text-gray-400"></i>
-                                                            <p>
-                                                                Solicitado: <time datetime="2023-06-05">05/06/2023</time>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        
-                                        <li>
-                                            <a href="#" class="block hover:bg-gray-50">
-                                                <div class="px-4 py-4 sm:px-6">
-                                                    <div class="flex items-center justify-between">
-                                                        <p class="text-sm font-medium text-primary truncate">
-                                                            Reparo em Calça Jeans
-                                                        </p>
-                                                        <div class="ml-2 flex-shrink-0 flex">
-                                                            <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                                                Concluído
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-2 sm:flex sm:justify-between">
-                                                        <div class="sm:flex">
-                                                            <p class="flex items-center text-sm text-gray-500">
-                                                                <i class="fas fa-store flex-shrink-0 mr-1.5 text-gray-400"></i>
-                                                                Ateliê Perfeição
-                                                            </p>
-                                                        </div>
-                                                        <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                                            <i class="fas fa-calendar flex-shrink-0 mr-1.5 text-gray-400"></i>
-                                                            <p>
-                                                                Entregue: <time datetime="2023-05-28">28/05/2023</time>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        
-                                        <li>
-                                            <a href="#" class="block hover:bg-gray-50">
-                                                <div class="px-4 py-4 sm:px-6">
-                                                    <div class="flex items-center justify-between">
-                                                        <p class="text-sm font-medium text-primary truncate">
-                                                            Bordado em Camiseta
-                                                        </p>
-                                                        <div class="ml-2 flex-shrink-0 flex">
-                                                            <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                                                Concluído
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-2 sm:flex sm:justify-between">
-                                                        <div class="sm:flex">
-                                                            <p class="flex items-center text-sm text-gray-500">
-                                                                <i class="fas fa-store flex-shrink-0 mr-1.5 text-gray-400"></i>
-                                                                Costura & Arte
-                                                            </p>
-                                                        </div>
-                                                        <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                                            <i class="fas fa-calendar flex-shrink-0 mr-1.5 text-gray-400"></i>
-                                                            <p>
-                                                                Entregue: <time datetime="2023-05-15">15/05/2023</time>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                        </div>
+                                        <div class="flex justify-between pt-4">
+                                          <button type="button" id="btn-cancelar-medida" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
+                                            Cancelar
+                                          </button>
+                                          <button type="submit" class="btn-primary py-2 px-4 rounded-md text-white bg-primary hover:bg-primary-dark">
+                                            Escolher Medidas
+                                          </button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>    
+
+                                <div id="modal-formaPagamento" class="modal-overlay">
+                                    <div class="modal-content w-full max-w-lg animate-fade-in">
+                                      <h2 class="text-2xl font-bold mb-4">Escolher Forma de Pagamento</h2>
+                                      <form id="form-formaPagamento" class="space-y-4">
+                                        <div id="lista-formaPagamento">
+                                            <select id="select-formaPagamento">
+                                                
+                                            </select>
+                                        </div>
+                                        <div class="flex justify-between pt-4">
+                                          <button type="button" id="btn-cancelar-formaPagamento" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
+                                            Cancelar
+                                          </button>
+                                          <button type="submit" class="btn-primary py-2 px-4 rounded-md text-white bg-primary hover:bg-primary-dark">
+                                            Escolher Forma
+                                          </button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
                                 
-                                <h2 class="text-lg font-medium text-gray-900 mt-8">Ateliês Recomendados</h2>
-                                <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                                    <div class="bg-white overflow-hidden shadow rounded-lg card">
-                                        <div class="p-5">
-                                            <div class="flex items-center">
-                                                <div class="h-12 w-12 rounded-full bg-primary-light flex items-center justify-center text-primary">
-                                                    <i class="fas fa-store text-xl"></i>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <h3 class="text-lg font-medium text-gray-900">Ateliê da Rosa</h3>
-                                                    <div class="flex items-center mt-1">
-                                                        <div class="flex text-yellow-400">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star-half-alt"></i>
-                                                        </div>
-                                                        <span class="ml-1 text-sm text-gray-500">4.5 (120 avaliações)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-4">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Vestidos
-                                                    </span>
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Ajustes
-                                                    </span>
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Roupas sob medida
-                                                    </span>
-                                                </div>
-                                                <p class="mt-2 text-sm text-gray-500">Especialista em vestidos de festa e roupas sob medida.</p>
-                                                <p class="mt-1 text-sm text-gray-500">
-                                                    <i class="fas fa-map-marker-alt text-primary mr-1"></i> 2,5 km de distância
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="bg-gray-50 px-5 py-3 flex justify-between items-center">
-                                            <a href="#" class="text-sm font-medium text-primary hover:text-primary-dark">
-                                                Ver detalhes
-                                            </a>
-                                            <button class="text-primary hover:text-primary-dark">
-                                                <i class="far fa-heart text-lg"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="bg-white overflow-hidden shadow rounded-lg card">
-                                        <div class="p-5">
-                                            <div class="flex items-center">
-                                                <div class="h-12 w-12 rounded-full bg-primary-light flex items-center justify-center text-primary">
-                                                    <i class="fas fa-store text-xl"></i>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <h3 class="text-lg font-medium text-gray-900">Costura & Arte</h3>
-                                                    <div class="flex items-center mt-1">
-                                                        <div class="flex text-yellow-400">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="far fa-star"></i>
-                                                        </div>
-                                                        <span class="ml-1 text-sm text-gray-500">4.0 (85 avaliações)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-4">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Bordados
-                                                    </span>
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Roupas sob medida
-                                                    </span>
-                                                </div>
-                                                <p class="mt-2 text-sm text-gray-500">Ateliê com foco em bordados artesanais e peças exclusivas.</p>
-                                                <p class="mt-1 text-sm text-gray-500">
-                                                    <i class="fas fa-map-marker-alt text-primary mr-1"></i> 4,8 km de distância
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="bg-gray-50 px-5 py-3 flex justify-between items-center">
-                                            <a href="#" class="text-sm font-medium text-primary hover:text-primary-dark">
-                                                Ver detalhes
-                                            </a>
-                                            <button class="text-primary hover:text-primary-dark">
-                                                <i class="fas fa-heart text-lg"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="bg-white overflow-hidden shadow rounded-lg card">
-                                        <div class="p-5">
-                                            <div class="flex items-center">
-                                                <div class="h-12 w-12 rounded-full bg-primary-light flex items-center justify-center text-primary">
-                                                    <i class="fas fa-store text-xl"></i>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <h3 class="text-lg font-medium text-gray-900">Ateliê Perfeição</h3>
-                                                    <div class="flex items-center mt-1">
-                                                        <div class="flex text-yellow-400">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                        </div>
-                                                        <span class="ml-1 text-sm text-gray-500">5.0 (42 avaliações)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-4">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Ajustes
-                                                    </span>
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Reparos
-                                                    </span>
-                                                </div>
-                                                <p class="mt-2 text-sm text-gray-500">Especializado em ajustes rápidos e reparos de qualidade.</p>
-                                                <p class="mt-1 text-sm text-gray-500">
-                                                    <i class="fas fa-map-marker-alt text-primary mr-1"></i> 3,2 km de distância
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="bg-gray-50 px-5 py-3 flex justify-between items-center">
-                                            <a href="#" class="text-sm font-medium text-primary hover:text-primary-dark">
-                                                Ver detalhes
-                                            </a>
-                                            <button class="text-primary hover:text-primary-dark">
-                                                <i class="far fa-heart text-lg"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="bg-white overflow-hidden shadow rounded-lg card">
-                                        <div class="p-5">
-                                            <div class="flex items-center">
-                                                <div class="h-12 w-12 rounded-full bg-primary-light flex items-center justify-center text-primary">
-                                                    <i class="fas fa-store text-xl"></i>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <h3 class="text-lg font-medium text-gray-900">Costura Elegante</h3>
-                                                    <div class="flex items-center mt-1">
-                                                        <div class="flex text-yellow-400">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="far fa-star"></i>
-                                                        </div>
-                                                        <span class="ml-1 text-sm text-gray-500">4.2 (56 avaliações)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-4">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Vestidos
-                                                    </span>
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Roupas sob medida
-                                                    </span>
-                                                </div>
-                                                <p class="mt-2 text-sm text-gray-500">Especialista em vestidos de noiva e roupas para ocasiões especiais.</p>
-                                                <p class="mt-1 text-sm text-gray-500">
-                                                    <i class="fas fa-map-marker-alt text-primary mr-1"></i> 6,5 km de distância
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="bg-gray-50 px-5 py-3 flex justify-between items-center">
-                                            <a href="#" class="text-sm font-medium text-primary hover:text-primary-dark">
-                                                Ver detalhes
-                                            </a>
-                                            <button class="text-primary hover:text-primary-dark">
-                                                <i class="far fa-heart text-lg"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="bg-white overflow-hidden shadow rounded-lg card">
-                                        <div class="p-5">
-                                            <div class="flex items-center">
-                                                <div class="h-12 w-12 rounded-full bg-primary-light flex items-center justify-center text-primary">
-                                                    <i class="fas fa-store text-xl"></i>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <h3 class="text-lg font-medium text-gray-900">Ponto a Ponto</h3>
-                                                    <div class="flex items-center mt-1">
-                                                        <div class="flex text-yellow-400">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star-half-alt"></i>
-                                                            <i class="far fa-star"></i>
-                                                        </div>
-                                                        <span class="ml-1 text-sm text-gray-500">3.5 (28 avaliações)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-4">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Ajustes
-                                                    </span>
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Reparos
-                                                    </span>
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Bordados
-                                                    </span>
-                                                </div>
-                                                <p class="mt-2 text-sm text-gray-500">Serviços rápidos de ajustes e pequenos reparos.</p>
-                                                <p class="mt-1 text-sm text-gray-500">
-                                                    <i class="fas fa-map-marker-alt text-primary mr-1"></i> 1,8 km de distância
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="bg-gray-50 px-5 py-3 flex justify-between items-center">
-                                            <a href="#" class="text-sm font-medium text-primary hover:text-primary-dark">
-                                                Ver detalhes
-                                            </a>
-                                            <button class="text-primary hover:text-primary-dark">
-                                                <i class="far fa-heart text-lg"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
                                 
-                                <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 mt-6 rounded-lg shadow">
-                                    <div class="flex-1 flex justify-between sm:hidden">
-                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                            Anterior
-                                        </a>
-                                        <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                            Próxima
-                                        </a>
-                                    </div>
-                                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                                        <div>
-                                            <p class="text-sm text-gray-700">
-                                                Mostrando <span class="font-medium">1</span> a <span class="font-medium">6</span> de <span class="font-medium">24</span> resultados
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                                                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                                    <span class="sr-only">Anterior</span>
-                                                    <i class="fas fa-chevron-left"></i>
-                                                </a>
-                                                <a href="#" aria-current="page" class="z-10 bg-primary border-primary text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                                    1
-                                                </a>
-                                                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                                    2
-                                                </a>
-                                                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                                    3
-                                                </a>
-                                                <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-                                                    ...
-                                                </span>
-                                                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                                    4
-                                                </a>
-                                                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                                    <span class="sr-only">Próxima</span>
-                                                    <i class="fas fa-chevron-right"></i>
-                                                </a>
-                                            </nav>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     
                     <div class="tab-content" id="content-pedidos">
                         <div class="py-6">

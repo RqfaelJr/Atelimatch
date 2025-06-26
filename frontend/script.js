@@ -106,33 +106,62 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleModal('modal-endereco', false);
         contextoEndereco = null;
     });
+
+    document.getElementById('btn-novo-pedido').addEventListener('click', function() {
+        toggleModal('modal-pedido', true);
+    });
     
     // Configurar formulários
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            // Simulando uma resposta do backend
-            const success = true; // Troque para false para testar a mensagem de erro
-            if (success) {
+            
+            const formData = new FormData(loginForm);
+            const dados = Object.fromEntries(formData.entries());
+            
+            const json = JSON.stringify(dados);
+            
+            fetch ('http://localhost:8080/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: json
+            })
+            .then(resp => resp.json())
+            .then(dadosResposta => {
+                showMessageModal('success', 'Login Concluído!');
+                loginForm.reset(); // Limpar formulário
                 // Fecha quaisquer modais abertos
                 toggleModal('modal-cadastro-cliente', false);
                 toggleModal('modal-cadastro-atelie', false);
                 toggleModal('message-modal', false); 
+                console.log(dadosResposta)
+                localStorage.setItem('idPessoa', dadosResposta.idPessoa)
+                localStorage.setItem('userName', dadosResposta.nomePessoa);
+
+                // Exemplo: Atualizar um elemento na tela principal com o nome do usuário
+                const userNameElement = document.querySelector('.user-name');
+                if (userNameElement) {
+                    userNameElement.textContent = `${dadosResposta.nomePessoa}!`;
+                }
+
+                const userName = localStorage.getItem('userName');
+                
+                if (userName) {
+                    const userNameElement = document.querySelector('.name-user');
+                    if (userNameElement) {
+                        userNameElement.textContent = userName;
+                    }
+                }
 
                 // Esconde a página de login e mostra a tela principal
                 showPage('main-app'); 
-                
-                // Opcional: Se quiser mostrar uma mensagem de "Login bem-sucedido" antes de ir
-                // showMessageModal('success', 'Login Realizado!', 'Você foi logado com sucesso no AteliMatch. Redirecionando...');
-                // setTimeout(() => {
-                //     showPage('main-app');
-                //     document.getElementById('login-page').classList.remove('active');
-                // }, 1500); // Redireciona após 1.5 segundos
-
-            } else {
+            }) 
+            .catch(erro => {
                 showMessageModal('error', 'Erro no Login', 'Usuário ou senha inválidos. Tente novamente.');
-            }
+            })
         });
     }
     
@@ -145,6 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const dados = Object.fromEntries(formData.entries());
             delete dados.confirmarSenha;
             const json = JSON.stringify(dados);
+            console.log(json);
 
             fetch ('http://localhost:8080/cliente', {
                 method: 'POST',
@@ -180,8 +210,35 @@ document.addEventListener('DOMContentLoaded', function() {
     if (formCadastroAtelie) {
         formCadastroAtelie.addEventListener('submit', function(e) {
             e.preventDefault();
-            // Aqui você enviaria os dados para o backend
-            // Simulando uma resposta do backend
+
+            const formData = new FormData(formCadastroAtelie);
+            const dados = Object.fromEntries(formData.entries());
+            delete dados.confirmarSenha;
+            
+            dados.idsServico = JSON.parse(dados.idsServico).map(id => parseInt(id, 10));
+            console.log(dados.idsServico)
+            const json = JSON.stringify(dados);
+
+            console.log(json);
+
+            fetch ('http://localhost:8080/atelie', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: json
+            })
+            .then(resp => resp.json())
+            .then(dadosResposta => {
+                toggleModal('modal-cadastro-atelie', false); // Fechar o modal de cadastro
+                showMessageModal('success', 'Cadastro de Ateliê Concluído!', 'Sua conta de ateliê foi criada com sucesso. Bem-vindo(a)!');
+                formCadastroAtelie.reset(); // Limpar formulário
+            })
+            .catch(erro => {
+                showMessageModal('error', 'Erro no Cadastro', 'Não foi possível cadastrar o ateliê. Verifique os dados e tente novamente.');
+            })
+
+
             const success = true; // Troque para false para testar a mensagem de erro
 
             if (success) {
@@ -194,6 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
 
     document.getElementById('form-endereco').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -219,61 +277,245 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!resp.ok) throw new Error('Erro ao salvar endereço!');
         const resposta = await resp.json();
 
-        
-        document.getElementById('endereco-id').value = resposta.idEndereco; // campo hidden do formulário do cliente
-
+        document.getElementById("endereco-id").value = resposta.idEndereco;
+        const enderecoInput = document.querySelector('#form-cadastro-atelie #endereco-id');
+        if(enderecoInput) {
+            enderecoInput.value = resposta.idEndereco;
+        } else {
+            console.error('Campo hidden #endereco-id não encontrado no formulário do ateliê.');
+        }
         // (Opcional) mostrar resumo para usuário
         // document.getElementById('endereco-resumo').innerText =
         //     `Rua: ${endereco.rua}, Nº ${endereco.numero}, Bairro: ${endereco.bairro}, Cidade: ${endereco.cidade}, Estado: ${endereco.estado}`;
 
         toggleModal('modal-endereco', false);
 
-    } catch (err) {
-        alert('Erro ao cadastrar endereço: ' + err.message);
-    }
+        } catch (err) {
+            alert('Erro ao cadastrar endereço: ' + err.message);
+        }
     });
 
     // Abrir o modal e buscar especialidades
-document.getElementById('btn-escolher-especialidade').addEventListener('click', async function() {
-    toggleModal('modal-especialidades', true);
-    const lista = document.getElementById('lista-especialidade');
-    lista.innerHTML = '<div>Carregando...</div>';
-    // Troque esta URL pela da sua API!
-    const resp = await fetch('http://localhost:8080/especialidade');
-    const especialidades = await resp.json();
-    console.log(especialidades);
-    lista.innerHTML = especialidades.content.map(e => `
-      <div>
-        <label class="inline-flex items-center">
-          <input type="radio" name="radio-especialidade" value="${e.nome}" class="especialidade-radio mr-2">
-          <span>${e.nome}</span>
-        </label>
-      </div>
-    `).join('');
-});
+    document.getElementById('btn-escolher-especialidade').addEventListener('click', async function() {
+        toggleModal('modal-especialidade', true);
+        const lista = document.getElementById('lista-especialidade');
+        lista.innerHTML = '<div>Carregando...</div>';
+        // Troque esta URL pela da sua API!
+        const resp = await fetch('http://localhost:8080/especialidade');
+        const especialidades = await resp.json();
+        lista.innerHTML = `
+            <label for="select-especialidade" class="block mb-2 font-medium text-gray-700">Escolha uma especialidade:</label>
+            <select id="select-especialidade" name="especialidade" class="w-full p-2 border rounded">
+                ${especialidades.content.map(e => `
+                    <option value="${e.idEspecialidade}">${e.nome}</option>
+                `).join('')}
+            </select>
+            `;
+    });
 
-// Fechar modal no cancelar
-document.getElementById('btn-cancelar-especialidades').addEventListener('click', function() {
-    toggleModal('modal-especialidades', false);
-});
+    // Fechar modal no cancelar
+    document.getElementById('btn-cancelar-especialidade').addEventListener('click', function() {
+        toggleModal('modal-especialidade', false);
+    });
 
 // Salvar especialidade escolhida
-document.getElementById('form-especialidades').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const selecionada = document.querySelector('.especialidade-radio:checked');
-    if (selecionada) {
-        document.getElementById('especialidade-id').value = selecionada.value;
-        document.getElementById('especialidade-resumo').innerText = selecionada.nextElementSibling.innerText;
-        toggleModal('modal-especialidades', false);
-    } else {
-        alert("Escolha uma especialidade.");
-    }
-});
-
-
-
-
     
+    document.getElementById('form-especialidade').addEventListener('submit', function(e) {
+        
+        e.preventDefault();
+        
+        const select = document.getElementById('select-especialidade');
+        const selecionada = select.value;
+
+        if (selecionada) {
+            document.getElementById('especialidade-id').value = selecionada;
+            toggleModal('modal-especialidade', false);
+            console.log(selecionada);
+        } else {
+            alert("Escolha uma especialidade.");
+        }
+    });
+
+
+    document.getElementById('btn-escolher-servico').addEventListener('click', async function() {
+        toggleModal('modal-servico', true);
+        const lista = document.getElementById('lista-servico');
+        lista.innerHTML = '<div>Carregando...</div>';
+        // Troque esta URL pela da sua API!
+        const resp = await fetch('http://localhost:8080/servico');
+        const servicos = await resp.json();
+        lista.innerHTML = `
+        <label class="block mb-2 font-medium text-gray-700">Escolha os serviços:</label>
+        <div class="space-y-2">
+            ${servicos.content.map(e => `
+                <label class="flex items-center space-x-2">
+                    <input type="checkbox" name="servico" value="${e.idServico}" class="form-checkbox">
+                    <span>${e.nome}</span>
+                </label>
+            `).join('')}
+        </div>
+    `;
+    });
+
+    // Fechar modal no cancelar
+    document.getElementById('btn-cancelar-servico').addEventListener('click', function() {
+        toggleModal('modal-servico', false);
+    });
+
+    // Salvar serviços escolhidos
+    
+    document.getElementById('form-servico').addEventListener('submit', function(e) {
+        
+        e.preventDefault();
+        
+        const checkboxes = document.querySelectorAll('input[name="servico"]:checked');
+        const idsSelecionados = Array.from(checkboxes).map(checkbox => checkbox.value);
+
+        if (idsSelecionados.length > 0) {
+            console.log(idsSelecionados);
+            document.getElementById('servico-ids').value = JSON.stringify(idsSelecionados);
+            console.log(document.getElementById('servico-ids').value)
+            toggleModal('modal-servico', false);
+            
+        } else {
+            alert("Escolha pelo menos um serviço.");
+        }
+    });
+
+    document.getElementById('btn-novo-pedido').addEventListener('click', async function() {
+        
+        const lista = document.getElementById('modal-atelie');
+        lista.innerHTML = '<div>Carregando...</div>';
+        // Troque esta URL pela da sua API!
+        const resp = await fetch('http://localhost:8080/atelie');
+        const especialidades = await resp.json();
+        lista.innerHTML = `
+            <label for="select-atelie" class="block mb-2 font-medium text-gray-700">Escolha um Ateliê:</label>
+            <select id="select-atelie" name="atelie" class="w-full p-2 border rounded">
+                ${especialidades.content.map(e => `
+                    <option value="${e.idAtelie}">${e.nome}</option>
+                `).join('')}
+            </select>
+            `;
+    });
+
+    // Fechar modal no cancelar
+    document.getElementById('btn-cancelar-pedido').addEventListener('click', function() {
+        toggleModal('modal-pedido', false);
+    });
+
+// Salvar especialidade escolhida
+    
+    document.getElementById('form-especialidade').addEventListener('submit', function(e) {
+        
+        e.preventDefault();
+        
+        const select = document.getElementById('select-especialidade');
+        const selecionada = select.value;
+
+        if (selecionada) {
+            document.getElementById('especialidade-id').value = selecionada;
+            toggleModal('modal-especialidade', false);
+            console.log(selecionada);
+        } else {
+            alert("Escolha uma especialidade.");
+        }
+    });
+
+    // Abrir o modal e buscar formas de pagamento
+    document.getElementById('btn-escolher-formaPagamento').addEventListener('click', async function() {
+        toggleModal('modal-formaPagamento', true);
+        const lista = document.getElementById('lista-formaPagamento');
+        lista.innerHTML = '<div>Carregando...</div>';
+        // Troque esta URL pela da sua API!
+        const resp = await fetch('http://localhost:8080/formapagamento');
+        const formaPagamento = await resp.json();
+        lista.innerHTML = `
+            <label for="select-formaPagamento" class="block mb-2 font-medium text-gray-700">Escolha uma Forma de Pagamento:</label>
+            <select id="select-formaPagamento" name="formaPagamento" class="w-full p-2 border rounded">
+                ${formaPagamento.content.map(e => `
+                    <option value="${e.idFormaPagamento}">${e.nomeFormaPagamento}</option>
+                `).join('')}
+            </select>
+            `;
+    });
+
+    // Fechar modal no cancelar
+    document.getElementById('btn-cancelar-formaPagamento').addEventListener('click', function() {
+        toggleModal('modal-formaPagamento', false);
+    });
+
+// Salvar forma de pagamento escolhida
+    
+    document.getElementById('form-formaPagamento').addEventListener('submit', function(e) {
+        
+        e.preventDefault();
+        
+        const select = document.getElementById('select-formaPagamento');
+        const selecionada = select.value;
+
+        if (selecionada) {
+            document.getElementById('formaPagamento-id').value = selecionada;
+            toggleModal('modal-formaPagamento', false);
+            console.log(selecionada);
+        } else {
+            alert("Escolha uma Forma de Pagamento.");
+        }
+    });
+
+    // Abrir o modal e buscar medidas
+    document.getElementById('btn-escolher-medida').addEventListener('click', async function() {
+        toggleModal('modal-medida', true);
+        const lista = document.getElementById('lista-medida');
+        lista.innerHTML = '<div>Carregando...</div>';
+        // Troque esta URL pela da sua API!
+        const resp = await fetch('http://localhost:8080/medida');
+        const medida = await resp.json();
+        lista.innerHTML = `
+        <label class="block mb-2 font-medium text-gray-700">Escolha as medidas:</label>
+        <div class="space-y-2">
+            ${medida.content.map(e => `
+                <label class="flex items-center space-x-2">
+                    <input type="checkbox" name="servico" value="${e.idServico}" class="form-checkbox">
+                    <span>${e.nome} ${e.valor}</span>
+                </label>
+            `).join('')}
+        </div>`
+    });
+
+    // Fechar modal no cancelar
+    document.getElementById('btn-cancelar-formaPagamento').addEventListener('click', function() {
+        toggleModal('modal-formaPagamento', false);
+    });
+
+// Salvar forma de pagamento escolhida
+    
+    document.getElementById('form-formaPagamento').addEventListener('submit', function(e) {
+        
+        e.preventDefault();
+        
+        const select = document.getElementById('select-formaPagamento');
+        const selecionada = select.value;
+
+        if (selecionada) {
+            document.getElementById('formaPagamento-id').value = selecionada;
+            toggleModal('modal-formaPagamento', false);
+            console.log(selecionada);
+        } else {
+            alert("Escolha uma Forma de Pagamento.");
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
     // Código para a navegação das abas da tela principal
     const sidebarItems = document.querySelectorAll('.sidebar-item');
     const tabContents = document.querySelectorAll('.tab-content');
