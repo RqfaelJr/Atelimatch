@@ -404,6 +404,40 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleModal('modal-pedido', false);
     });
 
+    const formPedido = document.getElementById('form-pedido');
+    if (formPedido) {
+        formPedido.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(formPedido);
+            const dados = Object.fromEntries(formData.entries());
+            
+            
+            dados.idsMedida = JSON.parse(dados.idsMedida).map(id => parseInt(id, 10));
+            console.log(dados.idsMedida)
+            const json = JSON.stringify(dados);
+
+            console.log(json);
+
+            fetch ('http://localhost:8080/pedido', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: json
+            })
+            .then(resp => resp.json())
+            .then(dadosResposta => {
+                toggleModal('modal-pedido', false); // Fechar o modal de cadastro
+                showMessageModal('success', 'Cadastro de Pedido!', 'Seu pedido foi criado com sucesso.');
+                formPedido.reset(); // Limpar formulário
+            })
+            .catch(erro => {
+                showMessageModal('error', 'Erro no Pedido', 'Não foi possível cadastrar o Pedido.');
+            })
+        })
+    }
+
 // Salvar especialidade escolhida
     
     document.getElementById('form-especialidade').addEventListener('submit', function(e) {
@@ -476,7 +510,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="space-y-2">
             ${medida.content.map(e => `
                 <label class="flex items-center space-x-2">
-                    <input type="checkbox" name="servico" value="${e.idServico}" class="form-checkbox">
+                    <input type="checkbox" name="medida" value="${e.idMedida}" class="form-checkbox">
                     <span>${e.nome} ${e.valor}</span>
                 </label>
             `).join('')}
@@ -484,25 +518,26 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Fechar modal no cancelar
-    document.getElementById('btn-cancelar-formaPagamento').addEventListener('click', function() {
-        toggleModal('modal-formaPagamento', false);
+    document.getElementById('btn-cancelar-medida').addEventListener('click', function() {
+        toggleModal('modal-medida', false);
     });
 
 // Salvar forma de pagamento escolhida
     
-    document.getElementById('form-formaPagamento').addEventListener('submit', function(e) {
+    document.getElementById('form-medida').addEventListener('submit', function(e) {
         
         e.preventDefault();
         
-        const select = document.getElementById('select-formaPagamento');
-        const selecionada = select.value;
+        const checkboxes = document.querySelectorAll('input[name="medida"]:checked');
+        const idsSelecionados = Array.from(checkboxes).map(checkbox => checkbox.value);
 
-        if (selecionada) {
-            document.getElementById('formaPagamento-id').value = selecionada;
-            toggleModal('modal-formaPagamento', false);
-            console.log(selecionada);
+        if (idsSelecionados.length > 0) {
+            console.log(idsSelecionados);
+            document.getElementById('medida-ids').value = JSON.stringify(idsSelecionados);
+            console.log(document.getElementById('medida-ids').value)
+            toggleModal('modal-medida', false);
         } else {
-            alert("Escolha uma Forma de Pagamento.");
+            alert("Escolha uma Medida.");
         }
     });
 
