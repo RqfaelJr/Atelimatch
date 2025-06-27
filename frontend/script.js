@@ -382,21 +382,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    document.getElementById('btn-novo-pedido').addEventListener('click', async function() {
+    document.getElementById('btn-novo-pedido').addEventListener('click', async function () {
+        const select = document.getElementById('modal-atelie');
         
-        const lista = document.getElementById('modal-atelie');
-        lista.innerHTML = '<div>Carregando...</div>';
-        // Troque esta URL pela da sua API!
-        const resp = await fetch('http://localhost:8080/atelie');
-        const especialidades = await resp.json();
-        lista.innerHTML = `
-            <label for="select-atelie" class="block mb-2 font-medium text-gray-700">Escolha um Ateliê:</label>
-            <select id="select-atelie" name="atelie" class="w-full p-2 border rounded">
-                ${especialidades.content.map(e => `
+        const cliente = document.getElementById('cliente-id')
+        cliente.value = localStorage.getItem('idPessoa')
+        // Limpa o select e mostra "carregando"
+        select.innerHTML = '<option>Carregando...</option>';
+    
+        try {
+            const resp = await fetch('http://localhost:8080/atelie');
+            const data = await resp.json();
+    
+            // Substitui pelas opções reais
+            select.innerHTML = '<option value="">Selecione um ateliê</option>' +
+                data.content.map(e => `
                     <option value="${e.idAtelie}">${e.nome}</option>
-                `).join('')}
-            </select>
-            `;
+                `).join('');
+        } catch (error) {
+            select.innerHTML = '<option>Erro ao carregar</option>';
+            console.error(error);
+        }
     });
 
     // Fechar modal no cancelar
@@ -408,12 +414,15 @@ document.addEventListener('DOMContentLoaded', function() {
     if (formPedido) {
         formPedido.addEventListener('submit', function(e) {
             e.preventDefault();
-
+            
             const formData = new FormData(formPedido);
+            
             const dados = Object.fromEntries(formData.entries());
-            
-            
+            console.log(dados.idAtelie)
+            dados.status = "AGUARDANDO";
+            dados.servicos = JSON.parse(dados.servicos);
             dados.idsMedida = JSON.parse(dados.idsMedida).map(id => parseInt(id, 10));
+            console.log('teste')
             console.log(dados.idsMedida)
             const json = JSON.stringify(dados);
 
@@ -544,16 +553,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
      // Abrir o modal e buscar serviços e materiaprima
      document.getElementById('btn-adicionar-servico').addEventListener('click', async function() {
+        const formData = new FormData(formPedido);
+        const dados = Object.fromEntries(formData.entries());
+        dados.idAtelie
         toggleModal('modal-servico-pedido', true);
         const lista = document.getElementById('lista-servico-pedido');
         lista.innerHTML = '<div>Carregando...</div>';
         // Troque esta URL pela da sua API!
-        const resp = await fetch('http://localhost:8080/servico');
+        const resp = await fetch('http://localhost:8080/servico/atelie/' + dados.idAtelie);
         const servico = await resp.json();
+        console.log(servico)
         lista.innerHTML = `
             <label for="select-servico-pedido" class="block mb-2 font-medium text-gray-700">Escolha um serviço:</label>
             <select id="select-servico-pedido" name="servicoPedido" class="w-full p-2 border rounded">
-                ${servico.content.map(e => `
+                ${servico.map(e => `
                     <option value="${e.idServico}" data-tempo="${e.tempoMedio}" data-valor="${e.valorServico}">${e.nome}</option>
                 `).join('')}
             </select>
@@ -587,8 +600,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
         // Pega o serviço selecionado
         const selectServico = document.getElementById('select-servico-pedido');
-        const idServico = selectServico.value;
+        const idServico = parseInt(selectServico.value);
         const selected = selectServico.options[selectServico.selectedIndex];
+
         const tempoMedio = parseInt(selected.getAttribute('data-tempo'));
         const valorServico = parseFloat(selected.getAttribute('data-valor'));
 
@@ -613,26 +627,60 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     
         // Monta o objeto final
-        const servicoPedido = {
-            servicos: [
-                {
-                    idServico: parseInt(idServico),
+        const servicoPedido = 
+                [{
+                    idServico: idServico,
                     materiasPrima: materiasPrima
-                }
-            ]
-        };
+                }];
+            
     
-        // Exemplo de como salvar no campo hidden ou enviar para o backend
+        
         console.log(JSON.stringify(servicoPedido));
     
         // Se quiser esconder o modal
         toggleModal('modal-servico-pedido', false);
     
-        document.getElementById('servico-ids').value = JSON.stringify(servicoPedido);
-        console.log(document.getElementById('servico-ids').value);
+        document.getElementById('servico-pedido-ids').value = JSON.stringify(servicoPedido);
+        console.log(document.getElementById('servico-pedido-ids').value);
     });
 
-
+    const linkPedidos = document.getElementById('nav-pedidos');
+    
+    linkPedidos.addEventListener('click', function (e) {
+        e.preventDefault(); // evita o comportamento padrão do link
+        
+        fetch('http://localhost:8080/pedido/cliente/' + localStorage.getItem("idPessoa")) // substitua pela URL correta
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro na requisição');
+                }
+                return response.json(); // ou .text() se não for JSON
+            })
+            .then(data => {
+                console.log('Pedidos recebidos:', data);
+            
+                // Monte seu HTML com as descrições
+                const lista = document.getElementById('lista-pedidos-feitos');
+                if (Array.isArray(data.content) && data.content.length) {
+                    lista.innerHTML = data.content.map(pedido => `
+                        <div class="py-2 border-b">
+                            <span class="text-gray-800">${pedido.descricao}</span>
+                        </div>
+                    `).join('');
+                } else {
+                    lista.innerHTML = '<div class="py-4 text-gray-500">Nenhum pedido encontrado.</div>';
+                }
+            
+                toggleModal('modal-pedidos', true);
+            })
+            .catch(error => {
+                console.error('Erro ao buscar pedidos:', error);
+                alert('Erro ao buscar pedidos!');
+            });
+        });
+        
+        document.getElementById('btn-fechar-pedidos').addEventListener('click', () => 
+            toggleModal('modal-pedidos', false));
 
 
 

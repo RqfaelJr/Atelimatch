@@ -418,6 +418,20 @@
                     </a>
                 </div>
             </div>
+
+            <div id="modal-pedidos" class="modal-overlay">
+                <div class="modal-content w-full max-w-lg animate-fade-in">
+                  <h2 class="text-2xl font-bold mb-4">Seus Pedidos</h2>
+                    <div id="lista-pedidos-feitos">
+                        
+                    </div>
+                    <div class="flex justify-between pt-4">
+                      <button type="button" id="btn-fechar-pedidos" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
+                        Cancelar
+                      </button>
+                    </div>
+                </div>
+              </div>
             
             <div class="flex flex-col flex-1 overflow-hidden">
                 <div class="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200">
@@ -489,27 +503,32 @@
                                         <h2 class="text-2xl font-bold mb-4">Novo Pedido</h2>
                                         <form id="form-pedido" class="space-y-4">
                                             <div>
-                                                <label for="modal-atelie" class="block text-sm font-medium text-gray-700">Ateliê</label>
-                                                <select id="modal-atelie" required class="block w-full border border-gray-300 rounded-md p-2">
-                                                    
+                                                <select id="modal-atelie" name="idAtelie" required class="block w-full border border-gray-300 rounded-md p-2">
                                                 </select>
                                                 
                                             </div>
+
+                                            <div><input type="hidden" id="cliente-id" name="idCliente"></div>
                                             <div>
                                                 <label for="modal-descricao" class="block text-sm font-medium text-gray-700">Descrição</label>
-                                                <input type="text" id="modal-descricao" required class="block w-full border border-gray-300 rounded-md p-2"></input>
+                                                <input type="text" name="descricaoPedido" id="modal-descricao" required class="block w-full border border-gray-300 rounded-md p-2"></input>
                                             </div>
+
+                                            <input type="hidden" id="status" name="status">
+                                            <!--
                                             <div>
                                                 <label for="fileUpload" class="block text-sm font-medium text-gray-700">Escolher Foto</label>
-                                                <input type="file" id="fileUpload" name="photo" accept="image/*" class="mt-1">
+                                                <input type="file" id="fileUpload" name="foto" accept="image/*" class="mt-1">
                                             </div>
-                                            <input type="hidden" id="medida-ids" name="idsMedidas">
+                                            -->
+                                            
+                                            <input type="hidden" id="medida-ids" name="idsMedida">
                                             <div>
                                                 <h3 class="text-lg font-medium text-gray-900 mt-6">Medidas</h3>
                                                 <button type="button" id="btn-escolher-medida" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                                                 Adicionar Medidas</button>
                                             </div>
-                                            <input type="hidden" id="servico-ids" name="idsServico">
+                                            <input type="hidden" id="servico-pedido-ids" name="servicos">
                                             <div>
                                                 <h3 class="text-lg font-medium text-gray-900 mt-6">Serviços</h3>
                                                 <button type="button" id="btn-adicionar-servico" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
@@ -517,11 +536,11 @@
                                             </div>
                                             <div>
                                                 <label for="modal-dataPrevisao" class="block text-sm font-medium text-gray-700">Data Previsão de Entrega</label>
-                                                <input type="date" id="modal-dataPrevisao" disabled class="block w-full border border-gray-300 rounded-md p-2">
+                                                <input type="date" name="dataPrevisaoEntrega" id="modal-dataPrevisao" readonly class="block w-full border border-gray-300 rounded-md p-2">
                                             </div>
                                             <div>
                                                 <label for="modal-valor" class="block text-sm font-medium text-gray-700">Valor Total</label>
-                                                <input type="text" id="modal-valor" disabled class="block w-full border border-gray-300 rounded-md p-2"></input>
+                                                <input type="text" name="valorTotal" id="modal-valor" readonly class="block w-full border border-gray-300 rounded-md p-2"></input>
                                             </div>
                                             
                                             <input type="hidden" id="formaPagamento-id" name="idFormaPagamento">
@@ -592,7 +611,7 @@
                                         </div>
                                         <div id="lista-materia-pedido" class="space-y-4">
 
-                                            
+
                                         </div>
                                         <div class="flex justify-between pt-4">
                                           <button type="button" id="btn-cancelar-servico-pedido" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
