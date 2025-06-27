@@ -721,14 +721,67 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Erro ao buscar pedidos:', error);
                 alert('Erro ao buscar pedidos!');
             });
-        });
+    });
         
         document.getElementById('btn-fechar-atelies').addEventListener('click', () => 
             toggleModal('modal-atelies', false));
 
 
+    const searchInput = document.getElementById('search-field');
+    searchInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Opcional: evita o submit padrão em forms
+            const termoBusca = searchInput.value.trim();
+            searchInput.clear();
+            console.log(JSON.stringify(termoBusca))
+            if (termoBusca) {
+                fetch('http://localhost:8080/atelie/ia', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({termoBusca})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Resultado da busca:', data);
+                    const lista = document.getElementById('lista-atelies-cadastrados');
+                    if (Array.isArray(data.content) && data.content.length) {
+                        lista.innerHTML = data.content.map(a => `
+                            <div class="py-2 border-b">
+                                <span class="text-gray-800">
+                                ${a.nome}
+                                </span>
+                            </div>
+                        `).join('');
+                    searchInput.value = ''
+                    } else {
+                        lista.innerHTML = '<div class="py-4 text-gray-500">Nenhum Ateliê encontrado.</div>';
+                    }
+                    toggleModal('modal-atelies', true);
+                })
+                .catch(error => {
+                    console.error('Erro na busca:', error);
+                });
+            }
+                
+                
 
+        }
+    });
 
+    const linkSair = document.getElementById('nav-sair');
+
+    linkSair.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        // 1. Limpa os dados salvos no navegador (ex: token, id do usuário)
+        localStorage.clear();
+        // sessionStorage.clear(); // Se você usar sessionStorage
+        location.reload();
+        // 2. Redireciona para a página de login ou para a home
+        
+    });
 
 
     // Código para a navegação das abas da tela principal
