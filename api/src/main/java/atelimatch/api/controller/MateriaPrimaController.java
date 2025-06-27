@@ -1,8 +1,12 @@
 package atelimatch.api.controller;
 
 import atelimatch.api.domain.materiaprima.*;
+import atelimatch.api.domain.servico.DadosListagemServico;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -44,5 +48,11 @@ public class MateriaPrimaController {
     public ResponseEntity<DadosDetalhamentoMateriaPrima> detalhar(@PathVariable Integer id) {
         var materiaPrima = repository.getReferenceById(id);
         return ResponseEntity.ok(new DadosDetalhamentoMateriaPrima(materiaPrima));
+    }
+
+    @GetMapping()
+    public ResponseEntity<Page<DadosListagemMateriaPrima>> detalhar(@PageableDefault(size = 10) Pageable paginacao) {
+        var page = repository.findAll(paginacao).map(DadosListagemMateriaPrima::new);
+        return ResponseEntity.ok(page);
     }
 }
