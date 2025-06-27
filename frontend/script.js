@@ -664,7 +664,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (Array.isArray(data.content) && data.content.length) {
                     lista.innerHTML = data.content.map(pedido => `
                         <div class="py-2 border-b">
-                            <span class="text-gray-800">${pedido.descricao}</span>
+                            <span class="text-gray-800">
+                            ${pedido.descricao} |
+                            ${pedido.nomeAtelie} |
+                            ${pedido.status}
+                            </span>
                         </div>
                     `).join('');
                 } else {
