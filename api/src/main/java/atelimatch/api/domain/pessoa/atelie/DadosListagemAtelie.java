@@ -1,7 +1,7 @@
 package atelimatch.api.domain.pessoa.atelie;
 
-public record DadosListagemAtelie(String nome) {
+public record DadosListagemAtelie(Integer idAtelie, String nome) {
     public DadosListagemAtelie(Atelie atelie) {
-        this(atelie.getNomePessoa());
+        this(atelie.getIdPessoa(), atelie.getNomePessoa());
     }
 }

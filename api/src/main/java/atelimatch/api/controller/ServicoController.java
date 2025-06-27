@@ -2,6 +2,7 @@ package atelimatch.api.controller;
 
 import atelimatch.api.domain.especialidade.DadosListagemEspecialidade;
 import atelimatch.api.domain.servico.*;
+import atelimatch.api.service.bancoDados.BancoDadosServico;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,12 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/servico")
 public class ServicoController {
 
     @Autowired
     private ServicoRepository repository;
+
+    @Autowired
+    private BancoDadosServico  bancoDadosServico;
 
     @PostMapping
     @Transactional
@@ -51,8 +57,15 @@ public class ServicoController {
     }
 
     @GetMapping()
-    public ResponseEntity<Page<DadosListagemServico>> detalhar(@PageableDefault(size = 10) Pageable paginacao) {
+    public ResponseEntity<Page<DadosListagemServico>> listar(@PageableDefault(size = 10) Pageable paginacao) {
         var page = repository.findAll(paginacao).map(DadosListagemServico::new);
         return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/atelie/{id}")
+    public ResponseEntity<List<DadosListagemServico>> listar(@PageableDefault(size = 10) Pageable paginacao, @PathVariable Integer id) {
+        var lista = bancoDadosServico.buscarServicoPorAtelie(id);
+        System.out.println(lista);
+        return ResponseEntity.ok(lista);
     }
 }

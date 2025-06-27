@@ -56,4 +56,10 @@ public class PedidoController {
         var page = repository.findAll(paginacao).map(DadosListagemPedido::new);
         return ResponseEntity.ok(page);
     }
+
+    @GetMapping("/cliente/{id}")
+    public ResponseEntity<Page<DadosListagemPedido>> listarPorCliente(@PathVariable Integer id, @PageableDefault(size = 10) Pageable paginacao) {
+        var page = repository.selecionarPedidoPorCliente(id, paginacao);
+        return ResponseEntity.ok(page);
+    }
 }

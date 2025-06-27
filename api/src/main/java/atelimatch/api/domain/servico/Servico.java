@@ -22,6 +22,7 @@ import java.util.Set;
 public class Servico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_servico")
     private Integer idServico;
     private String nomeServico;
     private Integer tempoMedio;

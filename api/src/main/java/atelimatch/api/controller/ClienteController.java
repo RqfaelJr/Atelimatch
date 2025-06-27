@@ -47,4 +47,5 @@ public class ClienteController {
         var cliente = repository.getReferenceById(id);
         return ResponseEntity.ok(new DadosDetalhamentoCliente(cliente));
     }
+
 }

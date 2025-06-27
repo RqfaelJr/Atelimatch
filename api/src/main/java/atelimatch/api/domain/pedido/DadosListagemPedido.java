@@ -1,8 +1,8 @@
 package atelimatch.api.domain.pedido;
 
-public record DadosListagemPedido(String nomeCliente, String nomeAtelie) {
+public record DadosListagemPedido(String descricao) {
     public DadosListagemPedido(Pedido pedido) {
-        this(pedido.getCliente().getNomePessoa(), pedido.getAtelie().getNomePessoa());
+        this(pedido.getDescricaoPedido());
     }
 
      // ARRUMAR DPS

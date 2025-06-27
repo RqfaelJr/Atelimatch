@@ -65,11 +65,11 @@ public class AtelieController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/ia")
-    public ResponseEntity<Page<DadosListagemAtelie>> listarComIA(@PageableDefault(size = 10) Pageable paginacao, @RequestBody String string) throws IOException, InterruptedException {
-        String sql = iaService.consultaAI(string);
-        var page = bancoDadosServico.buscarAtelie(sql, paginacao);
-        return ResponseEntity.ok(page);
-    }
+//    @GetMapping("/ia")
+//    public ResponseEntity<Page<DadosListagemAtelie>> listarComIA(@PageableDefault(size = 10) Pageable paginacao, @RequestBody String string) throws IOException, InterruptedException {
+//        String sql = iaService.consultaAI(string);
+//        var page = bancoDadosServico.buscarAtelie(sql, paginacao);
+//        return ResponseEntity.ok(page);
+//    }
 
 }
