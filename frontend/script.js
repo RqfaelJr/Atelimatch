@@ -647,19 +647,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const linkPedidos = document.getElementById('nav-pedidos');
     
     linkPedidos.addEventListener('click', function (e) {
-        e.preventDefault(); // evita o comportamento padrão do link
+        e.preventDefault(); 
         
-        fetch('http://localhost:8080/pedido/cliente/' + localStorage.getItem("idPessoa")) // substitua pela URL correta
+        fetch('http://localhost:8080/pedido/cliente/' + localStorage.getItem("idPessoa")) 
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Erro na requisição');
                 }
-                return response.json(); // ou .text() se não for JSON
+                return response.json(); 
             })
             .then(data => {
                 console.log('Pedidos recebidos:', data);
             
-                // Monte seu HTML com as descrições
+                
                 const lista = document.getElementById('lista-pedidos-feitos');
                 if (Array.isArray(data.content) && data.content.length) {
                     lista.innerHTML = data.content.map(pedido => `
@@ -685,6 +685,46 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.getElementById('btn-fechar-pedidos').addEventListener('click', () => 
             toggleModal('modal-pedidos', false));
+
+    const linkAtelies = document.getElementById('nav-atelies');
+    
+    linkAtelies.addEventListener('click', function (e) {
+        e.preventDefault(); 
+        
+        fetch('http://localhost:8080/atelie') 
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro na requisição');
+                }
+                return response.json(); 
+            })
+            .then(data => {
+                console.log('Atelies recebidos:', data);
+            
+                
+                const lista = document.getElementById('lista-atelies-cadastrados');
+                if (Array.isArray(data.content) && data.content.length) {
+                    lista.innerHTML = data.content.map(a => `
+                        <div class="py-2 border-b">
+                            <span class="text-gray-800">
+                            ${a.nome}
+                            </span>
+                        </div>
+                    `).join('');
+                } else {
+                    lista.innerHTML = '<div class="py-4 text-gray-500">Nenhum Ateliê encontrado.</div>';
+                }
+            
+                toggleModal('modal-atelies', true);
+            })
+            .catch(error => {
+                console.error('Erro ao buscar pedidos:', error);
+                alert('Erro ao buscar pedidos!');
+            });
+        });
+        
+        document.getElementById('btn-fechar-atelies').addEventListener('click', () => 
+            toggleModal('modal-atelies', false));
 
 
 

@@ -393,31 +393,7 @@
                 </div>
             </div>
             
-            <div class="md:hidden fixed bottom-0 left-0 right-0 z-10 bg-white border-t border-gray-200">
-                <div class="flex justify-around">
-                    <a href="#" class="flex flex-col items-center py-2 px-3 text-primary" id="mobile-nav-dashboard">
-                        <i class="fas fa-home text-lg"></i>
-                        <span class="text-xs mt-1">Dashboard</span>
-                    </a>
-                    <a href="#" class="flex flex-col items-center py-2 px-3 text-gray-500" id="mobile-nav-pedidos">
-                        <i class="fas fa-clipboard-list text-lg"></i>
-                        <span class="text-xs mt-1">Pedidos</span>
-                    </a>
-                    <a href="#" class="flex flex-col items-center py-2 px-3 text-gray-500" id="mobile-nav-atelies">
-                        <i class="fas fa-store text-lg"></i>
-                        <span class="text-xs mt-1">Ateliês</span>
-                    </a>
-                    <a href="#" class="flex flex-col items-center py-2 px-3 text-gray-500 relative" id="mobile-nav-mensagens">
-                        <i class="fas fa-comments text-lg"></i>
-                        <span class="text-xs mt-1">Mensagens</span>
-                        <span class="absolute top-0 right-1 h-4 w-4 text-xs font-medium rounded-full bg-primary text-white flex items-center justify-center">3</span>
-                    </a>
-                    <a href="#" class="flex flex-col items-center py-2 px-3 text-gray-500" id="mobile-nav-perfil">
-                        <i class="fas fa-user text-lg"></i>
-                        <span class="text-xs mt-1">Perfil</span>
-                    </a>
-                </div>
-            </div>
+            
 
             <div id="modal-pedidos" class="modal-overlay">
                 <div class="modal-content w-full max-w-lg animate-fade-in">
@@ -427,6 +403,20 @@
                     </div>
                     <div class="flex justify-between pt-4">
                       <button type="button" id="btn-fechar-pedidos" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
+                        Cancelar
+                      </button>
+                    </div>
+                </div>
+              </div>
+
+              <div id="modal-atelies" class="modal-overlay">
+                <div class="modal-content w-full max-w-lg animate-fade-in">
+                  <h2 class="text-2xl font-bold mb-4">Ateliês Disponíveis</h2>
+                    <div id="lista-atelies-cadastrados">
+                        
+                    </div>
+                    <div class="flex justify-between pt-4">
+                      <button type="button" id="btn-fechar-atelies" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
                         Cancelar
                       </button>
                     </div>
