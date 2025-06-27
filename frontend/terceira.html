@@ -324,9 +324,7 @@
       <h2 class="text-2xl font-bold mb-4">Escolher Serviços</h2>
       <form id="form-servico" class="space-y-4">
         <div id="lista-servico">
-            <select id="select-servico">
-                
-            </select>
+            
         </div>
         <div class="flex justify-between pt-4">
           <button type="button" id="btn-cancelar-servico" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
@@ -509,12 +507,12 @@
                                             <div>
                                                 <h3 class="text-lg font-medium text-gray-900 mt-6">Medidas</h3>
                                                 <button type="button" id="btn-escolher-medida" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                                Adcionar Medidas</button>
+                                                Adicionar Medidas</button>
                                             </div>
                                             <input type="hidden" id="servico-ids" name="idsServico">
                                             <div>
                                                 <h3 class="text-lg font-medium text-gray-900 mt-6">Serviços</h3>
-                                                <button type="button" id="btn-adcionar-servico" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                                <button type="button" id="btn-adicionar-servico" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                                                 Adicionar Serviços</button>
                                             </div>
                                             <div>
@@ -579,6 +577,29 @@
                                           </button>
                                           <button type="submit" class="btn-primary py-2 px-4 rounded-md text-white bg-primary hover:bg-primary-dark">
                                             Escolher Forma
+                                          </button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+
+                                  <div id="modal-servico-pedido" class="modal-overlay">
+                                    <div class="modal-content w-full max-w-lg animate-fade-in">
+                                      <h2 class="text-2xl font-bold mb-4">Escolher Serviço</h2>
+                                      <form id="form-servico-pedido" class="space-y-4">
+                                        <div id="lista-servico-pedido">
+                                            
+                                        </div>
+                                        <div id="lista-materia-pedido" class="space-y-4">
+
+                                            
+                                        </div>
+                                        <div class="flex justify-between pt-4">
+                                          <button type="button" id="btn-cancelar-servico-pedido" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
+                                            Cancelar
+                                          </button>
+                                          <button type="submit" class="btn-primary py-2 px-4 rounded-md text-white bg-primary hover:bg-primary-dark">
+                                            Salvar Serviços
                                           </button>
                                         </div>
                                       </form>

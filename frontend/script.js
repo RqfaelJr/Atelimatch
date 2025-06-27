@@ -522,7 +522,7 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleModal('modal-medida', false);
     });
 
-// Salvar forma de pagamento escolhida
+    // Salvar medidas escolhidas
     
     document.getElementById('form-medida').addEventListener('submit', function(e) {
         
@@ -542,7 +542,95 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
+     // Abrir o modal e buscar serviços e materiaprima
+     document.getElementById('btn-adicionar-servico').addEventListener('click', async function() {
+        toggleModal('modal-servico-pedido', true);
+        const lista = document.getElementById('lista-servico-pedido');
+        lista.innerHTML = '<div>Carregando...</div>';
+        // Troque esta URL pela da sua API!
+        const resp = await fetch('http://localhost:8080/servico');
+        const servico = await resp.json();
+        lista.innerHTML = `
+            <label for="select-servico-pedido" class="block mb-2 font-medium text-gray-700">Escolha um serviço:</label>
+            <select id="select-servico-pedido" name="servicoPedido" class="w-full p-2 border rounded">
+                ${servico.content.map(e => `
+                    <option value="${e.idServico}" data-tempo="${e.tempoMedio}" data-valor="${e.valorServico}">${e.nome}</option>
+                `).join('')}
+            </select>
+            `;
+        
+        const listaMP = document.getElementById('lista-materia-pedido');    
+        const respMP = await fetch('http://localhost:8080/materiaprima');
+        const materiaPrima = await respMP.json();
 
+        listaMP.innerHTML = `
+        <label class="block mb-2 font-medium text-gray-700">Escolha as matérias prima:</label>
+        <div class="space-y-2">
+            ${materiaPrima.content.map(e => `
+                <label class="flex items-center space-x-2">
+                    <input type="checkbox" name="materiaPrima" value="${e.idMateriaPrima}" class="form-checkbox">
+                    <span>${e.nome}</span>
+                </label>
+            `).join('')}
+        </div>`
+    });
+
+    // Fechar modal no cancelar
+    document.getElementById('btn-cancelar-servico-pedido').addEventListener('click', function() {
+        toggleModal('modal-servico-pedido', false);
+    });
+
+    // Salvar serviço e as matérias prima escohlida
+    
+    document.getElementById('form-servico-pedido').addEventListener('submit', function(e) {
+        e.preventDefault();
+    
+        // Pega o serviço selecionado
+        const selectServico = document.getElementById('select-servico-pedido');
+        const idServico = selectServico.value;
+        const selected = selectServico.options[selectServico.selectedIndex];
+        const tempoMedio = parseInt(selected.getAttribute('data-tempo'));
+        const valorServico = parseFloat(selected.getAttribute('data-valor'));
+
+        const inputValor = document.getElementById('modal-valor');
+        inputValor.value = valorServico.toFixed(2);
+
+        const dataAtual = new Date();
+        dataAtual.setDate(dataAtual.getDate() + tempoMedio)
+        const dataFormatada = dataAtual.toISOString().split('T')[0];
+
+        const inputData = document.getElementById('modal-dataPrevisao');
+        inputData.value = dataFormatada;
+        // Pega os checkboxes de matérias-primas selecionadas
+        const checkboxes = document.querySelectorAll('input[name="materiaPrima"]:checked');
+        const materiasPrima = Array.from(checkboxes).map(cb => ({
+            idMateriaPrima: parseInt(cb.value)
+        }));
+    
+        if (!idServico || materiasPrima.length === 0) {
+            alert("Selecione um serviço e ao menos uma matéria-prima.");
+            return;
+        }
+    
+        // Monta o objeto final
+        const servicoPedido = {
+            servicos: [
+                {
+                    idServico: parseInt(idServico),
+                    materiasPrima: materiasPrima
+                }
+            ]
+        };
+    
+        // Exemplo de como salvar no campo hidden ou enviar para o backend
+        console.log(JSON.stringify(servicoPedido));
+    
+        // Se quiser esconder o modal
+        toggleModal('modal-servico-pedido', false);
+    
+        document.getElementById('servico-ids').value = JSON.stringify(servicoPedido);
+        console.log(document.getElementById('servico-ids').value);
+    });
 
 
 
