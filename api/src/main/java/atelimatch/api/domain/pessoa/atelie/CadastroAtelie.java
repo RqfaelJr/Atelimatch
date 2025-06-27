@@ -37,6 +37,7 @@ public class CadastroAtelie {
         atelie.getServicos().addAll(servicos);
         atelie = atelieRepository.saveAndFlush(atelie);
 
+
         return new DadosDetalhamentoAtelie(atelie);
     }
 

@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@PrimaryKeyJoinColumn(name = "id_atelie")
+@PrimaryKeyJoinColumn(name = "id_pessoa")
 public class Atelie extends Pessoa{
     private Float notaAvaliacao;
     private Integer qntdNotas;

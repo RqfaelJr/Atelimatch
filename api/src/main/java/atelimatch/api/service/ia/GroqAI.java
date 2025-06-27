@@ -40,7 +40,7 @@ public class GroqAI {
 
     private String getString(String linguagemNatural, String schema) {
         String promptText = "Considerando o schema do banco de dados " + escapeForJson(schema) +
-                ", elabore uma consulta SQL que " + linguagemNatural +
+                ", elabore uma consulta SQL que " + linguagemNatural + "é preciso fazer um inner join com Pessoa e selecionar tudo de pessoa também," +
                 ". Na resposta apresente somente a consulta SQL sem qualquer formatação e sem o caractere ';'.";
 
         return String.format("""

@@ -37,10 +37,10 @@ CREATE TABLE materia_prima (
                                nome_materia_prima VARCHAR(100) NOT NULL
 );
 CREATE TABLE cliente (
-                         id_cliente SERIAL PRIMARY KEY,
+                         id_pessoa SERIAL PRIMARY KEY,
                          data_nascimento DATE NOT NULL,
                          cpf CHAR(11) UNIQUE,
-                         id_pessoa INTEGER,
+                         id_pessoaC INTEGER,
                          FOREIGN KEY(id_pessoa) REFERENCES pessoa(id_pessoa)
 );
 CREATE TABLE servico (
@@ -54,14 +54,14 @@ CREATE TABLE forma_pagamento (
                                  nome_forma_pagamento VARCHAR(100) NOT NULL UNIQUE
 );
 CREATE TABLE atelie (
-                        id_atelie SERIAL PRIMARY KEY,
+                        id_pessoa SERIAL PRIMARY KEY,
                         qntd_notas INTEGER NOT NULL,
                         nota_avaliacao DECIMAL(10,2) NOT NULL,
                         inicio_01 INTEGER NOT NULL,
                         fim_01 INTEGER NOT NULL,
                         inicio_02 INTEGER,
                         fim_02 INTEGER,
-                        id_pessoa INTEGER,
+                        id_pessoaA INTEGER,
                         id_especialidade INTEGER,
                         FOREIGN KEY(id_pessoa) REFERENCES pessoa(id_pessoa),
                         FOREIGN KEY(id_especialidade) REFERENCES especialidade (id_especialidade)
@@ -78,8 +78,8 @@ CREATE TABLE pedido (
                         descricao_pedido VARCHAR(100) NOT NULL,
                         id_forma_pagamento INTEGER,
                         FOREIGN KEY(id_forma_pagamento) REFERENCES forma_pagamento (id_forma_pagamento),
-                        FOREIGN KEY(id_atelie) REFERENCES atelie (id_atelie),
-                        FOREIGN KEY(id_cliente) REFERENCES cliente (id_cliente)
+                        FOREIGN KEY(id_atelie) REFERENCES atelie (id_pessoa),
+                        FOREIGN KEY(id_cliente) REFERENCES cliente (id_pessoa)
 );
 CREATE TABLE materia_prima_servico (
                                        id_servico INTEGER,
@@ -95,7 +95,7 @@ CREATE TABLE atelie_servico (
                                 id_atelie INTEGER,
                                 id_servico INTEGER,
                                 PRIMARY KEY(id_atelie, id_servico),
-                                FOREIGN KEY(id_atelie) REFERENCES atelie (id_atelie),
+                                FOREIGN KEY(id_atelie) REFERENCES atelie (id_pessoa),
                                 FOREIGN KEY(id_servico) REFERENCES servico (id_servico)
 );
 CREATE TABLE pedido_servico (
@@ -141,7 +141,7 @@ INSERT INTO pessoa (email, senha, usuario, nome_pessoa, telefone, cnpj, id_ender
                                                                                          ('isaac99@ig.com.br', 'x+@1YwHe^f', 'barbosaryan', 'Lara Moura', '55219850671', '72615483000140', 10);
 
 -- Tabela cliente
-INSERT INTO cliente (data_nascimento, cpf, id_pessoa) VALUES
+INSERT INTO cliente (data_nascimento, cpf, id_pessoaC) VALUES
                                                           ('1985-04-15', '12345678901', 1),
                                                           ('1990-12-20', '23456789012', 2),
                                                           ('1978-06-10', '34567890123', 3),
@@ -162,7 +162,7 @@ INSERT INTO especialidade (descricao_especialidade) VALUES
                                                         ('Design de Acessórios');
 
 -- Tabela atelie
-INSERT INTO atelie (qntd_notas, nota_avaliacao, inicio_01, fim_01, inicio_02, fim_02, id_pessoa, id_especialidade) VALUES
+INSERT INTO atelie (qntd_notas, nota_avaliacao, inicio_01, fim_01, inicio_02, fim_02, id_pessoaA, id_especialidade) VALUES
                                                                                                                        (25, 4.8, 8, 12, 14, 18, 6, 1),
                                                                                                                        (30, 4.5, 9, 13, NULL, NULL, 7, 2),
                                                                                                                        (15, 4.7, 8, 12, 13, 17, 8, 3),

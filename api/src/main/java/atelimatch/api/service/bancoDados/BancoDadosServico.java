@@ -1,9 +1,13 @@
 package atelimatch.api.service.bancoDados;
 
+import atelimatch.api.domain.pessoa.atelie.DadosListagemAtelie;
 import atelimatch.api.domain.servico.DadosListagemServico;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,12 +41,12 @@ public class BancoDadosServico {
                 }
             }
         }
-//    public Page<DadosListagemAtelie> buscarAtelie(String sql, Pageable pageable) {
-//        List<DadosListagemAtelie> resultado = jdbcTemplate.query(sql + " LIMIT " + pageable.getPageSize() + " OFFSET " + pageable.getOffset(), (rs, rowNum) -> new DadosListagemAtelie(
-//            rs.getString("nome_pessoa"));
-//
-//        return new PageImpl<>(resultado, pageable, resultado.size());
-//    }
+    public Page<DadosListagemAtelie> buscarAtelie(String sql, Pageable pageable) {
+        List<DadosListagemAtelie> resultado = jdbcTemplate.query(sql, (rs, rowNum) -> new DadosListagemAtelie(rs.getInt("id_pessoa"),
+            rs.getString("nome_pessoa")));
+
+        return new PageImpl<>(resultado, pageable, resultado.size());
+    }
 
         public List<DadosListagemServico> buscarServicoPorAtelie(Integer id) {
 

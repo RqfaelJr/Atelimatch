@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@PrimaryKeyJoinColumn(name = "id_cliente")
+@PrimaryKeyJoinColumn(name = "id_pessoa")
 public class Cliente extends Pessoa{
     private String cpf;
     private LocalDate dataNascimento;
