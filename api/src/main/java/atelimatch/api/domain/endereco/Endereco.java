@@ -36,7 +36,7 @@ public class Endereco {
         this.numero = dados.numero();
     }
 
-    public DadosDetalhamentoEndereco atualizarDados(DadosAtualizacaoEndereco dados) {
+    public void atualizarDados(DadosAtualizacaoEndereco dados) {
         if (dados.rua() != null) {
             this.rua = dados.rua();
         }
@@ -52,17 +52,15 @@ public class Endereco {
         if (dados.estado() != null) {
             this.estado = dados.estado();
         }
-        if (dados.cidade() != null) {
-            this.cidade = dados.cidade();
-        }
+
+        this.cidade = dados.cidade();
+
         if (dados.complemento() != null) {
             this.complemento = dados.complemento();
         }
         if (dados.numero() != null) {
             this.numero = dados.numero();
         }
-
-        return new DadosDetalhamentoEndereco(this);
     }
 }
 

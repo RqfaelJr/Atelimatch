@@ -62,4 +62,10 @@ public class PedidoController {
         var page = repository.selecionarPedidoPorCliente(id, paginacao);
         return ResponseEntity.ok(page);
     }
+
+    @GetMapping("/atelie/{id}")
+    public ResponseEntity<Page<DadosListagemPedido>> listarPorAtelie(@PathVariable Integer id, @PageableDefault(size = 10) Pageable paginacao) {
+        var page = repository.selecionarPedidoPorAtelie(id, paginacao);
+        return ResponseEntity.ok(page);
+    }
 }

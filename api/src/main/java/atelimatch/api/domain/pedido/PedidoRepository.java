@@ -13,4 +13,8 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
            "FROM Pedido p WHERE p.cliente.idPessoa = :id")
     Page<DadosListagemPedido> selecionarPedidoPorCliente(Integer id, Pageable pageable);
 
+    @Query("SELECT new atelimatch.api.domain.pedido.DadosListagemPedido(p.idPedido, p.descricaoPedido, p.atelie.nomePessoa, p.status) " +
+            "FROM Pedido p WHERE p.atelie.idPessoa = :id")
+    Page<DadosListagemPedido> selecionarPedidoPorAtelie(Integer id, Pageable pageable);
+
 }

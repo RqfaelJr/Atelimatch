@@ -31,8 +31,9 @@ public class EnderecoController {
     @Transactional
     public ResponseEntity<DadosDetalhamentoEndereco> atualizar(@RequestBody @Valid DadosAtualizacaoEndereco dados) {
         var endereco = repository.getReferenceById(dados.idEndereco());
-        var enderecoAtualizado = endereco.atualizarDados(dados);
-        return ResponseEntity.ok(enderecoAtualizado);
+        endereco.atualizarDados(dados);
+        System.out.println(endereco.getCidade());
+        return ResponseEntity.ok(new DadosDetalhamentoEndereco(endereco));
     }
 
     @DeleteMapping("/{id}")
