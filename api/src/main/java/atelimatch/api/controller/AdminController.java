@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
+
 
     @Autowired
     private BancoDadosServico bancoServico;

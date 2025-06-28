@@ -24,6 +24,7 @@
     
 </head>
 <body class="min-h-screen bg-white">
+    
     <div id="login-page" class="page active max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg animate-fade-in">
         <div class="text-center">
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -1010,6 +1011,73 @@
             </div>
         </div>
     </div>
+    <!-- Botão fixo no canto superior direito -->
+    <button id="corner-button" class="fixed top-4 right-4 z-30 bg-primary hover:bg-primary-dark text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110">
+        <i class="fas fa-question-circle text-xl"></i>
+    </button>
+
+    <!-- Fundo escurecido (overlay) -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <!-- Painel lateral com informações -->
+    <div id="new-screen" class="fixed top-0 right-0 w-full max-w-md h-full bg-white shadow-xl overflow-y-auto transform translate-x-full transition-transform duration-300 z-50">
+        <div class="p-6 space-y-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-gray-800">Painel de Ações</h2>
+                <button id="close-screen" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <div class="grid gap-4">
+                <button onclick="handleAction('reset-db')" class="w-full flex items-center gap-3 p-3 bg-red-100 hover:bg-red-200 text-red-700 font-semibold rounded-md shadow-sm">
+                    <i class="fas fa-trash-alt"></i> Apagar todo o banco de dados
+                </button>
+                <button onclick="handleAction('create-db')" class="w-full flex items-center gap-3 p-3 bg-green-100 hover:bg-green-200 text-green-800 font-semibold rounded-md shadow-sm">
+                    <i class="fas fa-database"></i> Criar e popular o banco
+                </button>
+                <button onclick="handleAction('add-specialty')" class="w-full flex items-center gap-3 p-3 bg-blue-100 hover:bg-blue-200 text-blue-800 font-semibold rounded-md shadow-sm">
+                    <i class="fas fa-star"></i> Cadastrar especialidade
+                </button>
+                <button onclick="handleAction('add-measurements')" class="w-full flex items-center gap-3 p-3 bg-purple-100 hover:bg-purple-200 text-purple-800 font-semibold rounded-md shadow-sm">
+                    <i class="fas fa-ruler-combined"></i> Cadastrar medidas
+                </button>
+                <button onclick="handleAction('add-service')" class="w-full flex items-center gap-3 p-3 bg-yellow-100 hover:bg-yellow-200 text-yellow-800 font-semibold rounded-md shadow-sm">
+                    <i class="fas fa-concierge-bell"></i> Cadastrar serviços
+                </button>
+                <button onclick="handleAction('add-material')" class="w-full flex items-center gap-3 p-3 bg-pink-100 hover:bg-pink-200 text-pink-800 font-semibold rounded-md shadow-sm">
+                    <i class="fas fa-box-open"></i> Cadastrar matéria-prima
+                </button>
+                <button onclick="handleAction('plotar-graficos')" class="w-full flex items-center gap-3 p-3 bg-orange-100 hover:bg-orange-200 text-orange-800 font-semibold rounded-md shadow-sm">
+                    <i class="fas fa-box-open"></i> Plotar Gráficos
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="modalEspecialidade" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 border w-96 shadow-lg rounded-md bg-white">
+            <h3 class="text-lg font-medium mb-4">Gerenciar Especialidades</h3>
+            <form id="especialidadeForm" onsubmit="salvarEspecialidade(event)">
+                <input type="hidden" id="especialidadeId" name="especialidadeId">
+                <div class="mb-4">
+                    <label for="descricaoEspecialidade" class="block mb-2 font-medium text-gray-700">Descrição</label>
+                    <input type="text" id="descricaoEspecialidade" name="descricaoEspecialidade" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalEspecialidade()" class="px-4 py-2 bg-gray-500 text-white rounded">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-primary text-white rounded">Salvar</button>
+                </div>
+            </form>
+            <div class="mt-4">
+                <h4 class="text-md font-medium mb-2">Especialidades Cadastradas</h4>
+                <ul id="listaEspecialidades" class="divide-y divide-gray-200 max-h-48 overflow-y-auto"></ul>
+
+            </div>
+        </div>
+    </div>
+
+
+
     <script src="script.js"></script>
 </body>
 </html>

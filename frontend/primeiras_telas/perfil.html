@@ -1,0 +1,993 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AteliMatch - Perfil do Usuário</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #FF6BA9;
+            --primary-light: #FF9EC3;
+            --primary-dark: #E84E92;
+            --white: #FFFFFF;
+            --white-soft: #FFF5F9;
+        }
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        body {
+            background-color: var(--white-soft);
+        }
+        
+        .sidebar {
+            background-color: var(--white);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            height: 100vh;
+            position: fixed;
+            width: 250px;
+            z-index: 10;
+        }
+        
+        .sidebar-logo {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 1.5rem;
+        }
+        
+        .sidebar-menu {
+            padding: 0 1rem;
+        }
+        
+        .sidebar-link {
+            border-radius: 8px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 0;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+        }
+        
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: var(--primary-light);
+            color: var(--white);
+        }
+        
+        .sidebar-link i {
+            margin-right: 10px;
+            width: 20px;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+        
+        .navbar {
+            align-items: center;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding: 1rem 2rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            color: var(--white);
+            cursor: pointer;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-light);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+        
+        .card {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+        }
+        
+        .profile-header {
+            align-items: center;
+            display: flex;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-avatar {
+            border: 4px solid var(--white);
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            height: 120px;
+            margin-right: 2rem;
+            object-fit: cover;
+            width: 120px;
+        }
+        
+        .tab-container {
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            border-bottom: 3px solid transparent;
+            color: #777;
+            cursor: pointer;
+            font-weight: 500;
+            margin-right: 2rem;
+            padding: 0.75rem 0;
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary-dark);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            color: #555;
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-input {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 0.75rem;
+            width: 100%;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .order-item {
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            padding: 1rem;
+        }
+        
+        .order-status {
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.25rem 0.75rem;
+        }
+        
+        .status-pending {
+            background-color: #FFF3CD;
+            color: #856404;
+        }
+        
+        .status-processing {
+            background-color: #D1ECF1;
+            color: #0C5460;
+        }
+        
+        .status-completed {
+            background-color: #D4EDDA;
+            color: #155724;
+        }
+        
+        .status-cancelled {
+            background-color: #F8D7DA;
+            color: #721C24;
+        }
+        
+        .progress-tracker {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .progress-tracker::before {
+            background-color: #f0f0f0;
+            content: '';
+            height: 2px;
+            left: 0;
+            position: absolute;
+            top: 15px;
+            width: 100%;
+            z-index: 1;
+        }
+        
+        .progress-step {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-icon {
+            align-items: center;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            color: #777;
+            display: flex;
+            height: 30px;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+            width: 30px;
+        }
+        
+        .step-icon.active {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        .step-label {
+            color: #777;
+            font-size: 0.75rem;
+            text-align: center;
+        }
+        
+        .step-label.active {
+            color: var(--primary-dark);
+            font-weight: 500;
+        }
+        
+        .favorite-item {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 1rem;
+            padding: 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .favorite-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .toggle-switch {
+            display: inline-block;
+            height: 24px;
+            position: relative;
+            width: 48px;
+        }
+        
+        .toggle-switch input {
+            height: 0;
+            opacity: 0;
+            width: 0;
+        }
+        
+        .toggle-slider {
+            background-color: #ccc;
+            border-radius: 24px;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+        }
+        
+        .toggle-slider:before {
+            background-color: white;
+            border-radius: 50%;
+            bottom: 4px;
+            content: "";
+            height: 16px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 16px;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -250px;
+                transition: left 0.3s ease;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .navbar {
+                margin-bottom: 1rem;
+                padding: 0.75rem 1rem;
+            }
+            
+            .card {
+                padding: 1rem;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-avatar {
+                margin-bottom: 1rem;
+                margin-right: 0;
+            }
+            
+            .tab {
+                margin-right: 1rem;
+                padding: 0.5rem 0;
+            }
+            
+            .grid-cols-2 {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fas fa-scissors"></i> AteliMatch
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-shopping-bag"></i> Pedidos
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-store"></i> Ateliês
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-tshirt"></i> Serviços
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-comment-alt"></i> Mensagens
+            </a>
+            <a href="#" class="sidebar-link active">
+                <i class="fas fa-user"></i> Perfil
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Navbar -->
+        <div class="navbar fade-in">
+            <div class="mobile-menu">
+                <button id="sidebarToggle" class="btn-outline">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar..." class="px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:border-pink-300">
+            </div>
+            <div class="user-menu">
+                <span class="mr-2">Olá, Maria</span>
+                <img src="https://via.placeholder.com/40" alt="User" class="rounded-full">
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div class="fade-in">
+            <!-- Profile Header -->
+            <div class="card">
+                <div class="profile-header">
+                    <img src="https://via.placeholder.com/120" alt="Maria Silva" class="profile-avatar">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Maria Silva</h1>
+                        <p class="text-gray-600">maria.silva@email.com</p>
+                        <p class="text-gray-600">Cliente desde Maio 2023</p>
+                        <div class="mt-3">
+                            <button class="btn-outline">
+                                <i class="fas fa-camera mr-1"></i> Alterar Foto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Profile Tabs -->
+                <div class="tab-container">
+                    <div class="tab active" data-tab="personal-info">
+                        <i class="fas fa-user mr-1"></i> Informações Pessoais
+                    </div>
+                    <div class="tab" data-tab="orders">
+                        <i class="fas fa-shopping-bag mr-1"></i> Meus Pedidos
+                    </div>
+                    <div class="tab" data-tab="favorites">
+                        <i class="fas fa-heart mr-1"></i> Favoritos
+                    </div>
+                    <div class="tab" data-tab="settings">
+                        <i class="fas fa-cog mr-1"></i> Configurações
+                    </div>
+                </div>
+                
+                <!-- Tab Contents -->
+                <div id="personal-info" class="tab-content active">
+                    <form>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">Nome Completo</label>
+                                <input type="text" class="form-input" value="Maria Silva">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">E-mail</label>
+                                <input type="email" class="form-input" value="maria.silva@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Telefone</label>
+                                <input type="tel" class="form-input" value="(11) 98765-4321">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Data de Nascimento</label>
+                                <input type="date" class="form-input" value="1990-05-15">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">CPF</label>
+                                <input type="text" class="form-input" value="123.456.789-00">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Gênero</label>
+                                <select class="form-input">
+                                    <option value="female" selected>Feminino</option>
+                                    <option value="male">Masculino</option>
+                                    <option value="other">Outro</option>
+                                    <option value="prefer-not-to-say">Prefiro não informar</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-lg font-semibold mt-6 mb-4 text-gray-700">Endereço</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">CEP</label>
+                                <input type="text" class="form-input" value="01234-567">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Rua</label>
+                                <input type="text" class="form-input" value="Rua das Flores">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Número</label>
+                                <input type="text" class="form-input" value="123">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Complemento</label>
+                                <input type="text" class="form-input" value="Apto 45">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Bairro</label>
+                                <input type="text" class="form-input" value="Centro">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Cidade</label>
+                                <input type="text" class="form-input" value="São Paulo">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Estado</label>
+                                <select class="form-input">
+                                    <option value="SP" selected>São Paulo</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <!-- Other states -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end mt-6">
+                            <button type="button" class="btn-outline mr-2">Cancelar</button>
+                            <button type="submit" class="btn-primary">Salvar Alterações</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div id="orders" class="tab-content">
+                    <div class="order-item">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Pedido #12345</h3>
+                                <p class="text-sm text-gray-600">Realizado em 15/05/2023</p>
+                            </div>
+                            <span class="order-status status-processing">Em Processamento</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mb-3">
+                            <div>
+                                <p class="font-medium">Ateliê Costura & Arte</p>
+                                <p class="text-sm text-gray-600">Ajuste de Vestido</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold text-primary-dark">R$ 120,00</p>
+                                <p class="text-sm text-gray-600">Previsão: 18/05/2023</p>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-tracker">
+                            <div class="progress-step">
+                                <div class="step-icon active">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="step-label active">Pedido Realizado</div>
+                            </div>
+                            <div class="progress-step">
+                                <div class="step-icon active">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="step-label active">Confirmado</div>
+                            </div>
+                            <div class="progress-step">
+                                <div class="step-icon active">
+                                    <i class="fas fa-scissors"></i>
+                                </div>
+                                <div class="step-label active">Em Produção</div>
+                            </div>
+                            <div class="progress-step">
+                                <div class="step-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="step-label">Concluído</div>
+                            </div>
+                            <div class="progress-step">
+                                <div class="step-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <div class="step-label">Entregue</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end">
+                            <button class="btn-outline mr-2">
+                                <i class="fas fa-comment-alt mr-1"></i> Mensagem
+                            </button>
+                            <button class="btn-primary">
+                                <i class="fas fa-eye mr-1"></i> Ver Detalhes
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="order-item">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Pedido #12344</h3>
+                                <p class="text-sm text-gray-600">Realizado em 10/05/2023</p>
+                            </div>
+                            <span class="order-status status-completed">Concluído</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mb-3">
+                            <div>
+                                <p class="font-medium">Moda Express</p>
+                                <p class="text-sm text-gray-600">Reparo de Camisa</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold text-primary-dark">R$ 45,00</p>
+                                <p class="text-sm text-gray-600">Entregue: 12/05/2023</p>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-tracker">
+                            <div class="progress-step">
+                                <div class="step-icon active">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="step-label active">Pedido Realizado</div>
+                            </div>
+                            <div class="progress-step">
+                                <div class="step-icon active">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="step-label active">Confirmado</div>
+                            </div>
+                            <div class="progress-step">
+                                <div class="step-icon active">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="step-label active">Em Produção</div>
+                            </div>
+                            <div class="progress-step">
+                                <div class="step-icon active">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="step-label active">Concluído</div>
+                            </div>
+                            <div class="progress-step">
+                                <div class="step-icon active">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="step-label active">Entregue</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end">
+                            <button class="btn-outline mr-2">
+                                <i class="fas fa-star mr-1"></i> Avaliar
+                            </button>
+                            <button class="btn-primary">
+                                <i class="fas fa-eye mr-1"></i> Ver Detalhes
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="order-item">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Pedido #12343</h3>
+                                <p class="text-sm text-gray-600">Realizado em 05/05/2023</p>
+                            </div>
+                            <span class="order-status status-cancelled">Cancelado</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mb-3">
+                            <div>
+                                <p class="font-medium">Costura Criativa</p>
+                                <p class="text-sm text-gray-600">Customização de Jeans</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold text-primary-dark">R$ 95,00</p>
+                                <p class="text-sm text-gray-600">Cancelado: 06/05/2023</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end">
+                            <button class="btn-outline mr-2">
+                                <i class="fas fa-redo mr-1"></i> Refazer Pedido
+                            </button>
+                            <button class="btn-primary">
+                                <i class="fas fa-eye mr-1"></i> Ver Detalhes
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-center mt-6">
+                        <button class="btn-outline">
+                            <i class="fas fa-history mr-1"></i> Ver Histórico Completo
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="favorites" class="tab-content">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="favorite-item">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex items-center">
+                                    <img src="https://via.placeholder.com/50" alt="Ateliê" class="rounded-lg mr-3">
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">Ateliê Costura & Arte</h3>
+                                        <div class="flex items-center text-sm">
+                                            <div class="text-yellow-400 mr-1">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                            </div>
+                                            <span class="text-gray-600">4.5 (32)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Especialidades: Ajustes, Confecção, Bordados</p>
+                            <div class="flex justify-between">
+                                <button class="btn-outline btn-sm">
+                                    <i class="fas fa-store mr-1"></i> Ver Ateliê
+                                </button>
+                                <button class="btn-primary btn-sm">
+                                    <i class="fas fa-shopping-cart mr-1"></i> Solicitar Serviço
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="favorite-item">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex items-center">
+                                    <img src="https://via.placeholder.com/50" alt="Ateliê" class="rounded-lg mr-3">
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">Moda Express</h3>
+                                        <div class="flex items-center text-sm">
+                                            <div class="text-yellow-400 mr-1">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </div>
+                                            <span class="text-gray-600">4.0 (28)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Especialidades: Confecção, Reparos</p>
+                            <div class="flex justify-between">
+                                <button class="btn-outline btn-sm">
+                                    <i class="fas fa-store mr-1"></i> Ver Ateliê
+                                </button>
+                                <button class="btn-primary btn-sm">
+                                    <i class="fas fa-shopping-cart mr-1"></i> Solicitar Serviço
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="favorite-item">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex items-center">
+                                    <img src="https://via.placeholder.com/50" alt="Ateliê" class="rounded-lg mr-3">
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">Costura Criativa</h3>
+                                        <div class="flex items-center text-sm">
+                                            <div class="text-yellow-400 mr-1">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                                <i class="far fa-star"></i>
+                                            </div>
+                                            <span class="text-gray-600">3.5 (15)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Especialidades: Customização, Reparos</p>
+                            <div class="flex justify-between">
+                                <button class="btn-outline btn-sm">
+                                    <i class="fas fa-store mr-1"></i> Ver Ateliê
+                                </button>
+                                <button class="btn-primary btn-sm">
+                                    <i class="fas fa-shopping-cart mr-1"></i> Solicitar Serviço
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="settings" class="tab-content">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Configurações da Conta</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Idioma</label>
+                        <select class="form-input">
+                            <option value="pt-br" selected>Português (Brasil)</option>
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Moeda</label>
+                        <select class="form-input">
+                            <option value="brl" selected>Real Brasileiro (R$)</option>
+                            <option value="usd">US Dollar ($)</option>
+                            <option value="eur">Euro (€)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Senha</label>
+                        <div class="flex">
+                            <button class="btn-outline">
+                                <i class="fas fa-lock mr-1"></i> Alterar Senha
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-lg font-semibold mt-6 mb-4 text-gray-700">Notificações</h3>
+                    
+                    <div class="mb-4 flex justify-between items-center">
+                        <div>
+                            <h4 class="font-medium text-gray-800">E-mail</h4>
+                            <p class="text-sm text-gray-600">Receber notificações por e-mail</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="mb-4 flex justify-between items-center">
+                        <div>
+                            <h4 class="font-medium text-gray-800">SMS</h4>
+                            <p class="text-sm text-gray-600">Receber notificações por SMS</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="mb-4 flex justify-between items-center">
+                        <div>
+                            <h4 class="font-medium text-gray-800">Atualizações de Pedidos</h4>
+                            <p class="text-sm text-gray-600">Notificações sobre status dos pedidos</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="mb-4 flex justify-between items-center">
+                        <div>
+                            <h4 class="font-medium text-gray-800">Promoções</h4>
+                            <p class="text-sm text-gray-600">Receber ofertas e novidades</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="flex justify-end mt-6">
+                        <button class="btn-outline mr-2">Cancelar</button>
+                        <button class="btn-primary">Salvar Configurações</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle for mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Hide all tab contents
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Deactivate all tabs
+                document.querySelectorAll('.tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // Activate clicked tab and its content
+                this.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Button functionality
+        document.querySelectorAll('.btn-primary, .btn-outline').forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Prevent form submission for demo
+                if (this.type === 'submit') {
+                    e.preventDefault();
+                }
+                
+                // Animation effect when clicking buttons
+                this.classList.add('clicked');
+                setTimeout(() => {
+                    this.classList.remove('clicked');
+                }, 200);
+                
+                // Handle specific button actions
+                const buttonText = this.textContent.trim();
+                
+                if (buttonText.includes('Salvar')) {
+                    alert('Alterações salvas com sucesso!');
+                }
+                else if (buttonText.includes('Ver Detalhes')) {
+                    const orderItem = this.closest('.order-item');
+                    const orderId = orderItem.querySelector('h3').textContent;
+                    alert(`Visualizando detalhes do ${orderId}`);
+                }
+                else if (buttonText.includes('Alterar Foto')) {
+                    alert('Funcionalidade de alteração de foto será implementada em breve.');
+                }
+            });
+        });
+        
+        // Toggle switch functionality
+        document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const settingName = this.closest('.flex').querySelector('h4').textContent;
+                const status = this.checked ? 'ativado' : 'desativado';
+                console.log(`${settingName} ${status}`);
+            });
+        });
+        
+        // Favorite button functionality
+        document.querySelectorAll('.favorite-item .text-primary').forEach(button => {
+            button.addEventListener('click', function() {
+                const atelierName = this.closest('.favorite-item').querySelector('h3').textContent;
+                alert(`${atelierName} removido dos favoritos`);
+                this.closest('.favorite-item').style.opacity = '0.5';
+                setTimeout(() => {
+                    this.closest('.favorite-item').style.display = 'none';
+                }, 500);
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'946f0ce9b537f1cf',t:'MTc0ODQ0ODkyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -65,6 +65,155 @@ function showMessageModal(type, title, message) {
 //     }
 // }
 
+function handleAction(action) {
+    const urlBase = "http://localhost:8080/admin";
+
+    switch(action) {
+        case 'reset-db':
+            if (confirm("Tem certeza que deseja apagar todo o banco de dados?")) {
+                fetch(`${urlBase}/reset`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Banco de dados apagado com sucesso!");
+                    } else {
+                        alert("Erro ao apagar o banco de dados.");
+                    }
+                })
+                .catch(error => alert("Erro na requisição: " + error));
+            }
+            break;
+
+        case 'create-db':
+            fetch(`${urlBase}/popular`, {
+                method: 'POST'
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Banco de dados criado e populado com sucesso!");
+                } else {
+                    alert("Erro ao criar o banco de dados.");
+                }
+            })
+            .catch(error => alert("Erro na requisição: " + error));
+            break;
+        case 'add-specialty':
+            abrirModalEspecialidade();
+            break;
+
+        case 'add-measurements':
+            console.log("Cadastrar medidas...");
+            break;
+        case 'add-service':
+            console.log("Cadastrar serviços...");
+            break;
+        case 'add-material':
+            console.log("Cadastrar matéria-prima...");
+            break;
+        case 'plotar-graficos':
+            console.log("Plotar Gráficos...");
+            break;
+        default:
+            console.warn("Ação desconhecida:", action);
+    }
+}
+
+const apiEspecialidade = "http://localhost:8080/especialidade";
+
+function abrirModalEspecialidade() {
+  document.getElementById("modalEspecialidade").classList.remove("hidden");
+  carregarEspecialidades();
+}
+
+function fecharModalEspecialidade() {
+  document.getElementById("modalEspecialidade").classList.add("hidden");
+  document.getElementById("especialidadeForm").reset();
+  document.getElementById("especialidadeId").value = "";
+}
+
+async function carregarEspecialidades() {
+    try {
+        const response = await fetch(apiEspecialidade);
+        const data = await response.json();
+        const especialidades = data.content || data; // Acessa 'content' se for paginado, ou a resposta direta se não for
+
+        const lista = document.getElementById("listaEspecialidades");
+        lista.innerHTML = "";
+        especialidades.forEach(e => {
+            const li = document.createElement("li");
+            li.className = "flex justify-between items-center border p-2 rounded";
+            li.innerHTML = `
+                <span>${e.nome}</span>
+                <div class="flex gap-2">
+                    <button onclick="editarEspecialidade(${e.idEspecialidade}, '${e.nome}')" class="text-blue-600">Editar</button>
+                    <button onclick="excluirEspecialidade(${e.idEspecialidade})" class="text-red-600">Excluir</button>
+                </div>
+            `;
+            lista.appendChild(li);
+        });
+
+    } catch (error) {
+        console.error("Erro ao carregar especialidades:", error);
+        showMessageModal('error', 'Erro ao Carregar', 'Não foi possível carregar as especialidades. Tente novamente.');
+    }
+}
+
+function editarEspecialidade(id, descricao) {
+  document.getElementById("especialidadeId").value = id;
+  document.getElementById("descricaoEspecialidade").value = descricao;
+}
+
+async function salvarEspecialidade(event) {
+    event.preventDefault();
+    const id = document.getElementById("especialidadeId").value;
+    const descricao = document.getElementById("descricaoEspecialidade").value;
+
+    if (!descricao) {
+        showMessageModal('error', 'Erro', 'Por favor, preencha a descrição da especialidade.');
+        return;
+    }
+
+    const metodo = id ? "PUT" : "POST";
+    const url = apiEspecialidade;
+
+    try {
+        const response = await fetch(url, {
+            method: metodo,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({idEspecialidade: id || null,descricaoEspecialidade: descricao}),
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro ao salvar a especialidade.');
+        }
+
+        fecharModalEspecialidade();
+        showMessageModal('success', 'Sucesso', id ? 'Especialidade atualizada com sucesso!' : 'Especialidade cadastrada com sucesso!');
+        carregarEspecialidades(); // Recarrega a lista
+    } catch (error) {
+        console.error("Erro ao salvar especialidade:", error);
+        showMessageModal('error', 'Erro', 'Não foi possível salvar a especialidade. Tente novamente.');
+    }
+}
+
+async function excluirEspecialidade(id) {
+    if (confirm("Tem certeza que deseja excluir esta especialidade?")) {
+        try {
+            const response = await fetch(`${apiEspecialidade}/${id}`, { method: "DELETE" });
+            if (!response.ok) {
+                throw new Error('Erro ao excluir a especialidade.');
+            }
+            showMessageModal('success', 'Sucesso', 'Especialidade excluída com sucesso!');
+            carregarEspecialidades();
+        } catch (error) {
+            console.error("Erro ao excluir especialidade:", error);
+            showMessageModal('error', 'Erro', 'Não foi possível excluir a especialidade. Tente novamente.');
+        }
+    }
+}
+
+
 // Configuração dos eventos quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function() {
     // Configurar botões para abrir os modais de cadastro
@@ -338,7 +487,7 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleModal('modal-especialidade', false);
     });
 
-// Salvar especialidade escolhida
+    // Salvar especialidade escolhida
     
     document.getElementById('form-especialidade').addEventListener('submit', function(e) {
         
@@ -467,7 +616,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }
 
-// Salvar especialidade escolhida
+    // Salvar especialidade escolhida
     
     document.getElementById('form-especialidade').addEventListener('submit', function(e) {
         
@@ -508,7 +657,7 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleModal('modal-formaPagamento', false);
     });
 
-// Salvar forma de pagamento escolhida
+    // Salvar forma de pagamento escolhida
     
     document.getElementById('form-formaPagamento').addEventListener('submit', function(e) {
         
@@ -1267,4 +1416,29 @@ document.addEventListener('DOMContentLoaded', function() {
             sidebar.classList.toggle('flex'); // Alterna entre hidden e flex
         });
     }
+
+    const cornerButton = document.getElementById('corner-button');
+    const newScreen = document.getElementById('new-screen');
+    const closeScreen = document.getElementById('close-screen');
+    const overlay = document.getElementById('overlay');
+
+    // Abrir a tela lateral
+    cornerButton.addEventListener('click', function() {
+        newScreen.classList.remove('translate-x-full');
+        newScreen.classList.add('translate-x-0');
+        overlay.classList.remove('hidden');
+    });
+
+    // Fechar a tela lateral
+    function closeSidebar() {
+        newScreen.classList.remove('translate-x-0');
+        newScreen.classList.add('translate-x-full');
+        overlay.classList.add('hidden');
+    }
+
+    closeScreen.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    
+
 });

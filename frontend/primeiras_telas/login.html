@@ -1,0 +1,542 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AteliMatch - Conectando clientes e ateliês</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#FF9EC3',
+                            DEFAULT: '#FF6BA9',
+                            dark: '#E84E92'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFF5F9;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .btn-primary {
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 169, 0.3);
+        }
+        
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-white">
+    <!-- Página de Login -->
+    <div id="login" class="page active min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 animate-fade-in">
+        <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
+            <div class="text-center">
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    <i class="fas fa-cut text-primary mr-2"></i>AteliMatch
+                </h2>
+                <p class="mt-2 text-center text-sm text-gray-600">
+                    Conectando clientes e ateliês de costura
+                </p>
+            </div>
+            <form class="mt-8 space-y-6" id="login-form">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <label for="login-usuario" class="sr-only">Usuário</label>
+                        <input id="login-usuario" name="usuario" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm" placeholder="Usuário">
+                    </div>
+                    <div>
+                        <label for="login-senha" class="sr-only">Senha</label>
+                        <input id="login-senha" name="senha" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm" placeholder="Senha">
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn-primary group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                            <i class="fas fa-lock text-primary-light group-hover:text-white"></i>
+                        </span>
+                        Entrar
+                    </button>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="text-sm">
+                        <a href="#" class="font-medium text-primary hover:text-primary-dark" id="btn-cadastro-cliente">
+                            Cadastrar como cliente
+                        </a>
+                    </div>
+                    <div class="text-sm">
+                        <a href="#" class="font-medium text-primary hover:text-primary-dark" id="btn-cadastro-atelie">
+                            Cadastrar ateliê
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Página de Cadastro de Cliente -->
+    <div id="cadastro-cliente" class="page min-h-screen py-12 px-4 sm:px-6 lg:px-8 animate-fade-in">
+        <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+            <div class="mb-6 text-center">
+                <h2 class="text-3xl font-extrabold text-gray-900">
+                    <i class="fas fa-user-plus text-primary mr-2"></i>Cadastro de Cliente
+                </h2>
+                <p class="mt-2 text-sm text-gray-600">
+                    Preencha seus dados para criar uma conta no AteliMatch
+                </p>
+            </div>
+            
+            <form id="form-cadastro-cliente" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="cliente-nome" class="block text-sm font-medium text-gray-700">Nome Completo</label>
+                        <input type="text" id="cliente-nome" name="nome" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="cliente-cpf" class="block text-sm font-medium text-gray-700">CPF</label>
+                        <input type="text" id="cliente-cpf" name="cpf" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border" maxlength="11" placeholder="Apenas números">
+                    </div>
+                    
+                    <div>
+                        <label for="cliente-email" class="block text-sm font-medium text-gray-700">E-mail</label>
+                        <input type="email" id="cliente-email" name="email" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="cliente-telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
+                        <input type="tel" id="cliente-telefone" name="telefone" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="cliente-nascimento" class="block text-sm font-medium text-gray-700">Data de Nascimento</label>
+                        <input type="date" id="cliente-nascimento" name="nascimento" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="cliente-usuario" class="block text-sm font-medium text-gray-700">Nome de Usuário</label>
+                        <input type="text" id="cliente-usuario" name="usuario" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="cliente-senha" class="block text-sm font-medium text-gray-700">Senha</label>
+                        <input type="password" id="cliente-senha" name="senha" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="cliente-confirmar-senha" class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
+                        <input type="password" id="cliente-confirmar-senha" name="confirmarSenha" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                </div>
+                
+                <h3 class="text-lg font-medium text-gray-900 mt-6">Endereço</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="cliente-estado" class="block text-sm font-medium text-gray-700">Estado</label>
+                        <select id="cliente-estado" name="estado" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                            <option value="">Selecione um estado</option>
+                            <option value="1">São Paulo</option>
+                            <option value="2">Rio de Janeiro</option>
+                            <option value="3">Minas Gerais</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="cliente-cidade" class="block text-sm font-medium text-gray-700">Cidade</label>
+                        <select id="cliente-cidade" name="cidade" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                            <option value="">Selecione uma cidade</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="cliente-bairro" class="block text-sm font-medium text-gray-700">Bairro</label>
+                        <select id="cliente-bairro" name="bairro" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                            <option value="">Selecione um bairro</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="cliente-rua" class="block text-sm font-medium text-gray-700">Rua</label>
+                        <input type="text" id="cliente-rua" name="rua" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="cliente-numero" class="block text-sm font-medium text-gray-700">Número</label>
+                        <input type="text" id="cliente-numero" name="numero" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="cliente-complemento" class="block text-sm font-medium text-gray-700">Complemento</label>
+                        <input type="text" id="cliente-complemento" name="complemento" class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                </div>
+                
+                <div class="flex justify-between pt-4">
+                    <button type="button" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" id="btn-voltar-login">
+                        Voltar
+                    </button>
+                    <button type="submit" class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        Cadastrar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Página de Cadastro de Ateliê -->
+    <div id="cadastro-atelie" class="page min-h-screen py-12 px-4 sm:px-6 lg:px-8 animate-fade-in">
+        <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+            <div class="mb-6 text-center">
+                <h2 class="text-3xl font-extrabold text-gray-900">
+                    <i class="fas fa-store text-primary mr-2"></i>Cadastro de Ateliê
+                </h2>
+                <p class="mt-2 text-sm text-gray-600">
+                    Preencha os dados do seu ateliê para criar uma conta no AteliMatch
+                </p>
+            </div>
+            
+            <form id="form-cadastro-atelie" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="atelie-nome" class="block text-sm font-medium text-gray-700">Nome do Ateliê/Costureira</label>
+                        <input type="text" id="atelie-nome" name="nome" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="atelie-email" class="block text-sm font-medium text-gray-700">E-mail</label>
+                        <input type="email" id="atelie-email" name="email" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="atelie-telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
+                        <input type="tel" id="atelie-telefone" name="telefone" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="atelie-usuario" class="block text-sm font-medium text-gray-700">Nome de Usuário</label>
+                        <input type="text" id="atelie-usuario" name="usuario" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="atelie-senha" class="block text-sm font-medium text-gray-700">Senha</label>
+                        <input type="password" id="atelie-senha" name="senha" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="atelie-confirmar-senha" class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
+                        <input type="password" id="atelie-confirmar-senha" name="confirmarSenha" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="atelie-especialidades" class="block text-sm font-medium text-gray-700">Especialidades</label>
+                    <div class="mt-2 grid grid-cols-2 gap-2">
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="especialidade-1" name="especialidades" value="1" type="checkbox" class="focus:ring-primary h-4 w-4 text-primary border-gray-300 rounded">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="especialidade-1" class="font-medium text-gray-700">Ajustes</label>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="especialidade-2" name="especialidades" value="2" type="checkbox" class="focus:ring-primary h-4 w-4 text-primary border-gray-300 rounded">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="especialidade-2" class="font-medium text-gray-700">Vestidos</label>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="especialidade-3" name="especialidades" value="3" type="checkbox" class="focus:ring-primary h-4 w-4 text-primary border-gray-300 rounded">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="especialidade-3" class="font-medium text-gray-700">Roupas sob medida</label>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="especialidade-4" name="especialidades" value="4" type="checkbox" class="focus:ring-primary h-4 w-4 text-primary border-gray-300 rounded">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="especialidade-4" class="font-medium text-gray-700">Bordados</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="text-lg font-medium text-gray-900 mt-6">Endereço</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="atelie-estado" class="block text-sm font-medium text-gray-700">Estado</label>
+                        <select id="atelie-estado" name="estado" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                            <option value="">Selecione um estado</option>
+                            <option value="1">São Paulo</option>
+                            <option value="2">Rio de Janeiro</option>
+                            <option value="3">Minas Gerais</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="atelie-cidade" class="block text-sm font-medium text-gray-700">Cidade</label>
+                        <select id="atelie-cidade" name="cidade" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                            <option value="">Selecione uma cidade</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="atelie-bairro" class="block text-sm font-medium text-gray-700">Bairro</label>
+                        <select id="atelie-bairro" name="bairro" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                            <option value="">Selecione um bairro</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="atelie-rua" class="block text-sm font-medium text-gray-700">Rua</label>
+                        <input type="text" id="atelie-rua" name="rua" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="atelie-numero" class="block text-sm font-medium text-gray-700">Número</label>
+                        <input type="text" id="atelie-numero" name="numero" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                    
+                    <div>
+                        <label for="atelie-complemento" class="block text-sm font-medium text-gray-700">Complemento</label>
+                        <input type="text" id="atelie-complemento" name="complemento" class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                    </div>
+                </div>
+                
+                <div class="flex justify-between pt-4">
+                    <button type="button" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" id="btn-voltar-login-atelie">
+                        Voltar
+                    </button>
+                    <button type="submit" class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        Cadastrar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Função para mostrar uma página e esconder as outras
+        function showPage(pageId) {
+            // Esconde todas as páginas
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Mostra a página solicitada
+            const page = document.getElementById(pageId);
+            if (page) {
+                page.classList.add('active');
+            }
+        }
+        
+        // Configuração dos eventos quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar botões de navegação
+            document.getElementById('btn-cadastro-cliente').addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage('cadastro-cliente');
+            });
+            
+            document.getElementById('btn-cadastro-atelie').addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage('cadastro-atelie');
+            });
+            
+            document.getElementById('btn-voltar-login').addEventListener('click', function() {
+                showPage('login');
+            });
+            
+            document.getElementById('btn-voltar-login-atelie').addEventListener('click', function() {
+                showPage('login');
+            });
+            
+            // Configurar formulários
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    // Aqui você faria a autenticação com o backend
+                    alert('Login realizado com sucesso!');
+                });
+            }
+            
+            const formCadastroCliente = document.getElementById('form-cadastro-cliente');
+            if (formCadastroCliente) {
+                formCadastroCliente.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    // Aqui você enviaria os dados para o backend
+                    alert('Cliente cadastrado com sucesso!');
+                    showPage('login');
+                });
+            }
+            
+            const formCadastroAtelie = document.getElementById('form-cadastro-atelie');
+            if (formCadastroAtelie) {
+                formCadastroAtelie.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    // Aqui você enviaria os dados para o backend
+                    alert('Ateliê cadastrado com sucesso!');
+                    showPage('login');
+                });
+            }
+            
+            // Configurar seleção de estados, cidades e bairros
+            const estadoSelects = document.querySelectorAll('[id$="-estado"]');
+            estadoSelects.forEach(select => {
+                select.addEventListener('change', function() {
+                    const prefix = this.id.split('-')[0];
+                    const cidadeSelect = document.getElementById(`${prefix}-cidade`);
+                    
+                    // Limpar opções atuais
+                    cidadeSelect.innerHTML = '<option value="">Selecione uma cidade</option>';
+                    
+                    // Adicionar novas opções baseadas no estado selecionado
+                    if (this.value) {
+                        const cidades = {
+                            '1': [
+                                { id: '1', nome: 'São Paulo' },
+                                { id: '2', nome: 'Campinas' },
+                                { id: '3', nome: 'Santos' }
+                            ],
+                            '2': [
+                                { id: '4', nome: 'Rio de Janeiro' },
+                                { id: '5', nome: 'Niterói' },
+                                { id: '6', nome: 'Petrópolis' }
+                            ],
+                            '3': [
+                                { id: '7', nome: 'Belo Horizonte' },
+                                { id: '8', nome: 'Uberlândia' },
+                                { id: '9', nome: 'Juiz de Fora' }
+                            ]
+                        };
+                        
+                        cidades[this.value].forEach(cidade => {
+                            const option = document.createElement('option');
+                            option.value = cidade.id;
+                            option.textContent = cidade.nome;
+                            cidadeSelect.appendChild(option);
+                        });
+                    }
+                });
+            });
+            
+            const cidadeSelects = document.querySelectorAll('[id$="-cidade"]');
+            cidadeSelects.forEach(select => {
+                select.addEventListener('change', function() {
+                    const prefix = this.id.split('-')[0];
+                    const bairroSelect = document.getElementById(`${prefix}-bairro`);
+                    
+                    // Limpar opções atuais
+                    bairroSelect.innerHTML = '<option value="">Selecione um bairro</option>';
+                    
+                    // Adicionar novas opções baseadas na cidade selecionada
+                    if (this.value) {
+                        const bairros = {
+                            '1': [
+                                { id: '1', nome: 'Centro' },
+                                { id: '2', nome: 'Pinheiros' },
+                                { id: '3', nome: 'Vila Mariana' }
+                            ],
+                            '2': [
+                                { id: '4', nome: 'Centro' },
+                                { id: '5', nome: 'Cambuí' },
+                                { id: '6', nome: 'Taquaral' }
+                            ],
+                            '3': [
+                                { id: '7', nome: 'Centro' },
+                                { id: '8', nome: 'Gonzaga' },
+                                { id: '9', nome: 'Ponta da Praia' }
+                            ],
+                            '4': [
+                                { id: '10', nome: 'Centro' },
+                                { id: '11', nome: 'Copacabana' },
+                                { id: '12', nome: 'Ipanema' }
+                            ],
+                            '5': [
+                                { id: '13', nome: 'Centro' },
+                                { id: '14', nome: 'Icaraí' },
+                                { id: '15', nome: 'São Francisco' }
+                            ],
+                            '6': [
+                                { id: '16', nome: 'Centro' },
+                                { id: '17', nome: 'Quitandinha' },
+                                { id: '18', nome: 'Itaipava' }
+                            ],
+                            '7': [
+                                { id: '19', nome: 'Centro' },
+                                { id: '20', nome: 'Savassi' },
+                                { id: '21', nome: 'Lourdes' }
+                            ],
+                            '8': [
+                                { id: '22', nome: 'Centro' },
+                                { id: '23', nome: 'Santa Mônica' },
+                                { id: '24', nome: 'Tibery' }
+                            ],
+                            '9': [
+                                { id: '25', nome: 'Centro' },
+                                { id: '26', nome: 'São Mateus' },
+                                { id: '27', nome: 'Bom Pastor' }
+                            ]
+                        };
+                        
+                        bairros[this.value].forEach(bairro => {
+                            const option = document.createElement('option');
+                            option.value = bairro.id;
+                            option.textContent = bairro.nome;
+                            bairroSelect.appendChild(option);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'944f7d61205bf191',t:'MTc0ODExNzk4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

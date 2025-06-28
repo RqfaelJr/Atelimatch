@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import atelimatch.api.domain.servico.Servico;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -34,7 +35,7 @@ public class BancoDadosServico {
 
     @Transactional
     public void criarBancoDados() throws IOException {
-            String conteudo = new String(Files.readAllBytes(Paths.get("/home/rasa/Desktop/Atelimatch/api/src/main/resources/db/schema.sql")));
+            String conteudo = new String(getClass().getResourceAsStream("/db/schema.sql").readAllBytes(), StandardCharsets.UTF_8);
             for (String linha : conteudo.split(";")) {
                 if (!linha.trim().isEmpty()) {
                     jdbcTemplate.execute(linha.trim());

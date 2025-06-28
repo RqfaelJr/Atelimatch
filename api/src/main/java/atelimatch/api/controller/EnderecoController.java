@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/endereco")
 public class EnderecoController {

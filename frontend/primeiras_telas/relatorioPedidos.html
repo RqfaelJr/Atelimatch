@@ -1,0 +1,578 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AteliMatch - Relatório de Pedidos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #FF6BA9;
+            --primary-light: #FF9EC3;
+            --primary-dark: #E84E92;
+            --white: #FFFFFF;
+            --white-soft: #FFF5F9;
+        }
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        body {
+            background-color: var(--white-soft);
+        }
+        
+        .sidebar {
+            background-color: var(--white);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            height: 100vh;
+            position: fixed;
+            width: 250px;
+            z-index: 10;
+        }
+        
+        .sidebar-logo {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 1.5rem;
+        }
+        
+        .sidebar-menu {
+            padding: 0 1rem;
+        }
+        
+        .sidebar-link {
+            border-radius: 8px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 0;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+        }
+        
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: var(--primary-light);
+            color: var(--white);
+        }
+        
+        .sidebar-link i {
+            margin-right: 10px;
+            width: 20px;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+        
+        .navbar {
+            align-items: center;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding: 1rem 2rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            color: var(--white);
+            cursor: pointer;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-light);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+        
+        .card {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+        }
+        
+        .badge {
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.25rem 0.75rem;
+        }
+        
+        .badge-pending {
+            background-color: #FFF0C2;
+            color: #A68617;
+        }
+        
+        .badge-progress {
+            background-color: #C2E5FF;
+            color: #1769AA;
+        }
+        
+        .badge-completed {
+            background-color: #D1F7C4;
+            color: #2E7D32;
+        }
+        
+        .badge-cancelled {
+            background-color: #FFD7D7;
+            color: #B71C1C;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        th {
+            background-color: var(--primary-light);
+            color: var(--white);
+            font-weight: 600;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        th:first-child {
+            border-top-left-radius: 8px;
+        }
+        
+        th:last-child {
+            border-top-right-radius: 8px;
+        }
+        
+        td {
+            border-bottom: 1px solid #f0f0f0;
+            padding: 1rem;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr:hover {
+            background-color: rgba(255, 158, 195, 0.05);
+        }
+        
+        .action-btn {
+            background-color: transparent;
+            border: none;
+            border-radius: 4px;
+            color: #555;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            padding: 0.25rem;
+        }
+        
+        .action-btn:hover {
+            background-color: var(--primary-light);
+            color: var(--white);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        
+        .page-item {
+            margin: 0 0.25rem;
+        }
+        
+        .page-link {
+            background-color: var(--white);
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #555;
+            cursor: pointer;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            text-decoration: none;
+        }
+        
+        .page-link:hover, .page-link.active {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: var(--white);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -250px;
+                transition: left 0.3s ease;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .navbar {
+                margin-bottom: 1rem;
+                padding: 0.75rem 1rem;
+            }
+            
+            .card {
+                padding: 1rem;
+            }
+            
+            .table-responsive {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fas fa-scissors"></i> AteliMatch
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="#" class="sidebar-link active">
+                <i class="fas fa-shopping-bag"></i> Pedidos
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-store"></i> Ateliês
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-tshirt"></i> Serviços
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-comment-alt"></i> Mensagens
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-user"></i> Perfil
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Navbar -->
+        <div class="navbar fade-in">
+            <div class="mobile-menu">
+                <button id="sidebarToggle" class="btn-outline">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar..." class="px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:border-pink-300">
+            </div>
+            <div class="user-menu">
+                <span class="mr-2">Olá, Maria</span>
+                <img src="https://via.placeholder.com/40" alt="User" class="rounded-full">
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div class="fade-in">
+            <h1 class="text-2xl font-bold mb-4 text-gray-800">Relatório de Pedidos</h1>
+            
+            <!-- Filters -->
+            <div class="card mb-6">
+                <h2 class="text-lg font-semibold mb-4 text-gray-700">Filtros</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                        <select class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-pink-300">
+                            <option value="">Todos</option>
+                            <option value="pending">Pendente</option>
+                            <option value="progress">Em Andamento</option>
+                            <option value="completed">Concluído</option>
+                            <option value="cancelled">Cancelado</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Período</label>
+                        <div class="flex space-x-2">
+                            <input type="date" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-pink-300">
+                            <input type="date" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-pink-300">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ateliê</label>
+                        <select class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-pink-300">
+                            <option value="">Todos</option>
+                            <option value="1">Ateliê Costura & Arte</option>
+                            <option value="2">Moda Express</option>
+                            <option value="3">Costura Criativa</option>
+                            <option value="4">Estilo & Agulha</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex justify-end mt-4">
+                    <button class="btn-outline mr-2">
+                        <i class="fas fa-undo mr-1"></i> Limpar
+                    </button>
+                    <button class="btn-primary">
+                        <i class="fas fa-search mr-1"></i> Filtrar
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Orders Table -->
+            <div class="card">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-gray-700">Lista de Pedidos</h2>
+                    <div>
+                        <button class="btn-outline mr-2">
+                            <i class="fas fa-file-export mr-1"></i> Exportar
+                        </button>
+                        <button class="btn-primary">
+                            <i class="fas fa-plus mr-1"></i> Novo Pedido
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Serviço</th>
+                                <th>Ateliê</th>
+                                <th>Status</th>
+                                <th>Valor</th>
+                                <th>Data Pedido</th>
+                                <th>Data Entrega</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#1254</td>
+                                <td>Ajuste de Vestido</td>
+                                <td>Ateliê Costura & Arte</td>
+                                <td><span class="badge badge-pending">Pendente</span></td>
+                                <td>R$ 120,00</td>
+                                <td>15/05/2023</td>
+                                <td>25/05/2023</td>
+                                <td>
+                                    <button class="action-btn" title="Ver detalhes">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn" title="Cancelar">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#1253</td>
+                                <td>Confecção de Calça</td>
+                                <td>Moda Express</td>
+                                <td><span class="badge badge-progress">Em Andamento</span></td>
+                                <td>R$ 180,00</td>
+                                <td>14/05/2023</td>
+                                <td>28/05/2023</td>
+                                <td>
+                                    <button class="action-btn" title="Ver detalhes">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn" title="Cancelar">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#1252</td>
+                                <td>Reparo de Camisa</td>
+                                <td>Costura Criativa</td>
+                                <td><span class="badge badge-completed">Concluído</span></td>
+                                <td>R$ 45,00</td>
+                                <td>12/05/2023</td>
+                                <td>18/05/2023</td>
+                                <td>
+                                    <button class="action-btn" title="Ver detalhes">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn" title="Cancelar">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#1251</td>
+                                <td>Confecção de Vestido</td>
+                                <td>Estilo & Agulha</td>
+                                <td><span class="badge badge-cancelled">Cancelado</span></td>
+                                <td>R$ 350,00</td>
+                                <td>10/05/2023</td>
+                                <td>-</td>
+                                <td>
+                                    <button class="action-btn" title="Ver detalhes">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn" title="Restaurar">
+                                        <i class="fas fa-undo"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#1250</td>
+                                <td>Ajuste de Blazer</td>
+                                <td>Ateliê Costura & Arte</td>
+                                <td><span class="badge badge-completed">Concluído</span></td>
+                                <td>R$ 90,00</td>
+                                <td>08/05/2023</td>
+                                <td>15/05/2023</td>
+                                <td>
+                                    <button class="action-btn" title="Ver detalhes">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn" title="Cancelar">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination">
+                    <div class="page-item">
+                        <a href="#" class="page-link">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </div>
+                    <div class="page-item">
+                        <a href="#" class="page-link active">1</a>
+                    </div>
+                    <div class="page-item">
+                        <a href="#" class="page-link">2</a>
+                    </div>
+                    <div class="page-item">
+                        <a href="#" class="page-link">3</a>
+                    </div>
+                    <div class="page-item">
+                        <a href="#" class="page-link">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle for mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // Filter functionality
+        document.querySelectorAll('.btn-primary, .btn-outline').forEach(button => {
+            button.addEventListener('click', function() {
+                // Animation effect when clicking buttons
+                this.classList.add('clicked');
+                setTimeout(() => {
+                    this.classList.remove('clicked');
+                }, 200);
+            });
+        });
+        
+        // Action buttons functionality
+        document.querySelectorAll('.action-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const action = this.getAttribute('title');
+                const row = this.closest('tr');
+                const orderId = row.querySelector('td:first-child').textContent;
+                
+                if (action === 'Ver detalhes') {
+                    alert(`Visualizando detalhes do pedido ${orderId}`);
+                } else if (action === 'Editar') {
+                    alert(`Editando pedido ${orderId}`);
+                } else if (action === 'Cancelar') {
+                    if (confirm(`Deseja realmente cancelar o pedido ${orderId}?`)) {
+                        const statusCell = row.querySelector('td:nth-child(4)');
+                        statusCell.innerHTML = '<span class="badge badge-cancelled">Cancelado</span>';
+                    }
+                } else if (action === 'Restaurar') {
+                    if (confirm(`Deseja realmente restaurar o pedido ${orderId}?`)) {
+                        const statusCell = row.querySelector('td:nth-child(4)');
+                        statusCell.innerHTML = '<span class="badge badge-pending">Pendente</span>';
+                    }
+                }
+            });
+        });
+        
+        // Pagination functionality
+        document.querySelectorAll('.page-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.page-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'946f0ce1561c00f6',t:'MTc0ODQ0ODkyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
