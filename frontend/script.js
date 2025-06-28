@@ -106,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleModal('modal-endereco', false);
         contextoEndereco = null;
     });
+    
 
     document.getElementById('btn-novo-pedido').addEventListener('click', function() {
         toggleModal('modal-pedido', true);
@@ -142,22 +143,41 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('userName', dadosResposta.nomePessoa);
 
                 // Exemplo: Atualizar um elemento na tela principal com o nome do usuário
-                const userNameElement = document.querySelector('.user-name');
-                if (userNameElement) {
-                    userNameElement.textContent = `${dadosResposta.nomePessoa}!`;
-                }
-
-                const userName = localStorage.getItem('userName');
                 
-                if (userName) {
-                    const userNameElement = document.querySelector('.name-user');
+
+                if (dadosResposta.inicio01) {
+                    const userNameElement = document.querySelector('.nome-atelie');
                     if (userNameElement) {
-                        userNameElement.textContent = userName;
+                        userNameElement.textContent = `${dadosResposta.nomePessoa}!`;
                     }
+
+                    const userName = localStorage.getItem('userName');
+                    
+                    if (userName) {
+                        const userNameElement = document.querySelector('.atelie-nome');
+                        if (userNameElement) {
+                            userNameElement.textContent = userName;
+                        }
+                    }
+                    showPage('app-atelie')
+                } else {
+                    const userNameElement = document.querySelector('.user-name');
+                    if (userNameElement) {
+                        userNameElement.textContent = `${dadosResposta.nomePessoa}!`;
+                    }
+
+                    const userName = localStorage.getItem('userName');
+                    
+                    if (userName) {
+                        const userNameElement = document.querySelector('.name-user');
+                        if (userNameElement) {
+                            userNameElement.textContent = userName;
+                        }
+                    }
+                    showPage('main-app'); 
                 }
 
-                // Esconde a página de login e mostra a tela principal
-                showPage('main-app'); 
+                
             }) 
             .catch(erro => {
                 showMessageModal('error', 'Erro no Login', 'Usuário ou senha inválidos. Tente novamente.');
@@ -718,8 +738,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 toggleModal('modal-atelies', true);
             })
             .catch(error => {
-                console.error('Erro ao buscar pedidos:', error);
-                alert('Erro ao buscar pedidos!');
+                console.error('Erro ao buscar ateliês:', error);
+                alert('Erro ao buscar ateliês!');
             });
     });
         
@@ -732,7 +752,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.key === 'Enter') {
             event.preventDefault(); // Opcional: evita o submit padrão em forms
             const termoBusca = searchInput.value.trim();
-            searchInput.clear();
             console.log(JSON.stringify(termoBusca))
             if (termoBusca) {
                 fetch('http://localhost:8080/atelie/ia', {
@@ -770,18 +789,403 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    
+
+    const linkPerfil = document.getElementById('link-ver-perfil');
+    
+    linkPerfil.addEventListener('click', function (e) {
+        e.preventDefault(); 
+        
+        fetch('http://localhost:8080/cliente/' + localStorage.getItem("idPessoa")) 
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro na requisição');
+                }
+                return response.json(); 
+            })
+            .then(data => {
+                console.log('Cliente recebido:', data);
+                document.getElementById('cliente-id-atualizar').value = data.idPessoa;
+                document.getElementById('cliente-nome-atualizacao').value = data.nomePessoa;
+                document.getElementById('cliente-cpf-atualizacao').value = data.cpf;
+                document.getElementById('cliente-email-atualizacao').value = data.email;
+                document.getElementById('cliente-telefone-atualizacao').value = data.telefone;
+                document.getElementById('cliente-usuario-atualizacao').value = data.usuario;
+                document.getElementById('cliente-nascimento-atualizacao').value = data.data;
+                document.getElementById('cliente-senha-atualizacao').value = data.senha;
+                
+                toggleModal('modal-atualizacao-cliente', true);
+                document.getElementById('btn-atualizar-endereco-cliente').addEventListener('click', function() {
+                    toggleModal('modal-atualizar-endereco', true);
+                    
+                    fetch('http://localhost:8080/endereco/' + data.idEndereco) 
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erro na requisição');
+                        }
+                        return response.json(); 
+                    })
+                    .then(dataEndereco => {
+                        console.log('Endereco recebido:', dataEndereco);
+                        document.getElementById('endereco-id-atualizacao').value = dataEndereco.idEndereco
+                        document.getElementById('modal-estado-atualizacao').value = dataEndereco.estado;
+                        document.getElementById('modal-uf-atualizacao').value = dataEndereco.uf;
+                        document.getElementById('modal-cidade-atualizacao').value = dataEndereco.cidade;
+                        document.getElementById('modal-bairro-atualizacao').value = dataEndereco.bairro;
+                        document.getElementById('modal-rua-atualizacao').value = dataEndereco.rua;
+                        document.getElementById('modal-cep-atualizacao').value = dataEndereco.cep;
+                        document.getElementById('modal-numero-atualizacao').value = dataEndereco.numero;
+                        document.getElementById('modal-complemento-atualizacao').value = dataEndereco.complemento;
+                        
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar perfil:', error);
+                        alert('Erro ao buscar perfil!');
+                    });
+                })
+            });     
+        });
+
+        
+    const formEndereco = document.getElementById('form-atualizar-endereco');
+
+    formEndereco.addEventListener('submit', function(e) {
+        
+        e.preventDefault();
+
+        
+        const formData = new FormData(formEndereco);
+        const dadosDoFormulario = Object.fromEntries(formData.entries());
+        
+        
+        console.log(dadosDoFormulario)
+        
+        fetch(`http://localhost:8080/endereco`, { 
+            method: 'PUT', 
+            headers: {
+                'Content-Type': 'application/json',
+        
+            },
+            body: JSON.stringify(dadosDoFormulario)
+        })
+        .then(response => {
+            if (!response.ok) {
+                
+                throw new Error('Falha ao atualizar o endereço. Status: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Endereço atualizado com sucesso:', data);
+            document.getElementById('endereco-id-atualizar').value = data.idEndereco
+            console.log(document.getElementById('endereco-id-atualizar').value)
+            toggleModal('modal-atualizar-endereco', false)
+            
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Ocorreu um erro ao tentar atualizar o endereço.');
+        });
+    });
+
+    const formAtualizarCliente = document.getElementById('form-atualizacao-cliente');
+    formAtualizarCliente.addEventListener('submit', function(e) {
+        
+        e.preventDefault();
+
+        
+        const formData = new FormData(formAtualizarCliente);
+        const dadosDoFormulario = Object.fromEntries(formData.entries());
+        
+        
+        console.log(dadosDoFormulario)
+        
+        fetch(`http://localhost:8080/cliente`, { 
+            method: 'PUT', 
+            headers: {
+                'Content-Type': 'application/json',
+        
+            },
+            body: JSON.stringify(dadosDoFormulario)
+        })
+        .then(response => {
+            if (!response.ok) {
+                
+                throw new Error('Falha ao atualizar o perfil. Status: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Perfil atualizado com sucesso:', data);
+            
+            toggleModal('modal-atualizacao-cliente', false)
+            
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Ocorreu um erro ao tentar atualizar o perfil.');
+        });
+    });
+
+    document.getElementById('btn-voltar-modal-cliente-atualizacao').addEventListener('click', () => 
+        toggleModal('modal-atualizacao-cliente', false));
+
+    document.getElementById('btn-cancelar-endereco-atualizacao').addEventListener('click', () => 
+        toggleModal('modal-atualizar-endereco', false));
+
     const linkSair = document.getElementById('nav-sair');
 
     linkSair.addEventListener('click', function(event) {
         event.preventDefault();
 
-        // 1. Limpa os dados salvos no navegador (ex: token, id do usuário)
         localStorage.clear();
-        // sessionStorage.clear(); // Se você usar sessionStorage
         location.reload();
-        // 2. Redireciona para a página de login ou para a home
         
     });
+
+    const linkPerfilAtelie = document.getElementById('link-ver-perfil-atelie');
+    
+    linkPerfilAtelie.addEventListener('click', function (e) {
+        e.preventDefault(); 
+        
+        fetch('http://localhost:8080/atelie/' + localStorage.getItem("idPessoa")) 
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro na requisição');
+                }
+                return response.json(); 
+            })
+            .then(data => {
+                console.log('Atelie recebido:', data);
+                document.getElementById('atelie-id-atualizar').value = data.idPessoa;
+                document.getElementById('atelie-nome-atualizacao').value = data.nomePessoa;
+                document.getElementById('atelie-cnpj-atualizacao').value = data.cnpj;
+                document.getElementById('atelie-email-atualizacao').value = data.email;
+                document.getElementById('atelie-telefone-atualizacao').value = data.telefone;
+                document.getElementById('atelie-usuario-atualizacao').value = data.usuario;
+                document.getElementById('atelie-senha-atualizacao').value = data.senha;
+                document.getElementById('atelie-inicio-atualizacao').value = data.inicio01;
+                document.getElementById('atelie-fim-atualizacao').value = data.fim01;
+                
+                toggleModal('modal-atualizacao-atelie', true);
+                document.getElementById('btn-atualizar-endereco-atelie').addEventListener('click', function() {
+                    toggleModal('modal-atualizar-endereco-atelie', true);
+                    
+                    fetch('http://localhost:8080/endereco/' + data.idEndereco) 
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erro na requisição');
+                        }
+                        return response.json(); 
+                    })
+                    .then(dataEndereco => {
+                        console.log('Endereco recebido:', dataEndereco);
+                        document.getElementById('endereco-id-atualizacao-atelie').value = dataEndereco.idEndereco
+                        document.getElementById('modal-estado-atualizacao-atelie').value = dataEndereco.estado;
+                        document.getElementById('modal-uf-atualizacao-atelie').value = dataEndereco.uf;
+                        document.getElementById('modal-cidade-atualizacao-atelie').value = dataEndereco.cidade;
+                        document.getElementById('modal-bairro-atualizacao-atelie').value = dataEndereco.bairro;
+                        document.getElementById('modal-rua-atualizacao-atelie').value = dataEndereco.rua;
+                        document.getElementById('modal-cep-atualizacao-atelie').value = dataEndereco.cep;
+                        document.getElementById('modal-numero-atualizacao-atelie').value = dataEndereco.numero;
+                        document.getElementById('modal-complemento-atualizacao-atelie').value = dataEndereco.complemento;
+                        
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar perfil:', error);
+                        alert('Erro ao buscar perfil!');
+                    });
+                })
+            });     
+        });
+
+        document.getElementById('btn-cancelar-endereco-atualizacao-atelie').addEventListener('click', () => 
+            toggleModal('modal-atualizar-endereco-atelie', false));
+
+    const formEnderecoAtelie = document.getElementById('form-atualizar-endereco-atelie');
+
+    formEnderecoAtelie.addEventListener('submit', function(e) {
+        
+        e.preventDefault();
+
+        
+        const formData = new FormData(formEnderecoAtelie);
+        const dadosDoFormulario = Object.fromEntries(formData.entries());
+        
+        
+        console.log(dadosDoFormulario)
+        
+        fetch(`http://localhost:8080/endereco`, { 
+            method: 'PUT', 
+            headers: {
+                'Content-Type': 'application/json',
+        
+            },
+            body: JSON.stringify(dadosDoFormulario)
+        })
+        .then(response => {
+            if (!response.ok) {
+                
+                throw new Error('Falha ao atualizar o endereço. Status: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Endereço atualizado com sucesso:', data);
+            document.getElementById('endereco-id-atualizar-atelie').value = data.idEndereco
+            console.log(document.getElementById('endereco-id-atualizar-atelie').value)
+            toggleModal('modal-atualizar-endereco-atelie', false)
+            
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Ocorreu um erro ao tentar atualizar o endereço.');
+        });
+    });
+
+    const formAtualizarAtelie = document.getElementById('form-atualizacao-atelie');
+    formAtualizarAtelie.addEventListener('submit', function(e) {
+        
+        e.preventDefault();
+
+        
+        const formData = new FormData(formAtualizarAtelie);
+        const dadosDoFormulario = Object.fromEntries(formData.entries());
+        
+        
+        console.log(dadosDoFormulario)
+        
+        fetch(`http://localhost:8080/atelie`, { 
+            method: 'PUT', 
+            headers: {
+                'Content-Type': 'application/json',
+        
+            },
+            body: JSON.stringify(dadosDoFormulario)
+        })
+        .then(response => {
+            if (!response.ok) {
+                
+                throw new Error('Falha ao atualizar o perfil. Status: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Perfil atualizado com sucesso:', data);
+            
+            toggleModal('modal-atualizacao-atelie', false)
+            
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Ocorreu um erro ao tentar atualizar o perfil.');
+        });
+    });
+
+    document.getElementById('btn-voltar-modal-atelie-atualizacao').addEventListener('click', () => 
+        toggleModal('modal-atualizacao-atelie', false));
+
+
+    const linkSairAtelie = document.getElementById('nav-sair-atelie');
+
+    linkSairAtelie.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        localStorage.clear();
+        location.reload();
+        
+    });
+
+
+    const linkPedidosAtelie = document.getElementById('nav-pedidos-atelie');
+    
+    const listaPedidosContainer = document.getElementById('lista-pedidos-feitos-atelie');
+    
+
+
+
+    linkPedidosAtelie.addEventListener('click', function(e) {
+        e.preventDefault(); 
+
+        toggleModal('modal-pedidos-atelie', true)
+        
+        listaPedidosContainer.innerHTML = '<p class="text-gray-500">Carregando pedidos...</p>';
+        
+        // Busca os dados da sua API
+        // Assumindo que a API retorna um objeto com uma propriedade `content` que é um array de pedidos
+        fetch(`http://localhost:8080/pedido/atelie/${localStorage.getItem("idPessoa")}`) // <-- Adapte a URL se necessário
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Falha ao buscar os pedidos.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                listaPedidosContainer.innerHTML = '';
+
+                if (data.content && data.content.length > 0) {
+                    
+                    data.content.forEach(pedido => {
+                        const pedidoElement = document.createElement('div');
+                        pedidoElement.className = 'flex justify-between items-center py-3 border-b';
+                        
+                        
+                        pedidoElement.innerHTML = `
+                            <span class="text-gray-800">${pedido.descricao}</span>
+                            <button 
+                                class="btn-ver-detalhes py-1 px-3 text-sm bg-primary text-white rounded hover:bg-primary-dark"
+                                data-pedido-id="${pedido.idPedido}">
+                                Atualizar Pedido
+                            </button>
+                        `;
+                        
+                        listaPedidosContainer.appendChild(pedidoElement);
+                    });
+                } else {
+                    listaPedidosContainer.innerHTML = '<p class="text-gray-500">Nenhum pedido encontrado.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                listaPedidosContainer.innerHTML = `<p class="text-red-500">Erro ao carregar os pedidos.</p>`;
+            });
+    });
+
+    
+    listaPedidosContainer.addEventListener('click', function(e) {
+        // Verifica se o elemento clicado é um dos nossos botões
+        if (e.target && e.target.classList.contains('btn-ver-detalhes')) {
+            const pedidoId = e.target.dataset.pedidoId;
+            console.log(`Botão clicado para o pedido com ID: ${pedidoId}`);
+            fetch(`http://localhost:8080/pedido/${pedidoId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Falha ao buscar o pedidos.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('TESTE')
+                    const modalParaAbrir = document.getElementById('modal-pedido-atelie');
+                    if (modalParaAbrir) {
+                        modalParaAbrir.style.opacity = '1';
+                        modalParaAbrir.style.visibility = 'visible';
+                    }
+                    // toggleModal('modal-pedido-atelie-alterar', true)
+                })
+                .catch(error => {
+                    
+                });
+            
+        }
+    });
+
+
+
+
+
+
+
 
 
     // Código para a navegação das abas da tela principal

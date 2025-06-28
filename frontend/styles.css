@@ -57,7 +57,7 @@ body {
 
 /* Garante que páginas ocultas não sejam visíveis */
 .page.hidden {
-    display: none !important;
+    display: none;
 }
         
         @keyframes fadeIn {

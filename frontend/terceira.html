@@ -243,7 +243,7 @@
         </div>
     </div>
 
-    <div id="modal-endereco" class="modal-overlay">
+<div id="modal-endereco" class="modal-overlay">
     <div class="modal-content w-full max-w-lg animate-fade-in">
         <h2 class="text-2xl font-bold mb-4">Cadastro de Endereço</h2>
         <form id="form-endereco" class="space-y-4">
@@ -379,8 +379,8 @@
                                     </div>
                                 </div>
                                 <div class="ml-3">
-                                    <p class="text-sm font-medium text-gray-700 name-user">Maria Silva</p>
-                                    <a href="#" class="text-xs font-medium text-primary hover:text-primary-dark">Ver perfil</a>
+                                    <p class="text-sm font-medium text-gray-700 name-user"></p>
+                                    <a href="#" id="link-ver-perfil" class="text-xs font-medium text-primary hover:text-primary-dark">Ver perfil</a>
                                 </div>
                                 <div class="ml-auto">
                                     <button type="button" class="text-gray-400 hover:text-gray-500">
@@ -393,7 +393,138 @@
                 </div>
             </div>
             
-            
+            <div id="modal-atualizacao-cliente" class="modal-overlay">
+                <div class="modal-content w-full max-w-2xl animate-fade-in">
+                    <div class="mb-6 text-center">
+                        <h2 class="text-3xl font-extrabold text-gray-900">
+                            <i class="fas fa-user-plus text-primary mr-2"></i>Perfil
+                        </h2>
+                        <p class="mt-2 text-sm text-gray-600">
+                            Atualize seus dados
+                        </p>
+                    </div>
+                    
+                    <form id="form-atualizacao-cliente" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <input type="hidden" id="cliente-id-atualizar" name="idPessoa">
+                            <div>
+                                <label for="cliente-nome" class="block text-sm font-medium text-gray-700">Nome Completo</label>
+                                <input type="text" id="cliente-nome-atualizacao" name="nomePessoa" disabled class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+                            
+                            <div>
+                                <label for="cliente-cpf" class="block text-sm font-medium text-gray-700">CPF</label>
+                                <input type="text" id="cliente-cpf-atualizacao" name="cpf" disabled class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border" maxlength="11" placeholder="Apenas números">
+                            </div>
+                            
+                            <div>
+                                <label for="cliente-email" class="block text-sm font-medium text-gray-700">E-mail</label>
+                                <input type="email" id="cliente-email-atualizacao" name="email" disabled class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+                            
+                            <div>
+                                <label for="cliente-telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
+                                <input type="tel" id="cliente-telefone-atualizacao" name="telefone" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+                            
+                            <div>
+                                <label for="cliente-nascimento" class="block text-sm font-medium text-gray-700">Data de Nascimento</label>
+                                <input type="date" id="cliente-nascimento-atualizacao" name="dataNascimento" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+                            
+                            <div>
+                                <label for="cliente-usuario" class="block text-sm font-medium text-gray-700">Nome de Usuário</label>
+                                <input type="text" id="cliente-usuario-atualizacao" name="usuario" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+
+                            <div>
+                                <label for="cliente-senha" class="block text-sm font-medium text-gray-700">Senha</label>
+                                <input type="password" id="cliente-senha-atualizacao" name="senha" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+                            
+                            <div>
+                                <label for="cliente-confirmar-senha" class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
+                                <input type="password" id="cliente-confirmar-senha-atualizacao" name="confirmarSenha" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+                        
+        
+                            <input type="hidden" id="endereco-id-atualizar" name="idEndereco">
+                            <div id="endereco-resumo" class="text-sm text-gray-500"></div>
+                        </div>
+                        
+                        <h3 class="text-lg font-medium text-gray-900 mt-6">Endereço</h3>
+                        <button type="button" id="btn-atualizar-endereco-cliente" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        Atualizar Endereço</button>
+                        
+                        <div class="flex justify-between pt-4">
+                            <button type="button" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" id="btn-voltar-modal-cliente-atualizacao">
+                                Voltar
+                            </button>
+                            <button type="submit" class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                Atualizar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-atualizar-endereco" class="modal-overlay">
+                <div class="modal-content w-full max-w-lg animate-fade-in">
+                    <h2 class="text-2xl font-bold mb-4">Cadastro de Endereço</h2>
+                    <form id="form-atualizar-endereco" class="space-y-4">
+                        <input type="hidden" id="endereco-id-atualizacao" name="idEndereco">
+                        <div>
+                            <label for="modal-estado-atualizacao" class="block text-sm font-medium text-gray-700">Estado</label>
+                            <select id="modal-estado-atualizacao" name="estado" class="block w-full border border-gray-300 rounded-md p-2">
+                                <option value="">Selecione um estado</option>
+                                <option value="São Paulo">São Paulo</option>
+                                <option value="Rio de Janeiro">Rio de Janeiro</option>
+                                <option value="Minas Gerais">Minas Gerais</option>
+                            </select>
+                            <label for="modal-uf-atualizacao" class="block text-sm font-medium text-gray-700">UF</label>
+                            <select id="modal-uf-atualizacao" name="uf" required class="block w-full border border-gray-300 rounded-md p-2">
+                                <option value="">Selecione um UF</option>
+                                <option value="SP">SP</option>
+                                <option value="RJ">RJ</option>
+                                <option value="MG">MG</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="modal-cidade-atualizacao" class="block text-sm font-medium text-gray-700">Cidade</label>
+                            <input type="text" name="cidade" id="modal-cidade-atualizacao" required class="block w-full border border-gray-300 rounded-md p-2"></input>
+                        </div>
+                        <div>
+                            <label for="modal-bairro-atualizacao" class="block text-sm font-medium text-gray-700">Bairro</label>
+                            <input type="text" name="bairro" id="modal-bairro-atualizacao" required class="block w-full border border-gray-300 rounded-md p-2"></input>
+                        </div>
+                        <div>
+                            <label for="modal-rua-atualizacao" class="block text-sm font-medium text-gray-700">Rua</label>
+                            <input type="text" name="rua" id="modal-rua-atualizacao" required class="block w-full border border-gray-300 rounded-md p-2">
+                        </div>
+                        <div>
+                            <label for="modal-cep-atualizacao" class="block text-sm font-medium text-gray-700">CEP</label>
+                            <input type="text" name="cep" id="modal-cep-atualizacao" required class="block w-full border border-gray-300 rounded-md p-2">
+                        </div>
+                        <div>
+                            <label for="modal-numero-atualizacao" class="block text-sm font-medium text-gray-700">Número</label>
+                            <input type="text" name="numero" id="modal-numero-atualizacao" required class="block w-full border border-gray-300 rounded-md p-2">
+                        </div>
+                        <div>
+                            <label for="modal-complemento-atualizacao" class="block text-sm font-medium text-gray-700">Complemento</label>
+                            <input type="text" name="complemento" id="modal-complemento-atualizacao" class="block w-full border border-gray-300 rounded-md p-2">
+                        </div>
+
+                        <div class="flex justify-between pt-4">
+                            <button type="button" id="btn-cancelar-endereco-atualizacao" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark">
+                                Atualizar Endereço
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
             <div id="modal-pedidos" class="modal-overlay">
                 <div class="modal-content w-full max-w-lg animate-fade-in">
@@ -425,10 +556,6 @@
             
             <div class="flex flex-col flex-1 overflow-hidden">
                 <div class="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200">
-                    <button type="button" class="px-4 border-r border-gray-200 text-gray-500 md:hidden" id="mobile-menu-button">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    
                     <div class="flex-1 px-4 flex justify-between">
                         <div class="flex-1 flex">
                             <div class="w-full flex md:ml-0">
@@ -441,965 +568,444 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="ml-4 flex items-center md:ml-6">
-                            <button type="button" class="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
-                                <span class="sr-only">Ver notificações</span>
-                                <i class="fas fa-bell"></i>
-                            </button>
+                    </div>
+                </div>
+                
+            <main class="flex-1 relative overflow-y-auto focus:outline-none pb-16 md:pb-0">
+                <div class="tab-content active" id="content-dashboard">
+                    <div class="py-6">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                            <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
+                        </div>
                             
-                            <div class="ml-3 relative">
-                                <div>
-                                    <button type="button" class="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none" id="user-menu-button">
-                                        <span class="sr-only">Abrir menu do usuário</span>
-                                        <div class="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-white">
-                                            <i class="fas fa-user"></i>
-                                        </div>
-                                    </button>
-                                </div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                    <div class="bg-gradient-to-r from-primary to-primary-dark rounded-lg shadow-lg p-6 mt-6 text-white">
+                        <div class="flex flex-col md:flex-row items-center justify-between">
+                            <div class="mb-4 md:mb-0">
+                                <h2 class="text-xl font-bold">Olá, <span class="user-name">Maria!</span></h2>
+                                <p class="mt-1">Encontre os melhores ateliês para seus projetos de costura.</p>
+                            </div>
+                            <button id="btn-novo-pedido" class="bg-white text-primary font-medium py-2 px-4 rounded-md shadow hover:shadow-lg transition-all">
+                                Novo Pedido
+                            </button>
+                        </div>
+                    </div>
                                 
-                                <div class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" id="user-menu">
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Seu Perfil</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configurações</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sair</a>
+            <div id="modal-pedido" class="modal-overlay">
+                <div class="modal-content w-full max-w-lg animate-fade-in">
+                    <h2 class="text-2xl font-bold mb-4">Novo Pedido</h2>
+                    <form id="form-pedido" class="space-y-4">
+                        <div>
+                            <select id="modal-atelie" name="idAtelie" required class="block w-full border border-gray-300 rounded-md p-2">
+                            </select>
+                            
+                        </div>
+
+                        <div><input type="hidden" id="cliente-id" name="idCliente"></div>
+                        <div>
+                            <label for="modal-descricao" class="block text-sm font-medium text-gray-700">Descrição</label>
+                            <input type="text" name="descricaoPedido" id="modal-descricao" required class="block w-full border border-gray-300 rounded-md p-2"></input>
+                        </div>
+
+                        <input type="hidden" id="status" name="status">
+                        <!--
+                        <div>
+                            <label for="fileUpload" class="block text-sm font-medium text-gray-700">Escolher Foto</label>
+                            <input type="file" id="fileUpload" name="foto" accept="image/*" class="mt-1">
+                        </div>
+                        -->
+                        
+                        <input type="hidden" id="medida-ids" name="idsMedida">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900 mt-6">Medidas</h3>
+                            <button type="button" id="btn-escolher-medida" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            Adicionar Medidas</button>
+                        </div>
+                        <input type="hidden" id="servico-pedido-ids" name="servicos">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900 mt-6">Serviços</h3>
+                            <button type="button" id="btn-adicionar-servico" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            Adicionar Serviços</button>
+                        </div>
+                        <div>
+                            <label for="modal-dataPrevisao" class="block text-sm font-medium text-gray-700">Data Previsão de Entrega</label>
+                            <input type="date" name="dataPrevisaoEntrega" id="modal-dataPrevisao" readonly class="block w-full border border-gray-300 rounded-md p-2">
+                        </div>
+                        <div>
+                            <label for="modal-valor" class="block text-sm font-medium text-gray-700">Valor Total</label>
+                            <input type="text" name="valorTotal" id="modal-valor" readonly class="block w-full border border-gray-300 rounded-md p-2"></input>
+                        </div>
+                        
+                        <input type="hidden" id="formaPagamento-id" name="idFormaPagamento">
+                        
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900 mt-6">Forma de Pagamento</h3>
+                            <button type="button" id="btn-escolher-formaPagamento" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            Escolher Forma de Pagamento</button>
+                        </div>
+                        <div class="flex justify-between pt-4">
+                            <button type="button" id="btn-cancelar-pedido" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark">
+                                Fazer Pedido
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>                            
+                                    
+            <div id="modal-medida" class="modal-overlay">
+                <div class="modal-content w-full max-w-lg animate-fade-in">
+                    <h2 class="text-2xl font-bold mb-4">Escolher Medidas</h2>
+                    <form id="form-medida" class="space-y-4">
+                    <div id="lista-medida">
+                    
+                    </div>
+                    <div class="flex justify-between pt-4">
+                        <button type="button" id="btn-cancelar-medida" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
+                        Cancelar
+                        </button>
+                        <button type="submit" class="btn-primary py-2 px-4 rounded-md text-white bg-primary hover:bg-primary-dark">
+                        Escolher Medidas
+                        </button>
+                    </div>
+                    </form>
+                </div>
+                </div>    
+
+                <div id="modal-formaPagamento" class="modal-overlay">
+                    <div class="modal-content w-full max-w-lg animate-fade-in">
+                        <h2 class="text-2xl font-bold mb-4">Escolher Forma de Pagamento</h2>
+                        <form id="form-formaPagamento" class="space-y-4">
+                        <div id="lista-formaPagamento">
+                            <select id="select-formaPagamento">
+                                
+                            </select>
+                        </div>
+                        <div class="flex justify-between pt-4">
+                            <button type="button" id="btn-cancelar-formaPagamento" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
+                            Cancelar
+                            </button>
+                            <button type="submit" class="btn-primary py-2 px-4 rounded-md text-white bg-primary hover:bg-primary-dark">
+                            Escolher Forma
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+
+                    <div id="modal-servico-pedido" class="modal-overlay">
+                        <div class="modal-content w-full max-w-lg animate-fade-in">
+                            <h2 class="text-2xl font-bold mb-4">Escolher Serviço</h2>
+                            <form id="form-servico-pedido" class="space-y-4">
+                            <div id="lista-servico-pedido">
+                                
+                            </div>
+                            <div id="lista-materia-pedido" class="space-y-4">
+
+
+                            </div>
+                            <div class="flex justify-between pt-4">
+                                <button type="button" id="btn-cancelar-servico-pedido" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
+                                Cancelar
+                                </button>
+                                <button type="submit" class="btn-primary py-2 px-4 rounded-md text-white bg-primary hover:bg-primary-dark">
+                                Salvar Serviços
+                                </button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-atelie" class="page hidden"> 
+        <div class="flex h-screen overflow-hidden">
+            <div class="hidden md:flex md:flex-shrink-0">
+                <div class="flex flex-col w-64 bg-white border-r border-gray-200">
+                    <div class="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto">
+                        <div class="flex items-center flex-shrink-0 px-4 mb-5">
+                            <h1 class="text-2xl font-bold text-primary">
+                                <i class="fas fa-cut mr-2"></i>AteliMatch
+                            </h1>
+                        </div>
+                        
+                        <div class="flex-grow flex flex-col">
+                            <nav class="flex-1 px-2 space-y-1">
+                                <a href="#" class="sidebar-item active group flex items-center px-2 py-3 text-sm font-medium rounded-md" id="nav-dashboard">
+                                    <i class="fas fa-home mr-3 text-primary"></i>
+                                    Dashboard
+                                </a>
+                                <a href="#" class="sidebar-item group flex items-center px-2 py-3 text-sm font-medium rounded-md" id="nav-pedidos-atelie">
+                                    <i class="fas fa-clipboard-list mr-3 text-primary"></i>
+                                    Pedidos
+                                </a>
+                                <a href="#" class="sidebar-item group flex items-center px-2 py-3 text-sm font-medium rounded-md" id="nav-sair-atelie">
+                                    <i class="fas fa-sign-out-alt mr-3 text-primary"></i>
+                                    Sair
+                                </a>
+                            </nav>
+                        </div>
+                        
+                        <div class="flex-shrink-0 p-4 border-t border-gray-200">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-700 atelie-nome"></p>
+                                    <a href="#" id="link-ver-perfil-atelie" class="text-xs font-medium text-primary hover:text-primary-dark">Ver perfil</a>
+                                </div>
+                                <div class="ml-auto">
+                                    <button type="button" class="text-gray-400 hover:text-gray-500">
+                                        <i class="fas fa-cog"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <div id="modal-atualizacao-atelie" class="modal-overlay">
+                <div class="modal-content w-full max-w-2xl animate-fade-in">
+                    <div class="mb-6 text-center">
+                        <h2 class="text-3xl font-extrabold text-gray-900">
+                            <i class="fas fa-user-plus text-primary mr-2"></i>Perfil
+                        </h2>
+                        <p class="mt-2 text-sm text-gray-600">
+                            Atualize seus dados
+                        </p>
+                    </div>
+                    
+                    <form id="form-atualizacao-atelie" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <input type="hidden" id="atelie-id-atualizar" name="idPessoa">
+                            <div>
+                                <label for="atelie-nome" class="block text-sm font-medium text-gray-700">Nome Completo</label>
+                                <input type="text" id="atelie-nome-atualizacao" name="nomePessoa" disabled class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+                            
+                            <div>
+                                <label for="atelie-cnpj" class="block text-sm font-medium text-gray-700">CNPJ</label>
+                                <input type="text" id="atelie-cnpj-atualizacao" name="cnpj" disabled class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border" maxlength="11" placeholder="Apenas números">
+                            </div>
+                            
+                            <div>
+                                <label for="atelie-email" class="block text-sm font-medium text-gray-700">E-mail</label>
+                                <input type="email" id="atelie-email-atualizacao" name="email" disabled class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+                            
+                            <div>
+                                <label for="atelie-telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
+                                <input type="tel" id="atelie-telefone-atualizacao" name="telefone" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+                            
+                            <div>
+                                <label for="atelie-usuario" class="block text-sm font-medium text-gray-700">Nome de Usuário</label>
+                                <input type="text" id="atelie-usuario-atualizacao" name="usuario" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+
+                            <div>
+                                <label for="atelie-senha" class="block text-sm font-medium text-gray-700">Senha</label>
+                                <input type="password" id="atelie-senha-atualizacao" name="senha" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+                            
+                            <div>
+                                <label for="atelie-confirmar-senha" class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
+                                <input type="password" id="atelie-confirmar-senha-atualizacao" name="confirmarSenha" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+
+                            <div>
+                                <label for="atelie-horario01" class="block text-sm font-medium text-gray-700">Horário de Ínicio</label>
+                                <input type="number" id="atelie-inicio-atualizacao" name="inicio01" min="0" max="23" step="1" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+                        
+                            <div>
+                                <label for="atelie-fim01" class="block text-sm font-medium text-gray-700">Horário de Sada</label>
+                                <input type="number" id="atelie-fim-atualizacao" name="fim01" min="0" max="23" step="1" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border">
+                            </div>
+        
+                            <input type="hidden" id="endereco-id-atualizar-atelie" name="idEndereco">
+                            <div id="endereco-resumo" class="text-sm text-gray-500"></div>
+                        </div>
+                        
+                        <h3 class="text-lg font-medium text-gray-900 mt-6">Endereço</h3>
+                        <button type="button" id="btn-atualizar-endereco-atelie" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        Atualizar Endereço</button>
+                        
+                        <div class="flex justify-between pt-4">
+                            <button type="button" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" id="btn-voltar-modal-atelie-atualizacao">
+                                Voltar
+                            </button>
+                            <button type="submit" class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                Atualizar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-atualizar-endereco-atelie" class="modal-overlay">
+                <div class="modal-content w-full max-w-lg animate-fade-in">
+                    <h2 class="text-2xl font-bold mb-4">Cadastro de Endereço</h2>
+                    <form id="form-atualizar-endereco-atelie" class="space-y-4">
+                        <input type="hidden" id="endereco-id-atualizacao-atelie" name="idEndereco">
+                        <div>
+                            <label for="modal-estado-atualizacao-atelie" class="block text-sm font-medium text-gray-700">Estado</label>
+                            <select id="modal-estado-atualizacao-atelie" name="estado" class="block w-full border border-gray-300 rounded-md p-2">
+                                <option value="">Selecione um estado</option>
+                                <option value="São Paulo">São Paulo</option>
+                                <option value="Rio de Janeiro">Rio de Janeiro</option>
+                                <option value="Minas Gerais">Minas Gerais</option>
+                            </select>
+                            <label for="modal-uf-atualizacao-atelie" class="block text-sm font-medium text-gray-700">UF</label>
+                            <select id="modal-uf-atualizacao-atelie" name="uf" required class="block w-full border border-gray-300 rounded-md p-2">
+                                <option value="">Selecione um UF</option>
+                                <option value="SP">SP</option>
+                                <option value="RJ">RJ</option>
+                                <option value="MG">MG</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="modal-cidade-atualizacao-atelie" class="block text-sm font-medium text-gray-700">Cidade</label>
+                            <input type="text" name="cidade" id="modal-cidade-atualizacao-atelie" required class="block w-full border border-gray-300 rounded-md p-2"></input>
+                        </div>
+                        <div>
+                            <label for="modal-bairro-atualizacao-atelie" class="block text-sm font-medium text-gray-700">Bairro</label>
+                            <input type="text" name="bairro" id="modal-bairro-atualizacao-atelie" required class="block w-full border border-gray-300 rounded-md p-2"></input>
+                        </div>
+                        <div>
+                            <label for="modal-rua-atualizacao-atelie" class="block text-sm font-medium text-gray-700">Rua</label>
+                            <input type="text" name="rua" id="modal-rua-atualizacao-atelie" required class="block w-full border border-gray-300 rounded-md p-2">
+                        </div>
+                        <div>
+                            <label for="modal-cep-atualizacao-atelie" class="block text-sm font-medium text-gray-700">CEP</label>
+                            <input type="text" name="cep" id="modal-cep-atualizacao-atelie" required class="block w-full border border-gray-300 rounded-md p-2">
+                        </div>
+                        <div>
+                            <label for="modal-numero-atualizacao-atelie" class="block text-sm font-medium text-gray-700">Número</label>
+                            <input type="text" name="numero" id="modal-numero-atualizacao-atelie" required class="block w-full border border-gray-300 rounded-md p-2">
+                        </div>
+                        <div>
+                            <label for="modal-complemento-atualizacao-atelie" class="block text-sm font-medium text-gray-700">Complemento</label>
+                            <input type="text" name="complemento" id="modal-complemento-atualizacao-atelie" class="block w-full border border-gray-300 rounded-md p-2">
+                        </div>
+
+                        <div class="flex justify-between pt-4">
+                            <button type="button" id="btn-cancelar-endereco-atualizacao-atelie" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark">
+                                Atualizar Endereço
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="modal-pedidos-atelie" class="modal-overlay">
+                <div class="modal-content w-full max-w-lg animate-fade-in">
+                  <h2 class="text-2xl font-bold mb-4">Pedidos</h2>
+                    <div id="lista-pedidos-feitos-atelie">
+                        
+                    </div>
+                    <div class="flex justify-between pt-4">
+                      <button type="button" id="btn-fechar-pedidos" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
+                        Cancelar
+                      </button>
+                    </div>
+                </div>
+              </div>
+
+            
+            
                 
-                <main class="flex-1 relative overflow-y-auto focus:outline-none pb-16 md:pb-0">
-                    <div class="tab-content active" id="content-dashboard">
-                        <div class="py-6">
-                            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                                <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
-                            </div>
+            <main class="flex-1 relative overflow-y-auto focus:outline-none pb-16 md:pb-0">
+                <div class="tab-content active" id="content-dashboard">
+                    <div class="py-6">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                            <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
+                        </div>
                             
-                            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                                <div class="bg-gradient-to-r from-primary to-primary-dark rounded-lg shadow-lg p-6 mt-6 text-white">
-                                    <div class="flex flex-col md:flex-row items-center justify-between">
-                                        <div class="mb-4 md:mb-0">
-                                            <h2 class="text-xl font-bold">Olá, <span class="user-name">Maria!</span></h2>
-                                            <p class="mt-1">Encontre os melhores ateliês para seus projetos de costura.</p>
-                                        </div>
-                                        <button id="btn-novo-pedido" class="bg-white text-primary font-medium py-2 px-4 rounded-md shadow hover:shadow-lg transition-all">
-                                            Novo Pedido
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <div id="modal-pedido" class="modal-overlay">
-                                    <div class="modal-content w-full max-w-lg animate-fade-in">
-                                        <h2 class="text-2xl font-bold mb-4">Novo Pedido</h2>
-                                        <form id="form-pedido" class="space-y-4">
-                                            <div>
-                                                <select id="modal-atelie" name="idAtelie" required class="block w-full border border-gray-300 rounded-md p-2">
-                                                </select>
-                                                
-                                            </div>
-
-                                            <div><input type="hidden" id="cliente-id" name="idCliente"></div>
-                                            <div>
-                                                <label for="modal-descricao" class="block text-sm font-medium text-gray-700">Descrição</label>
-                                                <input type="text" name="descricaoPedido" id="modal-descricao" required class="block w-full border border-gray-300 rounded-md p-2"></input>
-                                            </div>
-
-                                            <input type="hidden" id="status" name="status">
-                                            <!--
-                                            <div>
-                                                <label for="fileUpload" class="block text-sm font-medium text-gray-700">Escolher Foto</label>
-                                                <input type="file" id="fileUpload" name="foto" accept="image/*" class="mt-1">
-                                            </div>
-                                            -->
-                                            
-                                            <input type="hidden" id="medida-ids" name="idsMedida">
-                                            <div>
-                                                <h3 class="text-lg font-medium text-gray-900 mt-6">Medidas</h3>
-                                                <button type="button" id="btn-escolher-medida" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                                Adicionar Medidas</button>
-                                            </div>
-                                            <input type="hidden" id="servico-pedido-ids" name="servicos">
-                                            <div>
-                                                <h3 class="text-lg font-medium text-gray-900 mt-6">Serviços</h3>
-                                                <button type="button" id="btn-adicionar-servico" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                                Adicionar Serviços</button>
-                                            </div>
-                                            <div>
-                                                <label for="modal-dataPrevisao" class="block text-sm font-medium text-gray-700">Data Previsão de Entrega</label>
-                                                <input type="date" name="dataPrevisaoEntrega" id="modal-dataPrevisao" readonly class="block w-full border border-gray-300 rounded-md p-2">
-                                            </div>
-                                            <div>
-                                                <label for="modal-valor" class="block text-sm font-medium text-gray-700">Valor Total</label>
-                                                <input type="text" name="valorTotal" id="modal-valor" readonly class="block w-full border border-gray-300 rounded-md p-2"></input>
-                                            </div>
-                                            
-                                            <input type="hidden" id="formaPagamento-id" name="idFormaPagamento">
-                                            
-                                            <div>
-                                                <h3 class="text-lg font-medium text-gray-900 mt-6">Forma de Pagamento</h3>
-                                                <button type="button" id="btn-escolher-formaPagamento" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                                Escolher Forma de Pagamento</button>
-                                            </div>
-                                            <div class="flex justify-between pt-4">
-                                                <button type="button" id="btn-cancelar-pedido" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white">
-                                                    Cancelar
-                                                </button>
-                                                <button type="submit" class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark">
-                                                    Fazer Pedido
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>                            
-                                    
-                                <div id="modal-medida" class="modal-overlay">
-                                    <div class="modal-content w-full max-w-lg animate-fade-in">
-                                      <h2 class="text-2xl font-bold mb-4">Escolher Medidas</h2>
-                                      <form id="form-medida" class="space-y-4">
-                                        <div id="lista-medida">
-                                        
-                                        </div>
-                                        <div class="flex justify-between pt-4">
-                                          <button type="button" id="btn-cancelar-medida" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
-                                            Cancelar
-                                          </button>
-                                          <button type="submit" class="btn-primary py-2 px-4 rounded-md text-white bg-primary hover:bg-primary-dark">
-                                            Escolher Medidas
-                                          </button>
-                                        </div>
-                                      </form>
-                                    </div>
-                                  </div>    
-
-                                <div id="modal-formaPagamento" class="modal-overlay">
-                                    <div class="modal-content w-full max-w-lg animate-fade-in">
-                                      <h2 class="text-2xl font-bold mb-4">Escolher Forma de Pagamento</h2>
-                                      <form id="form-formaPagamento" class="space-y-4">
-                                        <div id="lista-formaPagamento">
-                                            <select id="select-formaPagamento">
-                                                
-                                            </select>
-                                        </div>
-                                        <div class="flex justify-between pt-4">
-                                          <button type="button" id="btn-cancelar-formaPagamento" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
-                                            Cancelar
-                                          </button>
-                                          <button type="submit" class="btn-primary py-2 px-4 rounded-md text-white bg-primary hover:bg-primary-dark">
-                                            Escolher Forma
-                                          </button>
-                                        </div>
-                                      </form>
-                                    </div>
-                                  </div>
-
-                                  <div id="modal-servico-pedido" class="modal-overlay">
-                                    <div class="modal-content w-full max-w-lg animate-fade-in">
-                                      <h2 class="text-2xl font-bold mb-4">Escolher Serviço</h2>
-                                      <form id="form-servico-pedido" class="space-y-4">
-                                        <div id="lista-servico-pedido">
-                                            
-                                        </div>
-                                        <div id="lista-materia-pedido" class="space-y-4">
-
-
-                                        </div>
-                                        <div class="flex justify-between pt-4">
-                                          <button type="button" id="btn-cancelar-servico-pedido" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
-                                            Cancelar
-                                          </button>
-                                          <button type="submit" class="btn-primary py-2 px-4 rounded-md text-white bg-primary hover:bg-primary-dark">
-                                            Salvar Serviços
-                                          </button>
-                                        </div>
-                                      </form>
-                                    </div>
-                                  </div>
-                                
-                                
-                    
-                    
-                    
-                    <div class="tab-content" id="content-atelies">
-                        <div class="py-6">
-                            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                                <h1 class="text-2xl font-semibold text-gray-900">Ateliês</h1>
-                            </div>
-                            
-                            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
-                                <div class="bg-white p-4 shadow rounded-lg mb-6">
-                                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                                        <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
-                                            <div>
-                                                <label for="filter-especialidade" class="block text-sm font-medium text-gray-700">Especialidade</label>
-                                                <select id="filter-especialidade" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md">
-                                                    <option value="">Todas</option>
-                                                    <option value="1">Ajustes</option>
-                                                    <option value="2">Vestidos</option>
-                                                    <option value="3">Roupas sob medida</option>
-                                                    <option value="4">Bordados</option>
-                                                </select>
-                                            </div>
-                                            
-                                            <div>
-                                                <label for="filter-avaliacao" class="block text-sm font-medium text-gray-700">Avaliação</label>
-                                                <select id="filter-avaliacao" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md">
-                                                    <option value="">Todas</option>
-                                                    <option value="4">4+ estrelas</option>
-                                                    <option value="3">3+ estrelas</option>
-                                                    <option value="2">2+ estrelas</option>
-                                                </select>
-                                            </div>
-                                            
-                                            <div>
-                                                <label for="filter-distancia" class="block text-sm font-medium text-gray-700">Distância</label>
-                                                <select id="filter-distancia" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md">
-                                                    <option value="">Qualquer</option>
-                                                    <option value="5">Até 5km</option>
-                                                    <option value="10">Até 10km</option>
-                                                    <option value="20">Até 20km</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="mt-4 md:mt-0">
-                                            <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                                <i class="fas fa-filter mr-2"></i> Filtrar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                                    <div class="bg-white overflow-hidden shadow rounded-lg card">
-                                        <div class="p-5">
-                                            <div class="flex items-center">
-                                                <div class="h-12 w-12 rounded-full bg-primary-light flex items-center justify-center text-primary">
-                                                    <i class="fas fa-store text-xl"></i>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <h3 class="text-lg font-medium text-gray-900">Ateliê da Rosa</h3>
-                                                    <div class="flex items-center mt-1">
-                                                        <div class="flex text-yellow-400">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star-half-alt"></i>
-                                                        </div>
-                                                        <span class="ml-1 text-sm text-gray-500">4.5 (120 avaliações)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-4">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Vestidos
-                                                    </span>
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Ajustes
-                                                    </span>
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Roupas sob medida
-                                                    </span>
-                                                </div>
-                                                <p class="mt-2 text-sm text-gray-500">Especialista em vestidos de festa e roupas sob medida.</p>
-                                                <p class="mt-1 text-sm text-gray-500">
-                                                    <i class="fas fa-map-marker-alt text-primary mr-1"></i> 2,5 km de distância
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="bg-gray-50 px-5 py-3 flex justify-between items-center">
-                                            <a href="#" class="text-sm font-medium text-primary hover:text-primary-dark">
-                                                Ver detalhes
-                                            </a>
-                                            <button class="text-primary hover:text-primary-dark">
-                                                <i class="far fa-heart text-lg"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="bg-white overflow-hidden shadow rounded-lg card">
-                                        <div class="p-5">
-                                            <div class="flex items-center">
-                                                <div class="h-12 w-12 rounded-full bg-primary-light flex items-center justify-center text-primary">
-                                                    <i class="fas fa-store text-xl"></i>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <h3 class="text-lg font-medium text-gray-900">Costura & Arte</h3>
-                                                    <div class="flex items-center mt-1">
-                                                        <div class="flex text-yellow-400">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="far fa-star"></i>
-                                                        </div>
-                                                        <span class="ml-1 text-sm text-gray-500">4.0 (85 avaliações)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-4">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Bordados
-                                                    </span>
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Roupas sob medida
-                                                    </span>
-                                                </div>
-                                                <p class="mt-2 text-sm text-gray-500">Ateliê com foco em bordados artesanais e peças exclusivas.</p>
-                                                <p class="mt-1 text-sm text-gray-500">
-                                                    <i class="fas fa-map-marker-alt text-primary mr-1"></i> 4,8 km de distância
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="bg-gray-50 px-5 py-3 flex justify-between items-center">
-                                            <a href="#" class="text-sm font-medium text-primary hover:text-primary-dark">
-                                                Ver detalhes
-                                            </a>
-                                            <button class="text-primary hover:text-primary-dark">
-                                                <i class="fas fa-heart text-lg"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="bg-white overflow-hidden shadow rounded-lg card">
-                                        <div class="p-5">
-                                            <div class="flex items-center">
-                                                <div class="h-12 w-12 rounded-full bg-primary-light flex items-center justify-center text-primary">
-                                                    <i class="fas fa-store text-xl"></i>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <h3 class="text-lg font-medium text-gray-900">Ateliê Perfeição</h3>
-                                                    <div class="flex items-center mt-1">
-                                                        <div class="flex text-yellow-400">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                        </div>
-                                                        <span class="ml-1 text-sm text-gray-500">5.0 (42 avaliações)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-4">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Ajustes
-                                                    </span>
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Reparos
-                                                    </span>
-                                                </div>
-                                                <p class="mt-2 text-sm text-gray-500">Especializado em ajustes rápidos e reparos de qualidade.</p>
-                                                <p class="mt-1 text-sm text-gray-500">
-                                                    <i class="fas fa-map-marker-alt text-primary mr-1"></i> 3,2 km de distância
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="bg-gray-50 px-5 py-3 flex justify-between items-center">
-                                            <a href="#" class="text-sm font-medium text-primary hover:text-primary-dark">
-                                                Ver detalhes
-                                            </a>
-                                            <button class="text-primary hover:text-primary-dark">
-                                                <i class="far fa-heart text-lg"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="bg-white overflow-hidden shadow rounded-lg card">
-                                        <div class="p-5">
-                                            <div class="flex items-center">
-                                                <div class="h-12 w-12 rounded-full bg-primary-light flex items-center justify-center text-primary">
-                                                    <i class="fas fa-store text-xl"></i>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <h3 class="text-lg font-medium text-gray-900">Costura Elegante</h3>
-                                                    <div class="flex items-center mt-1">
-                                                        <div class="flex text-yellow-400">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="far fa-star"></i>
-                                                        </div>
-                                                        <span class="ml-1 text-sm text-gray-500">4.2 (56 avaliações)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-4">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Vestidos
-                                                    </span>
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Roupas sob medida
-                                                    </span>
-                                                </div>
-                                                <p class="mt-2 text-sm text-gray-500">Especialista em vestidos de noiva e roupas para ocasiões especiais.</p>
-                                                <p class="mt-1 text-sm text-gray-500">
-                                                    <i class="fas fa-map-marker-alt text-primary mr-1"></i> 6,5 km de distância
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="bg-gray-50 px-5 py-3 flex justify-between items-center">
-                                            <a href="#" class="text-sm font-medium text-primary hover:text-primary-dark">
-                                                Ver detalhes
-                                            </a>
-                                            <button class="text-primary hover:text-primary-dark">
-                                                <i class="far fa-heart text-lg"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="bg-white overflow-hidden shadow rounded-lg card">
-                                        <div class="p-5">
-                                            <div class="flex items-center">
-                                                <div class="h-12 w-12 rounded-full bg-primary-light flex items-center justify-center text-primary">
-                                                    <i class="fas fa-store text-xl"></i>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <h3 class="text-lg font-medium text-gray-900">Ponto a Ponto</h3>
-                                                    <div class="flex items-center mt-1">
-                                                        <div class="flex text-yellow-400">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star-half-alt"></i>
-                                                            <i class="far fa-star"></i>
-                                                        </div>
-                                                        <span class="ml-1 text-sm text-gray-500">3.5 (28 avaliações)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-4">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Ajustes
-                                                    </span>
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Reparos
-                                                    </span>
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">
-                                                        Bordados
-                                                    </span>
-                                                </div>
-                                                <p class="mt-2 text-sm text-gray-500">Serviços rápidos de ajustes e pequenos reparos.</p>
-                                                <p class="mt-1 text-sm text-gray-500">
-                                                    <i class="fas fa-map-marker-alt text-primary mr-1"></i> 1,8 km de distância
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="bg-gray-50 px-5 py-3 flex justify-between items-center">
-                                            <a href="#" class="text-sm font-medium text-primary hover:text-primary-dark">
-                                                Ver detalhes
-                                            </a>
-                                            <button class="text-primary hover:text-primary-dark">
-                                                <i class="far fa-heart text-lg"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 mt-6 rounded-lg shadow">
-                                    <div class="flex-1 flex justify-between sm:hidden">
-                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                            Anterior
-                                        </a>
-                                        <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                            Próxima
-                                        </a>
-                                    </div>
-                                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                                        <div>
-                                            <p class="text-sm text-gray-700">
-                                                Mostrando <span class="font-medium">1</span> a <span class="font-medium">6</span> de <span class="font-medium">24</span> resultados
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                                                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                                    <span class="sr-only">Anterior</span>
-                                                    <i class="fas fa-chevron-left"></i>
-                                                </a>
-                                                <a href="#" aria-current="page" class="z-10 bg-primary border-primary text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                                    1
-                                                </a>
-                                                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                                    2
-                                                </a>
-                                                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                                    3
-                                                </a>
-                                                <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-                                                    ...
-                                                </span>
-                                                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                                    4
-                                                </a>
-                                                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                                    <span class="sr-only">Próxima</span>
-                                                    <i class="fas fa-chevron-right"></i>
-                                                </a>
-                                            </nav>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                    <div class="bg-gradient-to-r from-primary to-primary-dark rounded-lg shadow-lg p-6 mt-6 text-white">
+                        <div class="flex flex-col md:flex-row items-center justify-between">
+                            <div class="mb-4 md:mb-0">
+                                <h2 class="text-xl font-bold">Olá, <span class="nome-atelie">Maria!</span></h2>
+                                <p class="mt-1">Organize melhor seus pedidos.</p>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-content" id="content-servico">
-                        <div class="py-6">
-                            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                                <h1 class="text-2xl font-semibold text-gray-900">Serviços</h1>
-                            </div>
-                            
-                            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
-                                <!-- Filters -->
-                                <div class="bg-white p-4 shadow rounded-lg mb-6">
-                                    <h2 class="text-lg font-semibold mb-4 text-gray-700">Filtros</h2>
-                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-1">Ateliê</label>
-                                            <select id="filter-atelie" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                                                <option value="">Todos</option>
-                                                <option value="1">Ateliê Costura & Arte</option>
-                                                <option value="2">Moda Express</option>
-                                                <option value="3">Costura Criativa</option>
-                                                <option value="4">Estilo & Agulha</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-1">Especialidade</label>
-                                            <select id="filter-especialidade" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                                                <option value="">Todas</option>
-                                                <option value="1">Ajustes</option>
-                                                <option value="2">Confecção</option>
-                                                <option value="3">Reparos</option>
-                                                <option value="4">Bordados</option>
-                                                <option value="5">Customização</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-1">Faixa de Preço</label>
-                                            <div class="flex space-x-2">
-                                                <input type="number" id="filter-preco-min" placeholder="Min" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                                                <input type="number" id="filter-preco-max" placeholder="Max" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-end mt-4">
-                                        <button id="btn-limpar-filtros" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mr-2">
-                                            <i class="fas fa-undo mr-1"></i> Limpar
-                                        </button>
-                                        <button id="btn-filtrar" class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                            <i class="fas fa-search mr-1"></i> Filtrar
-                                        </button>
-                                    </div>
+                                
+                    <div id="modal-pedido-atelie-alterar" class="modal-overlay">
+                        <div class="modal-content w-full max-w-lg animate-fade-in">
+                            <h2 class="text-2xl font-bold mb-4">Atualizar Pedido</h2>
+                            <form id="form-pedido-atelie" class="space-y-4">
+                                <div>
+                                    <select id="modal-atelie" name="idAtelie" required class="block w-full border border-gray-300 rounded-md p-2">
+                                    </select>
+                                    
+                                </div>
+
+                                <div><input type="hidden" id="cliente-id" name="idCliente"></div>
+                                <div>
+                                    <label for="modal-descricao" class="block text-sm font-medium text-gray-700">Descrição</label>
+                                    <input type="text" name="descricaoPedido" id="modal-descricao" required class="block w-full border border-gray-300 rounded-md p-2"></input>
+                                </div>
+
+                                <input type="hidden" id="status" name="status">
+                                <!--
+                                <div>
+                                    <label for="fileUpload" class="block text-sm font-medium text-gray-700">Escolher Foto</label>
+                                    <input type="file" id="fileUpload" name="foto" accept="image/*" class="mt-1">
+                                </div>
+                                -->
+                                
+                                <input type="hidden" id="medida-ids" name="idsMedida">
+                                <div>
+                                    <h3 class="text-lg font-medium text-gray-900 mt-6">Medidas</h3>
+                                    <button type="button" id="btn-escolher-medida" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    Adicionar Medidas</button>
+                                </div>
+                                <input type="hidden" id="servico-pedido-ids" name="servicos">
+                                <div>
+                                    <h3 class="text-lg font-medium text-gray-900 mt-6">Serviços</h3>
+                                    <button type="button" id="btn-adicionar-servico" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    Adicionar Serviços</button>
+                                </div>
+                                <div>
+                                    <label for="modal-dataPrevisao" class="block text-sm font-medium text-gray-700">Data Previsão de Entrega</label>
+                                    <input type="date" name="dataPrevisaoEntrega" id="modal-dataPrevisao" readonly class="block w-full border border-gray-300 rounded-md p-2">
+                                </div>
+                                <div>
+                                    <label for="modal-valor" class="block text-sm font-medium text-gray-700">Valor Total</label>
+                                    <input type="text" name="valorTotal" id="modal-valor" readonly class="block w-full border border-gray-300 rounded-md p-2"></input>
                                 </div>
                                 
-                                <!-- Services List -->
-                                <div class="bg-white shadow rounded-lg">
-                                    <div class="flex justify-between items-center p-4 border-b border-gray-200">
-                                        <h2 class="text-lg font-semibold text-gray-700">Lista de Serviços</h2>
-                                        <div>
-                                            <button id="btn-exportar" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mr-2">
-                                                <i class="fas fa-file-export mr-1"></i> Exportar
-                                            </button>
-                                            <button id="btn-novo-servico" class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                                <i class="fas fa-plus mr-1"></i> Novo Serviço
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-                                        <!-- Service Card 1 -->
-                                        <div class="service-card bg-white p-4 rounded-lg shadow card">
-                                            <div class="flex justify-between items-start mb-2">
-                                                <h3 class="text-lg font-semibold text-gray-800">Ajuste de Vestido</h3>
-                                                <span class="badge badge-specialty inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">Ajustes</span>
-                                            </div>
-                                            <p class="text-gray-600 mb-2">Ateliê Costura & Arte</p>
-                                            <div class="flex justify-between items-center mb-3">
-                                                <div class="flex items-center">
-                                                    <i class="far fa-clock text-gray-500 mr-1"></i>
-                                                    <span class="text-gray-700">2-3 dias</span>
-                                                </div>
-                                                <div class="text-lg font-semibold text-primary-dark">R$ 120,00</div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <h4 class="text-sm font-medium text-gray-700 mb-1">Materiais:</h4>
-                                                <div>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Linha</span>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Zíper</span>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Botões</span>
-                                                </div>
-                                            </div>
-                                            <div class="flex justify-end">
-                                                <button class="btn-outline py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mr-2">
-                                                    <i class="fas fa-edit mr-1"></i> Editar
-                                                </button>
-                                                <button class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                                    <i class="fas fa-shopping-cart mr-1"></i> Solicitar
-                                                </button>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Service Card 2 -->
-                                        <div class="service-card bg-white p-4 rounded-lg shadow card">
-                                            <div class="flex justify-between items-start mb-2">
-                                                <h3 class="text-lg font-semibold text-gray-800">Confecção de Calça</h3>
-                                                <span class="badge badge-specialty inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">Confecção</span>
-                                            </div>
-                                            <p class="text-gray-600 mb-2">Moda Express</p>
-                                            <div class="flex justify-between items-center mb-3">
-                                                <div class="flex items-center">
-                                                    <i class="far fa-clock text-gray-500 mr-1"></i>
-                                                    <span class="text-gray-700">5-7 dias</span>
-                                                </div>
-                                                <div class="text-lg font-semibold text-primary-dark">R$ 180,00</div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <h4 class="text-sm font-medium text-gray-700 mb-1">Materiais:</h4>
-                                                <div>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Tecido</span>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Linha</span>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Zíper</span>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Botões</span>
-                                                </div>
-                                            </div>
-                                            <div class="flex justify-end">
-                                                <button class="btn-outline py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mr-2">
-                                                    <i class="fas fa-edit mr-1"></i> Editar
-                                                </button>
-                                                <button class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                                    <i class="fas fa-shopping-cart mr-1"></i> Solicitar
-                                                </button>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Service Card 3 -->
-                                        <div class="service-card bg-white p-4 rounded-lg shadow card">
-                                            <div class="flex justify-between items-start mb-2">
-                                                <h3 class="text-lg font-semibold text-gray-800">Reparo de Camisa</h3>
-                                                <span class="badge badge-specialty inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">Reparos</span>
-                                            </div>
-                                            <p class="text-gray-600 mb-2">Costura Criativa</p>
-                                            <div class="flex justify-between items-center mb-3">
-                                                <div class="flex items-center">
-                                                    <i class="far fa-clock text-gray-500 mr-1"></i>
-                                                    <span class="text-gray-700">1-2 dias</span>
-                                                </div>
-                                                <div class="text-lg font-semibold text-primary-dark">R$ 45,00</div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <h4 class="text-sm font-medium text-gray-700 mb-1">Materiais:</h4>
-                                                <div>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Linha</span>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Botões</span>
-                                                </div>
-                                            </div>
-                                            <div class="flex justify-end">
-                                                <button class="btn-outline py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mr-2">
-                                                    <i class="fas fa-edit mr-1"></i> Editar
-                                                </button>
-                                                <button class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                                    <i class="fas fa-shopping-cart mr-1"></i> Solicitar
-                                                </button>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Service Card 4 -->
-                                        <div class="service-card bg-white p-4 rounded-lg shadow card">
-                                            <div class="flex justify-between items-start mb-2">
-                                                <h3 class="text-lg font-semibold text-gray-800">Bordado Personalizado</h3>
-                                                <span class="badge badge-specialty inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">Bordados</span>
-                                            </div>
-                                            <p class="text-gray-600 mb-2">Estilo & Agulha</p>
-                                            <div class="flex justify-between items-center mb-3">
-                                                <div class="flex items-center">
-                                                    <i class="far fa-clock text-gray-500 mr-1"></i>
-                                                    <span class="text-gray-700">3-4 dias</span>
-                                                </div>
-                                                <div class="text-lg font-semibold text-primary-dark">R$ 75,00</div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <h4 class="text-sm font-medium text-gray-700 mb-1">Materiais:</h4>
-                                                <div>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Linha de bordado</span>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Estabilizador</span>
-                                                </div>
-                                            </div>
-                                            <div class="flex justify-end">
-                                                <button class="btn-outline py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mr-2">
-                                                    <i class="fas fa-edit mr-1"></i> Editar
-                                                </button>
-                                                <button class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                                    <i class="fas fa-shopping-cart mr-1"></i> Solicitar
-                                                </button>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Service Card 5 -->
-                                        <div class="service-card bg-white p-4 rounded-lg shadow card">
-                                            <div class="flex justify-between items-start mb-2">
-                                                <h3 class="text-lg font-semibold text-gray-800">Customização de Jeans</h3>
-                                                <span class="badge badge-specialty inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">Customização</span>
-                                            </div>
-                                            <p class="text-gray-600 mb-2">Costura Criativa</p>
-                                            <div class="flex justify-between items-center mb-3">
-                                                <div class="flex items-center">
-                                                    <i class="far fa-clock text-gray-500 mr-1"></i>
-                                                    <span class="text-gray-700">4-5 dias</span>
-                                                </div>
-                                                <div class="text-lg font-semibold text-primary-dark">R$ 95,00</div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <h4 class="text-sm font-medium text-gray-700 mb-1">Materiais:</h4>
-                                                <div>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Linha</span>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Apliques</span>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Tachas</span>
-                                                </div>
-                                            </div>
-                                            <div class="flex justify-end">
-                                                <button class="btn-outline py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mr-2">
-                                                    <i class="fas fa-edit mr-1"></i> Editar
-                                                </button>
-                                                <button class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                                    <i class="fas fa-shopping-cart mr-1"></i> Solicitar
-                                                </button>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Service Card 6 -->
-                                        <div class="service-card bg-white p-4 rounded-lg shadow card">
-                                            <div class="flex justify-between items-start mb-2">
-                                                <h3 class="text-lg font-semibold text-gray-800">Confecção de Vestido</h3>
-                                                <span class="badge badge-specialty inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-primary">Confecção</span>
-                                            </div>
-                                            <p class="text-gray-600 mb-2">Ateliê Costura & Arte</p>
-                                            <div class="flex justify-between items-center mb-3">
-                                                <div class="flex items-center">
-                                                    <i class="far fa-clock text-gray-500 mr-1"></i>
-                                                    <span class="text-gray-700">7-10 dias</span>
-                                                </div>
-                                                <div class="text-lg font-semibold text-primary-dark">R$ 350,00</div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <h4 class="text-sm font-medium text-gray-700 mb-1">Materiais:</h4>
-                                                <div>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Tecido</span>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Forro</span>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Linha</span>
-                                                    <span class="material-tag inline-block bg-gray-100 text-gray-600 rounded-full px-2.5 py-0.5 text-xs font-medium mr-1 mb-1">Zíper</span>
-                                                </div>
-                                            </div>
-                                            <div class="flex justify-end">
-                                                <button class="btn-outline py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mr-2">
-                                                    <i class="fas fa-edit mr-1"></i> Editar
-                                                </button>
-                                                <button class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                                    <i class="fas fa-shopping-cart mr-1"></i> Solicitar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Pagination -->
-                                    <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-                                        <div class="flex-1 flex justify-between sm:hidden">
-                                            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                                Anterior
-                                            </a>
-                                            <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                                Próxima
-                                            </a>
-                                        </div>
-                                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                                            <div>
-                                                <p class="text-sm text-gray-700">
-                                                    Mostrando <span class="font-medium">1</span> a <span class="font-medium">6</span> de <span class="font-medium">24</span> resultados
-                                                </p>
-                                            </div>
-                                            <div>
-                                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                                                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                                        <span class="sr-only">Anterior</span>
-                                                        <i class="fas fa-chevron-left"></i>
-                                                    </a>
-                                                    <a href="#" aria-current="page" class="z-10 bg-primary border-primary text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                                        1
-                                                    </a>
-                                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                                        2
-                                                    </a>
-                                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                                        3
-                                                    </a>
-                                                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-                                                        ...
-                                                    </span>
-                                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                                        4
-                                                    </a>
-                                                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                                        <span class="sr-only">Próxima</span>
-                                                        <i class="fas fa-chevron-right"></i>
-                                                    </a>
-                                                </nav>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <input type="hidden" id="formaPagamento-id" name="idFormaPagamento">
+                                
+                                <div>
+                                    <h3 class="text-lg font-medium text-gray-900 mt-6">Forma de Pagamento</h3>
+                                    <button type="button" id="btn-escolher-formaPagamento" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    Escolher Forma de Pagamento</button>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-content" id="content-mensagens">
-                        <div class="py-6">
-                            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                                <h1 class="text-2xl font-semibold text-gray-900">Mensagens</h1>
-                            </div>
-                            
-                            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
-                                <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-                                    <div class="border-b border-gray-200">
-                                        <div class="p-4 sm:px-6">
-                                            <h3 class="text-lg leading-6 font-medium text-gray-900">
-                                                Conversas
-                                            </h3>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="flex h-[500px]">
-                                        <div class="w-1/3 border-r border-gray-200 overflow-y-auto">
-                                            <ul class="divide-y divide-gray-200">
-                                                <li class="px-4 py-3 bg-primary-light cursor-pointer">
-                                                    <div class="flex items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white">
-                                                                <i class="fas fa-store"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="ml-3 flex-1">
-                                                            <div class="flex items-center justify-between">
-                                                                <p class="text-sm font-medium text-gray-900">Ateliê da Rosa</p>
-                                                                <p class="text-xs text-gray-500">10:23</p>
-                                                            </div>
-                                                            <p class="text-sm text-gray-500 truncate">Olá Maria! Seu vestido está quase pronto...</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                
-                                                <li class="px-4 py-3 hover:bg-gray-50 cursor-pointer">
-                                                    <div class="flex items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white">
-                                                                <i class="fas fa-store"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="ml-3 flex-1">
-                                                            <div class="flex items-center justify-between">
-                                                                <p class="text-sm font-medium text-gray-900">Costura & Arte</p>
-                                                                <p class="text-xs text-gray-500">Ontem</p>
-                                                            </div>
-                                                            <p class="text-sm text-gray-500 truncate">Precisamos marcar uma prova para sua blusa...</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                
-                                                <li class="px-4 py-3 hover:bg-gray-50 cursor-pointer">
-                                                    <div class="flex items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white">
-                                                                <i class="fas fa-store"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="ml-3 flex-1">
-                                                            <div class="flex items-center justify-between">
-                                                                <p class="text-sm font-medium text-gray-900">Ateliê Perfeição</p>
-                                                                <p class="text-xs text-gray-500">28/05</p>
-                                                            </div>
-                                                            <p class="text-sm text-gray-500 truncate">Sua calça está pronta para retirada!</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                
-                                                <li class="px-4 py-3 hover:bg-gray-50 cursor-pointer">
-                                                    <div class="flex items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white">
-                                                                <i class="fas fa-store"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="ml-3 flex-1">
-                                                            <div class="flex items-center justify-between">
-                                                                <p class="text-sm font-medium text-gray-900">Costura Elegante</p>
-                                                                <p class="text-xs text-gray-500">15/05</p>
-                                                            </div>
-                                                            <p class="text-sm text-gray-500 truncate">Obrigada pela preferência! Esperamos...</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <div class="w-2/3 flex flex-col">
-                                            <div class="border-b border-gray-200 p-4">
-                                                <div class="flex items-center">
-                                                    <div class="flex-shrink-0">
-                                                        <div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white">
-                                                            <i class="fas fa-store"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="ml-3">
-                                                        <p class="text-sm font-medium text-gray-900">Ateliê da Rosa</p>
-                                                        <p class="text-xs text-gray-500">Online</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="flex-1 overflow-y-auto p-4 space-y-4">
-                                                <div class="flex items-start">
-                                                    <div class="flex-shrink-0">
-                                                        <div class="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-white text-xs">
-                                                            <i class="fas fa-store"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="ml-3 bg-gray-100 p-3 rounded-lg max-w-xs">
-                                                        <p class="text-sm text-gray-800">Olá Maria! Seu vestido está quase pronto, só precisamos de uma última prova.</p>
-                                                        <p class="text-xs text-gray-500 text-right mt-1">10:20</p>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="flex justify-end items-start">
-                                                    <div class="bg-primary p-3 rounded-lg max-w-xs text-white">
-                                                        <p class="text-sm">Que ótima notícia! Quando posso ir para a prova?</p>
-                                                        <p class="text-xs text-primary-light text-right mt-1">10:23</p>
-                                                    </div>
-                                                    <div class="ml-3 flex-shrink-0">
-                                                        <div class="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-white text-xs">
-                                                            <i class="fas fa-user"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="p-4 border-t border-gray-200">
-                                                <div class="flex items-center">
-                                                    <input type="text" placeholder="Digite sua mensagem..." class="flex-1 p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
-                                                    <button class="ml-3 btn-primary py-2 px-4 rounded-md text-white">
-                                                        <i class="fas fa-paper-plane"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="flex justify-between pt-4">
+                                    <button type="button" id="btn-cancelar-pedido" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white">
+                                        Cancelar
+                                    </button>
+                                    <button type="submit" class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark">
+                                        Fazer Pedido
+                                    </button>
                                 </div>
-                            </div>
+                            </form>
                         </div>
-                    </div>
+                    </div>                            
                 </main>
             </div>
         </div>
