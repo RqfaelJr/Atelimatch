@@ -3,6 +3,9 @@ package atelimatch.api.controller;
 
 import atelimatch.api.domain.medida.*;
 import jakarta.validation.Valid;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,6 +57,14 @@ public class MedidaController {
     public ResponseEntity<Page<DadosListagemMedida>> listar(@PageableDefault(size = 10) Pageable paginacao) {
         var page = repository.findAll(paginacao).map(DadosListagemMedida::new);
         return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/todas")
+    public ResponseEntity<List<DadosListagemMedida>> listarTodas() {
+        var medidas = repository.findAll().stream()
+            .map(DadosListagemMedida::new)
+            .toList();
+        return ResponseEntity.ok(medidas);
     }
 
 

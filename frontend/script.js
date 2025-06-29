@@ -103,13 +103,13 @@ function handleAction(action) {
             break;
 
         case 'add-measurements':
-            console.log("Cadastrar medidas...");
-            break;
-        case 'add-service':
-            console.log("Cadastrar serviços...");
+            abrirModalMedidas();
             break;
         case 'add-material':
-            console.log("Cadastrar matéria-prima...");
+            abrirModalMateriaPrima();
+            break;
+        case 'add-service':
+            abrirModalServicos();
             break;
         case 'plotar-graficos':
             console.log("Plotar Gráficos...");
@@ -117,6 +117,305 @@ function handleAction(action) {
         default:
             console.warn("Ação desconhecida:", action);
     }
+}
+
+const apiServicos = "http://localhost:8080/servico";
+
+function abrirModalServicos() {
+  document.getElementById("modalServicos").classList.remove("hidden");
+  carregarServicos();
+}
+
+function fecharModalServicos() {
+  document.getElementById("modalServicos").classList.add("hidden");
+  document.getElementById("servicoForm").reset();
+  document.getElementById("servicoId").value = "";
+}
+
+async function carregarServicos() {
+  try {
+    const response = await fetch(apiServicos + "/todas"); // ou apenas apiServicos se você não criou "/todas"
+    const data = await response.json();
+    const servicos = data.content || data;
+
+    const lista = document.getElementById("listaServicos");
+    lista.innerHTML = "";
+    servicos.forEach(s => {
+      const li = document.createElement("li");
+      li.className = "flex justify-between items-center border p-2 rounded";
+      li.innerHTML = `
+        <span>${s.nome} - ${s.tempoMedio} min - R$ ${Number(s.valorServico).toFixed(2)}</span>
+        <div class="flex gap-2">
+          <button onclick="editarServico(${s.idServico}, '${s.nome}', ${s.tempoMedio}, ${s.valorServico})" class="text-blue-600">Editar</button>
+          <button onclick="excluirServico(${s.idServico})" class="text-red-600">Excluir</button>
+        </div>
+      `;
+      lista.appendChild(li);
+    });
+
+  } catch (error) {
+    console.error("Erro ao carregar serviços:", error);
+    showMessageModal('error', 'Erro', 'Não foi possível carregar os serviços.');
+  }
+}
+
+function editarServico(id, nome, tempo, valor) {
+  document.getElementById("servicoId").value = id;
+  document.getElementById("nomeServico").value = nome;
+  document.getElementById("tempoMedio").value = tempo;
+  document.getElementById("valorServico").value = valor;
+}
+
+async function salvarServico(event) {
+  event.preventDefault();
+  const id = document.getElementById("servicoId").value;
+  const nomeServico = document.getElementById("nomeServico").value.trim();
+  const tempoMedio = parseInt(document.getElementById("tempoMedio").value);
+  const valorServico = parseFloat(document.getElementById("valorServico").value);
+
+  if (!nomeServico || isNaN(tempoMedio) || isNaN(valorServico)) {
+    showMessageModal('error', 'Erro', 'Preencha corretamente todos os campos.');
+    return;
+  }
+
+  const metodo = id ? "PUT" : "POST";
+
+  try {
+    const response = await fetch(apiServicos, {
+      method: metodo,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        idServico: id || null,
+        nomeServico,
+        tempoMedio,
+        valorServico
+      }),
+    });
+
+    if (!response.ok) throw new Error("Erro ao salvar serviço");
+
+    fecharModalServicos();
+    showMessageModal('success', 'Sucesso', id ? 'Serviço atualizado!' : 'Serviço cadastrado!');
+    carregarServicos();
+  } catch (error) {
+    console.error("Erro ao salvar serviço:", error);
+    showMessageModal('error', 'Erro', 'Não foi possível salvar o serviço.');
+  }
+}
+
+async function excluirServico(id) {
+  if (confirm("Deseja realmente excluir este serviço?")) {
+    try {
+      const response = await fetch(`${apiServicos}/${id}`, { method: "DELETE" });
+      if (!response.ok) throw new Error("Erro ao excluir serviço.");
+
+      showMessageModal('success', 'Sucesso', 'Serviço excluído com sucesso!');
+      carregarServicos();
+    } catch (error) {
+      console.error("Erro ao excluir serviço:", error);
+      showMessageModal('error', 'Erro', 'Não foi possível excluir o serviço.');
+    }
+  }
+}
+
+
+const apiMedidas = "http://localhost:8080/medida";
+
+function abrirModalMedidas() {
+  document.getElementById("modalMedidas").classList.remove("hidden");
+  carregarMedidas();
+}
+
+function fecharModalMedidas() {
+  document.getElementById("modalMedidas").classList.add("hidden");
+  document.getElementById("medidasForm").reset();
+  document.getElementById("medidaId").value = "";
+}
+
+async function carregarMedidas() {
+    try {
+        const response = await fetch(apiMedidas+ "/todas");
+        const data = await response.json();
+        const medidas = data.content || data;
+
+        const lista = document.getElementById("listaMedidas");
+        lista.innerHTML = "";
+        medidas.forEach(m => {
+            const li = document.createElement("li");
+            li.className = "flex justify-between items-center border p-2 rounded";
+            li.innerHTML = `
+                <span>${m.nome} - ${Number(m.valor).toFixed(2)} cm</span>
+
+                <div class="flex gap-2">
+                    <button onclick="editarMedida(${m.idMedida}, '${m.nome}', ${m.valor})"
+                    class="text-blue-600">Editar</button>
+                    <button onclick="excluirMedida(${m.idMedida})" class="text-red-600">Excluir</button>
+                </div>
+            `;
+            lista.appendChild(li);
+        });
+
+    } catch (error) {
+        console.error("Erro ao carregar medidas:", error);
+        showMessageModal('error', 'Erro ao Carregar', 'Não foi possível carregar as medidas. Tente novamente.');
+    }
+}
+
+function editarMedida(id, parte, valor) {
+  document.getElementById("medidaId").value = id;
+  document.getElementById("categoria").value = parte;
+  document.getElementById("valorMedida").value = valor;
+}
+
+async function salvarMedida(event) {
+    event.preventDefault();
+    const id = document.getElementById("medidaId").value;
+    const categoria = document.getElementById("categoria").value.trim();
+    const valorMedida = parseFloat(document.getElementById("valorMedida").value);
+
+    if (!categoria || isNaN(valorMedida)) {
+        showMessageModal('error', 'Erro', 'Preencha corretamente todos os campos.');
+        return;
+    }
+
+    const metodo = id ? "PUT" : "POST";
+
+    try {
+        const response = await fetch(apiMedidas, {
+            method: metodo,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                idMedida: id || null,
+                categoria,
+                valorMedida
+            }),
+        });
+
+        if (!response.ok) throw new Error('Erro ao salvar a medida.');
+
+        fecharModalMedidas();
+        showMessageModal('success', 'Sucesso', id ? 'Medida atualizada!' : 'Medida cadastrada!');
+        carregarMedidas();
+
+    } catch (error) {
+        console.error("Erro ao salvar medida:", error);
+        showMessageModal('error', 'Erro', 'Não foi possível salvar a medida.');
+    }
+}
+
+async function excluirMedida(id) {
+    if (confirm("Deseja realmente excluir esta medida?")) {
+        try {
+            const response = await fetch(`${apiMedidas}/${id}`, { method: "DELETE" });
+            if (!response.ok) throw new Error('Erro ao excluir medida.');
+
+            showMessageModal('success', 'Sucesso', 'Medida excluída com sucesso!');
+            carregarMedidas();
+        } catch (error) {
+            console.error("Erro ao excluir medida:", error);
+            showMessageModal('error', 'Erro', 'Não foi possível excluir a medida.');
+        }
+    }
+}
+
+const apiMateriaPrima = "http://localhost:8080/materiaprima";
+
+function abrirModalMateriaPrima() {
+  document.getElementById("modalMateriaPrima").classList.remove("hidden");
+  carregarMateriaPrima();
+}
+
+function fecharModalMateriaPrima() {
+  document.getElementById("modalMateriaPrima").classList.add("hidden");
+  document.getElementById("materiaPrimaForm").reset();
+  document.getElementById("materiaPrimaId").value = "";
+}
+
+async function carregarMateriaPrima() {
+  try {
+    const response = await fetch(apiMateriaPrima + "/todas");
+    const data = await response.json();
+    const lista = document.getElementById("listaMateriaPrima");
+    lista.innerHTML = "";
+
+    data.forEach(m => {
+      const li = document.createElement("li");
+      li.className = "flex justify-between items-center border p-2 rounded";
+      li.innerHTML = `
+        <span>${m.nomeMateriaPrima} - ${m.qtdeMateriaPrima.toFixed(2)} ${m.unidadeMateriaPrima}</span>
+        <div class="flex gap-2">
+          <button onclick="editarMateriaPrima(${m.idMateriaPrima}, '${m.nomeMateriaPrima}', ${m.qtdeMateriaPrima}, '${m.unidadeMateriaPrima}')" class="text-blue-600">Editar</button>
+          <button onclick="excluirMateriaPrima(${m.idMateriaPrima})" class="text-red-600">Excluir</button>
+        </div>
+      `;
+      lista.appendChild(li);
+    });
+
+  } catch (error) {
+    console.error("Erro ao carregar matérias-primas:", error);
+    showMessageModal('error', 'Erro ao Carregar', 'Não foi possível carregar as matérias-primas.');
+  }
+}
+
+function editarMateriaPrima(id, nome, qtde, unidade) {
+  document.getElementById("materiaPrimaId").value = id;
+  document.getElementById("nomeMateriaPrima").value = nome;
+  document.getElementById("qtdeMateriaPrima").value = qtde;
+  document.getElementById("unidadeMateriaPrima").value = unidade;
+}
+
+async function salvarMateriaPrima(event) {
+  event.preventDefault();
+
+  const id = document.getElementById("materiaPrimaId").value;
+  const nomeMateriaPrima = document.getElementById("nomeMateriaPrima").value.trim();
+  const qtdeMateriaPrima = parseFloat(document.getElementById("qtdeMateriaPrima").value);
+  const unidadeMateriaPrima = document.getElementById("unidadeMateriaPrima").value.trim();
+
+  if (!nomeMateriaPrima || isNaN(qtdeMateriaPrima) || !unidadeMateriaPrima) {
+    showMessageModal('error', 'Erro', 'Preencha todos os campos corretamente.');
+    return;
+  }
+
+  const metodo = id ? "PUT" : "POST";
+
+  try {
+    const response = await fetch(apiMateriaPrima, {
+      method: metodo,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        idMateriaPrima: id || null,
+        nomeMateriaPrima,
+        qtdeMateriaPrima,
+        unidadeMateriaPrima
+      }),
+    });
+
+    if (!response.ok) throw new Error('Erro ao salvar a matéria-prima.');
+
+    fecharModalMateriaPrima();
+    showMessageModal('success', 'Sucesso', id ? 'Matéria-prima atualizada!' : 'Matéria-prima cadastrada!');
+    carregarMateriaPrima();
+
+  } catch (error) {
+    console.error("Erro ao salvar matéria-prima:", error);
+    showMessageModal('error', 'Erro', 'Não foi possível salvar a matéria-prima.');
+  }
+}
+
+async function excluirMateriaPrima(id) {
+  if (confirm("Deseja realmente excluir esta matéria-prima?")) {
+    try {
+      const response = await fetch(`${apiMateriaPrima}/${id}`, { method: "DELETE" });
+      if (!response.ok) throw new Error('Erro ao excluir matéria-prima.');
+
+      showMessageModal('success', 'Sucesso', 'Matéria-prima excluída com sucesso!');
+      carregarMateriaPrima();
+    } catch (error) {
+      console.error("Erro ao excluir matéria-prima:", error);
+      showMessageModal('error', 'Erro', 'Não foi possível excluir a matéria-prima.');
+    }
+  }
 }
 
 const apiEspecialidade = "http://localhost:8080/especialidade";

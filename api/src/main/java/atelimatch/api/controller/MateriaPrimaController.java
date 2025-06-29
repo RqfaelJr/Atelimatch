@@ -3,6 +3,9 @@ package atelimatch.api.controller;
 import atelimatch.api.domain.materiaprima.*;
 import atelimatch.api.domain.servico.DadosListagemServico;
 import jakarta.validation.Valid;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,4 +58,14 @@ public class MateriaPrimaController {
         var page = repository.findAll(paginacao).map(DadosListagemMateriaPrima::new);
         return ResponseEntity.ok(page);
     }
+    
+    @GetMapping("/todas")
+    public ResponseEntity<List<DadosDetalhamentoMateriaPrima>> listarTodas() {
+        var lista = repository.findAll().stream()
+            .map(DadosDetalhamentoMateriaPrima::new)
+            .toList();
+        return ResponseEntity.ok(lista);
+    }
+
+
 }

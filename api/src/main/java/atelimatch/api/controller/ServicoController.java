@@ -68,4 +68,14 @@ public class ServicoController {
         System.out.println(lista);
         return ResponseEntity.ok(lista);
     }
+
+    @GetMapping("/todas")
+    public ResponseEntity<List<DadosListagemServico>> listarTodos() {
+        var lista = repository.findAll().stream()
+            .map(DadosListagemServico::new)
+            .toList();
+        return ResponseEntity.ok(lista);
+    }
+
+
 }

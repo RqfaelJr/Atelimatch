@@ -1042,11 +1042,11 @@
                 <button onclick="handleAction('add-measurements')" class="w-full flex items-center gap-3 p-3 bg-purple-100 hover:bg-purple-200 text-purple-800 font-semibold rounded-md shadow-sm">
                     <i class="fas fa-ruler-combined"></i> Cadastrar medidas
                 </button>
-                <button onclick="handleAction('add-service')" class="w-full flex items-center gap-3 p-3 bg-yellow-100 hover:bg-yellow-200 text-yellow-800 font-semibold rounded-md shadow-sm">
-                    <i class="fas fa-concierge-bell"></i> Cadastrar serviços
+                <button onclick="handleAction('add-material')" class="w-full flex items-center gap-3 p-3 bg-yellow-100 hover:bg-yellow-200 text-yellow-800 font-semibold rounded-md shadow-sm">
+                    <i class="fas fa-concierge-bell"></i> Cadastrar matéria-prima
                 </button>
-                <button onclick="handleAction('add-material')" class="w-full flex items-center gap-3 p-3 bg-pink-100 hover:bg-pink-200 text-pink-800 font-semibold rounded-md shadow-sm">
-                    <i class="fas fa-box-open"></i> Cadastrar matéria-prima
+                <button onclick="handleAction('add-service')" class="w-full flex items-center gap-3 p-3 bg-pink-100 hover:bg-pink-200 text-pink-800 font-semibold rounded-md shadow-sm">
+                    <i class="fas fa-box-open"></i> Cadastrar serviços 
                 </button>
                 <button onclick="handleAction('plotar-graficos')" class="w-full flex items-center gap-3 p-3 bg-orange-100 hover:bg-orange-200 text-orange-800 font-semibold rounded-md shadow-sm">
                     <i class="fas fa-box-open"></i> Plotar Gráficos
@@ -1075,6 +1075,106 @@
             </div>
         </div>
     </div>
+    <div id="modalMedidas" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 border w-96 shadow-lg rounded-md bg-white">
+            <h3 class="text-lg font-medium mb-4">Gerenciar Medidas</h3>
+            <form id="medidasForm" onsubmit="salvarMedida(event)">
+                <input type="hidden" id="medidaId" name="medidaId">
+                
+                <div class="mb-4">
+                    <label for="categoria" class="block mb-2 font-medium text-gray-700">Parte do Corpo</label>
+                    <input type="text" id="categoria" name="categoria" class="w-full p-2 border rounded" required>
+                </div>
+
+                <!-- Valor da medida -->
+                <div class="mb-4">
+                    <label for="valorMedida" class="block mb-2 font-medium text-gray-700">Valor (cm)</label>
+                    <input type="number" step="0.01" id="valorMedida" name="valorMedida" class="w-full p-2 border rounded" required>
+                </div>
+
+                <!-- Botões -->
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalMedidas()" class="px-4 py-2 bg-gray-500 text-white rounded">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-primary text-white rounded">Salvar</button>
+                </div>
+            </form>
+
+            <!-- Lista de Medidas Cadastradas -->
+            <div class="mt-4">
+                <h4 class="text-md font-medium mb-2">Medidas Cadastradas</h4>
+                <ul id="listaMedidas" class="divide-y divide-gray-200 max-h-48 overflow-y-auto"></ul>
+            </div>
+        </div>
+    </div>
+    <div id="modalMateriaPrima" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 border w-96 shadow-lg rounded-md bg-white">
+            <h3 class="text-lg font-medium mb-4">Gerenciar Matéria-Prima</h3>
+            <form id="materiaPrimaForm" onsubmit="salvarMateriaPrima(event)">
+            <input type="hidden" id="materiaPrimaId" name="materiaPrimaId">
+
+            <div class="mb-4">
+                <label for="nomeMateriaPrima" class="block mb-2 font-medium text-gray-700">Nome</label>
+                <input type="text" id="nomeMateriaPrima" name="nomeMateriaPrima" class="w-full p-2 border rounded" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="qtdeMateriaPrima" class="block mb-2 font-medium text-gray-700">Quantidade</label>
+                <input type="number" step="0.01" id="qtdeMateriaPrima" name="qtdeMateriaPrima" class="w-full p-2 border rounded" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="unidadeMateriaPrima" class="block mb-2 font-medium text-gray-700">Unidade (ex: kg, m, ml)</label>
+                <input type="text" id="unidadeMateriaPrima" name="unidadeMateriaPrima" class="w-full p-2 border rounded" required>
+            </div>
+
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="fecharModalMateriaPrima()" class="px-4 py-2 bg-gray-500 text-white rounded">Cancelar</button>
+                <button type="submit" class="px-4 py-2 bg-primary text-white rounded">Salvar</button>
+            </div>
+            </form>
+
+            <div class="mt-4">
+            <h4 class="text-md font-medium mb-2">Matérias-Primas Cadastradas</h4>
+            <ul id="listaMateriaPrima" class="divide-y divide-gray-200 max-h-48 overflow-y-auto"></ul>
+            </div>
+        </div>
+    </div>
+    <div id="modalServicos" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 border w-96 shadow-lg rounded-md bg-white">
+            <h3 class="text-lg font-medium mb-4">Gerenciar Serviços</h3>
+
+            <form id="servicoForm" onsubmit="salvarServico(event)">
+            <input type="hidden" id="servicoId" name="servicoId" />
+
+            <div class="mb-4">
+                <label for="nomeServico" class="block mb-2 font-medium text-gray-700">Nome do Serviço</label>
+                <input type="text" id="nomeServico" name="nomeServico" class="w-full p-2 border rounded" required />
+            </div>
+
+            <div class="mb-4">
+                <label for="tempoMedio" class="block mb-2 font-medium text-gray-700">Tempo Médio (min)</label>
+                <input type="number" id="tempoMedio" name="tempoMedio" class="w-full p-2 border rounded" required />
+            </div>
+
+            <div class="mb-4">
+                <label for="valorServico" class="block mb-2 font-medium text-gray-700">Valor (R$)</label>
+                <input type="number" step="0.01" id="valorServico" name="valorServico" class="w-full p-2 border rounded" required />
+            </div>
+
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="fecharModalServicos()" class="px-4 py-2 bg-gray-500 text-white rounded">Cancelar</button>
+                <button type="submit" class="px-4 py-2 bg-primary text-white rounded">Salvar</button>
+            </div>
+            </form>
+
+            <div class="mt-4">
+            <h4 class="text-md font-medium mb-2">Serviços Cadastrados</h4>
+            <ul id="listaServicos" class="divide-y divide-gray-200 max-h-48 overflow-y-auto"></ul>
+            </div>
+        </div>
+    </div>
+
+
 
 
 
