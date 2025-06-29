@@ -28,10 +28,6 @@ public class Atelie extends Pessoa{
     private Integer inicio01;
     @Column(name = "fim_01")
     private Integer fim01;
-    @Column(name = "inicio_02")
-    private Integer inicio02;
-    @Column(name = "fim_02")
-    private Integer fim02;
 
     @ManyToMany
     @JoinTable(
@@ -54,9 +50,6 @@ public class Atelie extends Pessoa{
         this.qntdNotas = 0;
         this.inicio01 = inicio01;
         this.fim01 = fim01;
-        this.inicio02 = inicio02;
-        this.fim02 = fim02;
-
     }
 
     public void atualizar(DadosAtualizacaoAtelie dados, Endereco endereco) {
@@ -67,8 +60,6 @@ public class Atelie extends Pessoa{
         }
         if (dados.inicio01() != null) this.inicio01 = dados.inicio01();
         if (dados.fim01() != null) this.inicio01 = dados.fim01();
-        this.inicio02 = dados.inicio02();
-        this.fim02 = dados.fim02();
 
     }
 }
