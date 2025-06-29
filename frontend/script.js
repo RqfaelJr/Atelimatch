@@ -111,6 +111,9 @@ function handleAction(action) {
         case 'add-service':
             abrirModalServicos();
             break;
+        case 'add-payment':
+            abrirModalFormaPagamento();
+            break;
         case 'plotar-graficos':
             console.log("Plotar Gráficos...");
             abrirGraficos();
@@ -119,6 +122,99 @@ function handleAction(action) {
             console.warn("Ação desconhecida:", action);
     }
 }
+
+const apiFormaPagamento = "http://localhost:8080/formapagamento";
+
+function abrirModalFormaPagamento() {
+    document.getElementById("modalFormaPagamento").classList.remove("hidden");
+    carregarFormaPagamentos();
+}
+
+function fecharModalFormaPagamento() {
+    document.getElementById("modalFormaPagamento").classList.add("hidden");
+    document.getElementById("formaPagamentoForm").reset();
+    document.getElementById("formaPagamentoId").value = "";
+}
+
+async function carregarFormaPagamentos() {
+    try {
+        const response = await fetch(apiFormaPagamento);
+        const data = await response.json();
+        const formas = data.content || data;
+
+        const lista = document.getElementById("listaFormaPagamento");
+        lista.innerHTML = "";
+        formas.forEach(fp => {
+            const li = document.createElement("li");
+            li.className = "flex justify-between items-center border p-2 rounded";
+            li.innerHTML = `
+                <span>${fp.nomeFormaPagamento}</span>
+                <div class="flex gap-2">
+                    <button onclick="editarFormaPagamento(${fp.idFormaPagamento}, '${fp.nomeFormaPagamento}')" class="text-blue-600">Editar</button>
+                    <button onclick="excluirFormaPagamento(${fp.idFormaPagamento})" class="text-red-600">Excluir</button>
+                </div>
+            `;
+            lista.appendChild(li);
+        });
+    } catch (error) {
+        console.error("Erro ao carregar formas de pagamento:", error);
+        showMessageModal('error', 'Erro', 'Não foi possível carregar as formas de pagamento.');
+    }
+}
+
+function editarFormaPagamento(id, nome) {
+    document.getElementById("formaPagamentoId").value = id;
+    document.getElementById("nomeFormaPagamento").value = nome;
+}
+
+async function salvarFormaPagamento(event) {
+    event.preventDefault();
+    const id = document.getElementById("formaPagamentoId").value;
+    const nomeFormaPagamento = document.getElementById("nomeFormaPagamento").value.trim();
+
+    if (!nomeFormaPagamento) {
+        showMessageModal('error', 'Erro', 'O nome da forma de pagamento é obrigatório.');
+        return;
+    }
+
+    const metodo = id ? "PUT" : "POST";
+    const payload = id 
+        ? { idFormaPagamento: parseInt(id), nomeFormaPagamento } 
+        : { nomeFormaPagamento };
+
+    try {
+        const response = await fetch(apiFormaPagamento, {
+            method: metodo,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) throw new Error("Erro ao salvar forma de pagamento");
+
+        fecharModalFormaPagamento();
+        showMessageModal('success', 'Sucesso', id ? 'Forma de pagamento atualizada!' : 'Forma de pagamento cadastrada!');
+        carregarFormaPagamentos();
+    } catch (error) {
+        console.error("Erro ao salvar forma de pagamento:", error);
+        showMessageModal('error', 'Erro', 'Não foi possível salvar a forma de pagamento.');
+    }
+}
+
+async function excluirFormaPagamento(id) {
+    if (confirm("Deseja realmente excluir esta forma de pagamento?")) {
+        try {
+            const response = await fetch(`${apiFormaPagamento}/${id}`, { method: "DELETE" });
+            if (!response.ok) throw new Error("Erro ao excluir forma de pagamento.");
+
+            showMessageModal('success', 'Sucesso', 'Forma de pagamento excluída com sucesso!');
+            carregarFormaPagamentos();
+        } catch (error) {
+            console.error("Erro ao excluir forma de pagamento:", error);
+            showMessageModal('error', 'Erro', 'Não foi possível excluir a forma de pagamento.');
+        }
+    }
+}
+
 
 const apiServicos = "http://localhost:8080/servico";
 

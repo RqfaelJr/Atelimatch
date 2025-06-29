@@ -22,6 +22,7 @@
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="min-h-screen bg-white">
     
@@ -989,7 +990,8 @@
         </div>
     </div>
     <!-- Botão fixo no canto superior direito -->
-    <button id="corner-button" class="fixed top-4 right-4 z-30 bg-primary hover:bg-primary-dark text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110">
+    <button id="corner-button" class="fixed bottom-4 right-4 z-30 bg-primary hover:bg-primary-dark text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110">
+
         <i class="fas fa-question-circle text-xl"></i>
     </button>
 
@@ -1007,27 +1009,48 @@
             </div>
 
             <div class="grid gap-4">
+                <!-- Apagar banco -->
                 <button onclick="handleAction('reset-db')" class="w-full flex items-center gap-3 p-3 bg-red-100 hover:bg-red-200 text-red-700 font-semibold rounded-md shadow-sm">
                     <i class="fas fa-trash-alt"></i> Apagar todo o banco de dados
                 </button>
+
+                <!-- Criar e popular banco -->
                 <button onclick="handleAction('create-db')" class="w-full flex items-center gap-3 p-3 bg-green-100 hover:bg-green-200 text-green-800 font-semibold rounded-md shadow-sm">
                     <i class="fas fa-database"></i> Criar e popular o banco
                 </button>
+
+                <!-- Cadastrar especialidade -->
                 <button onclick="handleAction('add-specialty')" class="w-full flex items-center gap-3 p-3 bg-blue-100 hover:bg-blue-200 text-blue-800 font-semibold rounded-md shadow-sm">
-                    <i class="fas fa-star"></i> Cadastrar especialidade
+                    <i class="fas fa-scissors"></i> Cadastrar especialidade
+
                 </button>
+
+                <!-- Cadastrar medidas -->
                 <button onclick="handleAction('add-measurements')" class="w-full flex items-center gap-3 p-3 bg-purple-100 hover:bg-purple-200 text-purple-800 font-semibold rounded-md shadow-sm">
-                    <i class="fas fa-ruler-combined"></i> Cadastrar medidas
+                    <i class="fas fa-ruler"></i> Cadastrar medidas
                 </button>
+
+                <!-- Cadastrar matéria-prima -->
                 <button onclick="handleAction('add-material')" class="w-full flex items-center gap-3 p-3 bg-yellow-100 hover:bg-yellow-200 text-yellow-800 font-semibold rounded-md shadow-sm">
-                    <i class="fas fa-concierge-bell"></i> Cadastrar matéria-prima
+                    <i class="fas fa-cubes"></i> Cadastrar matéria-prima
                 </button>
+
+                <!-- Cadastrar serviços -->
                 <button onclick="handleAction('add-service')" class="w-full flex items-center gap-3 p-3 bg-pink-100 hover:bg-pink-200 text-pink-800 font-semibold rounded-md shadow-sm">
-                    <i class="fas fa-box-open"></i> Cadastrar serviços 
+                    <i class="fas fa-tshirt"></i> Cadastrar serviços
+
                 </button>
+
+                <!-- Cadastrar forma de pagamento -->
+                <button onclick="handleAction('add-payment')" class="w-full flex items-center gap-3 p-3 bg-cyan-100 hover:bg-cyan-200 text-cyan-800 font-semibold rounded-md shadow-sm">
+                    <i class="fas fa-credit-card"></i> Cadastrar forma de pagamento
+                </button>
+
+                <!-- Plotar gráficos -->
                 <button onclick="handleAction('plotar-graficos')" class="w-full flex items-center gap-3 p-3 bg-orange-100 hover:bg-orange-200 text-orange-800 font-semibold rounded-md shadow-sm">
-                    <i class="fas fa-box-open"></i> Plotar Gráficos
+                    <i class="fas fa-chart-bar"></i> Plotar Gráficos
                 </button>
+
             </div>
         </div>
     </div>
@@ -1153,7 +1176,7 @@
 
 
 
-    <div id="modal-graficos" class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div id="modal-graficos" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
         <div class="modal-content bg-white p-6 rounded-lg max-w-4xl w-full overflow-y-auto">
           <h2 class="text-2xl font-bold mb-4">Gráficos</h2>
       
@@ -1165,7 +1188,32 @@
             <button onclick="toggleModal('modal-graficos', false)" class="px-4 py-2 bg-red-500 text-white rounded">Fechar</button>
           </div>
         </div>
-      </div>
+    </div>
+
+    <div id="modalFormaPagamento" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 border w-96 shadow-lg rounded-md bg-white">
+            <h3 class="text-lg font-medium mb-4">Gerenciar Formas de Pagamento</h3>
+
+            <form id="formaPagamentoForm" onsubmit="salvarFormaPagamento(event)">
+                <input type="hidden" id="formaPagamentoId" name="formaPagamentoId" />
+
+                <div class="mb-4">
+                    <label for="nomeFormaPagamento" class="block mb-2 font-medium text-gray-700">Nome da Forma de Pagamento</label>
+                    <input type="text" id="nomeFormaPagamento" name="nomeFormaPagamento" class="w-full p-2 border rounded" required />
+                </div>
+
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="fecharModalFormaPagamento()" class="px-4 py-2 bg-gray-500 text-white rounded">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-primary text-white rounded">Salvar</button>
+                </div>
+            </form>
+
+            <div class="mt-4">
+                <h4 class="text-md font-medium mb-2">Formas de Pagamento Cadastradas</h4>
+                <ul id="listaFormaPagamento" class="divide-y divide-gray-200 max-h-48 overflow-y-auto"></ul>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
