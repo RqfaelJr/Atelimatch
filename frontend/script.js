@@ -1300,6 +1300,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     listaPedidosContainer.addEventListener('click', function(e) {
         // Verifica se o elemento clicado é um dos nossos botões
+        
         if (e.target && e.target.classList.contains('btn-ver-detalhes')) {
             const pedidoId = e.target.dataset.pedidoId;
             console.log(`Botão clicado para o pedido com ID: ${pedidoId}`);
@@ -1311,13 +1312,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     return response.json();
                 })
                 .then(data => {
-                    console.log('TESTE')
-                    const modalParaAbrir = document.getElementById('modal-pedido-atelie');
-                    if (modalParaAbrir) {
-                        modalParaAbrir.style.opacity = '1';
-                        modalParaAbrir.style.visibility = 'visible';
-                    }
-                    // toggleModal('modal-pedido-atelie-alterar', true)
+                    console.log(data)
+                    document.getElementById('id-pedido').value = data.idPedido;
+                    document.getElementById('modal-descricao-alterar').value = data.descricaoPedido;
+                    document.getElementById('modal-status-atualizacao-pedido').value = data.status;
+                    document.getElementById('modal-dataPrevisao-alterar').value = data.dataPrevisaoEntrega;
+                    document.getElementById('modal-valor-alterar').value = data.valorTotal;
+                    
+                    toggleModal('modal-pedido-atelie-alterar', true)
+                    
                 })
                 .catch(error => {
                     
@@ -1330,8 +1333,47 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleModal('modal-pedidos-atelie', false));
 
 
+    const formAtualizarPedido = document.getElementById('form-pedido-atelie-atualizar');
+    formAtualizarPedido.addEventListener('submit', function(e) {
+        
+        e.preventDefault();
 
+        
+        const formData = new FormData(formAtualizarPedido);
+        const dadosDoFormulario = Object.fromEntries(formData.entries());
+        
+        
+        console.log(dadosDoFormulario)
+        
+        fetch(`http://localhost:8080/pedido`, { 
+            method: 'PUT', 
+            headers: {
+                'Content-Type': 'application/json',
+        
+            },
+            body: JSON.stringify(dadosDoFormulario)
+        })
+        .then(response => {
+            if (!response.ok) {
+                
+                throw new Error('Falha ao atualizar o pedido. Status: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Pedido atualizado com sucesso:', data);
+            
+            toggleModal('modal-pedido-atelie-alterar', false)
+            
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Ocorreu um erro ao tentar atualizar o pedido.');
+        });
+    });    
 
+    document.getElementById('btn-cancelar-pedido-atelie').addEventListener('click', () => 
+        toggleModal('modal-pedido-atelie-alterar', false));
 
 
 

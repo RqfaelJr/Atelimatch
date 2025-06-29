@@ -890,18 +890,72 @@
             </div>
 
             <div id="modal-pedidos-atelie" class="modal-overlay">
-                <div class="modal-content w-full max-w-lg animate-fade-in">
+                <div class="modal-content w-full max-w-4xl h animate-fade-in">
                   <h2 class="text-2xl font-bold mb-4">Pedidos</h2>
                     <div id="lista-pedidos-feitos-atelie">
                         
                     </div>
+                    <div id="modal-pedido-atelie-alterar" class="modal-overlay">
+                        <div class="modal-content w-full max-w-4xl max-h-90vh animate-fade-in">
+                            <h2 class="text-2xl font-bold mb-4">Atualizar Pedido</h2>
+                            <form id="form-pedido-atelie-atualizar" class="space-y-4">
+                                
+                                <input type="hidden" id="id-pedido" name="idPedido">
+                                <div>
+                                    <label for="modal-nada" class="block text-sm font-medium text-gray-700">Descrição</label>
+                                    <input type="text" name="nada" id="modal-nada" disabled></input>
+                                </div>
+                                <div>
+                                    <label for="modal-nada" class="block text-sm font-medium text-gray-700">Descrição</label>
+                                    <input type="text" name="nada" id="modal-nada" disabled></input>
+                                </div>
+
+                                <div>
+                                    <label for="modal-descricao-alterar" class="block text-sm font-medium text-gray-700">Descrição</label>
+                                    <input type="text" name="descricaoPedido" id="modal-descricao-alterar" disabled class="block w-full border border-gray-300 rounded-md p-2"></input>
+                                </div>
+        
+                                <div>
+                                    <label for="modal-status-atualizacao-pedido" class="block text-sm font-medium text-gray-700">Status do Pedido</label>
+                                    <select id="modal-status-atualizacao-pedido" name="status" class="block w-full border border-gray-300 rounded-md p-2">
+                                        <option value="">Selecione um status</option>
+                                        <option value="AGUARDANDO">Aguardando</option>
+                                        <option value="ACEITO">Aceito</option>
+                                        <option value="EM_PRODUÇÃO">Em produção</option>
+                                        <option value="FINALIZADO">Finalizado</option>
+                                        <option value="ENVIADO">Enviado</option>
+                                        <option value="ENTREGUE">Entregue</option>
+                                        <option value="CANCELADO">Cancelado</option>
+                                    </select>
+                                </div>
+                     
+                                <div>
+                                    <label for="modal-dataPrevisao-alterar" class="block text-sm font-medium text-gray-700">Data Previsão de Entrega</label>
+                                    <input type="date" name="dataPrevisaoEntrega" id="modal-dataPrevisao-alterar" class="block w-full border border-gray-300 rounded-md p-2">
+                                </div>
+                                <div>
+                                    <label for="modal-valor-alterar" class="block text-sm font-medium text-gray-700">Valor Total</label>
+                                    <input type="text" name="valorTotal" id="modal-valor-alterar" disabled class="block w-full border border-gray-300 rounded-md p-2"></input>
+                                </div>
+                                
+                                <div class="flex justify-between pt-4">
+                                    <button type="button" id="btn-cancelar-pedido-atelie" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white">
+                                        Cancelar
+                                    </button>
+                                    <button type="submit" class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark">
+                                        Atualizar Pedido
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>        
                     <div class="flex justify-between pt-4">
                       <button type="button" id="btn-fechar-pedidos-atelie" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 bg-white">
                         Cancelar
                       </button>
                     </div>
                 </div>
-              </div>
+            </div>
 
             
             
@@ -923,69 +977,7 @@
                         </div>
                     </div>
                                 
-                    <div id="modal-pedido-atelie-alterar" class="modal-overlay">
-                        <div class="modal-content w-full max-w-lg animate-fade-in">
-                            <h2 class="text-2xl font-bold mb-4">Atualizar Pedido</h2>
-                            <form id="form-pedido-atelie" class="space-y-4">
-                                <div>
-                                    <select id="modal-atelie" name="idAtelie" required class="block w-full border border-gray-300 rounded-md p-2">
-                                    </select>
-                                    
-                                </div>
-
-                                <div><input type="hidden" id="cliente-id" name="idCliente"></div>
-                                <div>
-                                    <label for="modal-descricao" class="block text-sm font-medium text-gray-700">Descrição</label>
-                                    <input type="text" name="descricaoPedido" id="modal-descricao" required class="block w-full border border-gray-300 rounded-md p-2"></input>
-                                </div>
-
-                                <input type="hidden" id="status" name="status">
-                                <!--
-                                <div>
-                                    <label for="fileUpload" class="block text-sm font-medium text-gray-700">Escolher Foto</label>
-                                    <input type="file" id="fileUpload" name="foto" accept="image/*" class="mt-1">
-                                </div>
-                                -->
-                                
-                                <input type="hidden" id="medida-ids" name="idsMedida">
-                                <div>
-                                    <h3 class="text-lg font-medium text-gray-900 mt-6">Medidas</h3>
-                                    <button type="button" id="btn-escolher-medida" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                    Adicionar Medidas</button>
-                                </div>
-                                <input type="hidden" id="servico-pedido-ids" name="servicos">
-                                <div>
-                                    <h3 class="text-lg font-medium text-gray-900 mt-6">Serviços</h3>
-                                    <button type="button" id="btn-adicionar-servico" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                    Adicionar Serviços</button>
-                                </div>
-                                <div>
-                                    <label for="modal-dataPrevisao" class="block text-sm font-medium text-gray-700">Data Previsão de Entrega</label>
-                                    <input type="date" name="dataPrevisaoEntrega" id="modal-dataPrevisao" readonly class="block w-full border border-gray-300 rounded-md p-2">
-                                </div>
-                                <div>
-                                    <label for="modal-valor" class="block text-sm font-medium text-gray-700">Valor Total</label>
-                                    <input type="text" name="valorTotal" id="modal-valor" readonly class="block w-full border border-gray-300 rounded-md p-2"></input>
-                                </div>
-                                
-                                <input type="hidden" id="formaPagamento-id" name="idFormaPagamento">
-                                
-                                <div>
-                                    <h3 class="text-lg font-medium text-gray-900 mt-6">Forma de Pagamento</h3>
-                                    <button type="button" id="btn-escolher-formaPagamento" class="py-2 px-4 my-2 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                    Escolher Forma de Pagamento</button>
-                                </div>
-                                <div class="flex justify-between pt-4">
-                                    <button type="button" id="btn-cancelar-pedido" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white">
-                                        Cancelar
-                                    </button>
-                                    <button type="submit" class="btn-primary py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark">
-                                        Fazer Pedido
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>                            
+                                        
                 </main>
             </div>
         </div>
