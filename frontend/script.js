@@ -1326,6 +1326,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    document.getElementById('btn-fechar-pedidos-atelie').addEventListener('click', () => 
+        toggleModal('modal-pedidos-atelie', false));
+
 
 
 
