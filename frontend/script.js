@@ -635,43 +635,109 @@ async function abrirGraficos() {
             data: {
                 labels: data.grafico1.labels,
                 datasets: [{
-                    label: 'Gráfico 1',
+                    label: 'Total de Pedidos',
                     data: data.grafico1.valores,
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)'
-                }]
-            }
-        });
-
-        const ctx2 = document.getElementById('grafico2').getContext('2d');
-        window.chart2 = new Chart(ctx2, {
-            type: 'line',
-            data: {
-                labels: data.grafico2.labels,
-                datasets: [{
-                    label: 'Gráfico 2',
-                    data: data.grafico2.valores,
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    fill: false
-                }]
-            }
-        });
-
-        const ctx3 = document.getElementById('grafico3').getContext('2d');
-        window.chart3 = new Chart(ctx3, {
-            type: 'pie',
-            data: {
-                labels: data.grafico3.labels,
-                datasets: [{
-                    label: 'Gráfico 3',
-                    data: data.grafico3.valores,
                     backgroundColor: [
-                        'rgba(255, 205, 86, 0.6)',
-                        'rgba(75, 192, 192, 0.6)',
-                        'rgba(255, 99, 132, 0.6)'
+                        'rgba(255, 205, 86, 0.6)'
                     ]
                 }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Quantidade de Pedidos por Ateliê',
+                        font: {
+                            size: 18
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 20
+                        }
+                    }
+                }
             }
         });
+
+
+        const ctx2 = document.getElementById('grafico2').getContext('2d');
+window.chart2 = new Chart(ctx2, {
+    type: 'bar', 
+    data: {
+        labels: data.grafico2.labels,
+        datasets: [{
+            label: 'Valor Médio (R$)',
+            data: data.grafico2.valores,
+            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(255, 99, 132, 0.3)',
+            fill: true
+        }]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Valor Médio Gasto por Forma de Pagamento',
+                font: {
+                    size: 18
+                },
+                padding: {
+                    top: 10,
+                    bottom: 20
+                }
+            }
+        }
+    }
+});
+
+
+const ctx3 = document.getElementById('grafico3').getContext('2d');
+window.chart3 = new Chart(ctx3, {
+    type: 'line',
+    data: {
+        labels: data.grafico3.labels,
+        datasets: [{
+            label: 'Valor Vendido (R$)',
+            data: data.grafico3.valores,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.3
+        }]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Valor Vendido Por Mês do Ateliê 1',
+                font: {
+                    size: 18
+                },
+                padding: {
+                    top: 10,
+                    bottom: 20
+                }
+            }
+        },
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Valor em R$'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Mês/Ano'
+                }
+            }
+        }
+    }
+});
 
     } catch (error) {
         console.error('Erro ao buscar dados da API:', error);
