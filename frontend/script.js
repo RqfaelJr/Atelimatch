@@ -427,7 +427,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Pega valores
         const endereco = {
             estado: document.getElementById('modal-estado').value,
-            uf: document.getElementById('modal-uf').value,
             cidade: document.getElementById('modal-cidade').value,
             bairro: document.getElementById('modal-bairro').value,
             rua: document.getElementById('modal-rua').value,
@@ -978,7 +977,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.log('Endereco recebido:', dataEndereco);
                         document.getElementById('endereco-id-atualizacao').value = dataEndereco.idEndereco
                         document.getElementById('modal-estado-atualizacao').value = dataEndereco.estado;
-                        document.getElementById('modal-uf-atualizacao').value = dataEndereco.uf;
                         document.getElementById('modal-cidade-atualizacao').value = dataEndereco.cidade;
                         document.getElementById('modal-bairro-atualizacao').value = dataEndereco.bairro;
                         document.getElementById('modal-rua-atualizacao').value = dataEndereco.rua;
@@ -1131,7 +1129,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.log('Endereco recebido:', dataEndereco);
                         document.getElementById('endereco-id-atualizacao-atelie').value = dataEndereco.idEndereco
                         document.getElementById('modal-estado-atualizacao-atelie').value = dataEndereco.estado;
-                        document.getElementById('modal-uf-atualizacao-atelie').value = dataEndereco.uf;
                         document.getElementById('modal-cidade-atualizacao-atelie').value = dataEndereco.cidade;
                         document.getElementById('modal-bairro-atualizacao-atelie').value = dataEndereco.bairro;
                         document.getElementById('modal-rua-atualizacao-atelie').value = dataEndereco.rua;
