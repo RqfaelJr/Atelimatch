@@ -1,6 +1,6 @@
 package atelimatch.api.domain.pedido;
 
-import atelimatch.api.domain.servico.DadosCadastroServico;
+
 import atelimatch.api.domain.servico.DadosServico;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;

@@ -12,7 +12,6 @@ public record DadosAtualizacaoEndereco(
         @Pattern(regexp = "\\d{8}")
         String cep,
         String cidade,
-        String uf,
         String estado,
         String complemento,
         Integer numero

@@ -1,6 +1,6 @@
 package atelimatch.api.domain.pessoa.atelie;
 
-import jakarta.validation.constraints.Email;
+
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;

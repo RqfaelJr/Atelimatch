@@ -1,7 +1,6 @@
 package atelimatch.api.domain.materiaprima;
 
 import atelimatch.api.domain.servico.MateriaPrimaServico;
-import atelimatch.api.domain.servico.Servico;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

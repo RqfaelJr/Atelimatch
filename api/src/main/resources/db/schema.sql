@@ -2,7 +2,6 @@ CREATE TABLE endereco (
                           id_endereco SERIAL PRIMARY KEY,
                           estado VARCHAR(100) NOT NULL,
                           bairro VARCHAR(100) NOT NULL,
-                          uf CHAR(2) NOT NULL,
                           cidade VARCHAR(100) NOT NULL,
                           rua VARCHAR(100) NOT NULL,
                           cep VARCHAR(8) NOT NULL,
@@ -59,8 +58,6 @@ CREATE TABLE atelie (
                         nota_avaliacao DECIMAL(10,2) NOT NULL,
                         inicio_01 INTEGER NOT NULL,
                         fim_01 INTEGER NOT NULL,
-                        inicio_02 INTEGER,
-                        fim_02 INTEGER,
                         id_pessoaA INTEGER,
                         id_especialidade INTEGER,
                         FOREIGN KEY(id_pessoa) REFERENCES pessoa(id_pessoa),
@@ -115,17 +112,17 @@ CREATE TABLE medida_pedido (
 );
 
 -- Tabela endereco
-INSERT INTO endereco (estado, bairro, uf, cidade, rua, cep, numero, complemento) VALUES
-                                                                                     ('RN', 'Alto Vera Cruz', 'PI', 'Viana', 'Fazenda Ana Lívia Freitas', '26542351', 26, 'Complemento 1'),
-                                                                                     ('AP', 'Minaslandia', 'AM', 'Monteiro Paulista', 'Quadra Teixeira', '61849593', 760, 'Complemento 2'),
-                                                                                     ('RR', 'Betânia', 'AL', 'Gonçalves', 'Fazenda Castro', '4752553', 282, 'Complemento 3'),
-                                                                                     ('RR', 'Nova Granada', 'RO', 'da Cunha', 'Feira de da Cruz', '6483503', 251, 'Complemento 4'),
-                                                                                     ('SE', 'Lagoa', 'MG', 'Campos do Oeste', 'Largo de da Rosa', '6724238', 229, 'Complemento 5'),
-                                                                                     ('GO', 'Vila Primeiro De Maio', 'RJ', 'Nunes da Praia', 'Conjunto Silva', '1012269', 143, 'Complemento 6'),
-                                                                                     ('MG', 'Mineirão', 'RN', 'Souza de Fernandes', 'Aeroporto de Correia', '5146270', 755, 'Complemento 7'),
-                                                                                     ('PE', 'Vila Santo Antônio', 'CE', 'Jesus', 'Rodovia de da Paz', '52880957', 105, 'Complemento 8'),
-                                                                                     ('AC', 'Camponesa 2ª Seção', 'MS', 'Duarte do Norte', 'Travessa Cardoso', '71822782', 693, 'Complemento 9'),
-                                                                                     ('GO', 'São Geraldo', 'RN', 'da Rosa da Prata', 'Vila de da Paz', '6578713', 759, 'Complemento 10');
+INSERT INTO endereco (estado, bairro, cidade, rua, cep, numero, complemento) VALUES
+                                                                                     ('RN', 'Alto Vera Cruz',  'Viana', 'Fazenda Ana Lívia Freitas', '26542351', 26, 'Complemento 1'),
+                                                                                     ('AP', 'Minaslandia', 'Monteiro Paulista', 'Quadra Teixeira', '61849593', 760, 'Complemento 2'),
+                                                                                     ('RR', 'Betânia', 'Gonçalves', 'Fazenda Castro', '4752553', 282, 'Complemento 3'),
+                                                                                     ('RR', 'Nova Granada', 'da Cunha', 'Feira de da Cruz', '6483503', 251, 'Complemento 4'),
+                                                                                     ('SE', 'Lagoa',  'Campos do Oeste', 'Largo de da Rosa', '6724238', 229, 'Complemento 5'),
+                                                                                     ('GO', 'Vila Primeiro De Maio', 'Nunes da Praia', 'Conjunto Silva', '1012269', 143, 'Complemento 6'),
+                                                                                     ('MG', 'Mineirão', 'Souza de Fernandes', 'Aeroporto de Correia', '5146270', 755, 'Complemento 7'),
+                                                                                     ('PE', 'Vila Santo Antônio', 'Jesus', 'Rodovia de da Paz', '52880957', 105, 'Complemento 8'),
+                                                                                     ('AC', 'Camponesa 2ª Seção', 'Duarte do Norte', 'Travessa Cardoso', '71822782', 693, 'Complemento 9'),
+                                                                                     ('GO', 'São Geraldo', 'da Rosa da Prata', 'Vila de da Paz', '6578713', 759, 'Complemento 10');
 
 -- Tabela pessoa
 INSERT INTO pessoa (email, senha, usuario, nome_pessoa, telefone, cnpj, id_endereco) VALUES
@@ -162,12 +159,12 @@ INSERT INTO especialidade (descricao_especialidade) VALUES
                                                         ('Design de Acessórios');
 
 -- Tabela atelie
-INSERT INTO atelie (qntd_notas, nota_avaliacao, inicio_01, fim_01, inicio_02, fim_02, id_pessoaA, id_especialidade) VALUES
-                                                                                                                       (25, 4.8, 8, 12, 14, 18, 6, 1),
-                                                                                                                       (30, 4.5, 9, 13, NULL, NULL, 7, 2),
-                                                                                                                       (15, 4.7, 8, 12, 13, 17, 8, 3),
-                                                                                                                       (10, 4.9, 7, 11, 15, 19, 9, 4),
-                                                                                                                       (20, 4.6, 8, 12, NULL, NULL, 10, 5);
+INSERT INTO atelie (qntd_notas, nota_avaliacao, inicio_01, fim_01, id_pessoaA, id_especialidade) VALUES
+                                                                                                                       (25, 4.8, 8, 12, 6, 1),
+                                                                                                                       (30, 4.5, 9, 13, 7, 2),
+                                                                                                                       (15, 4.7, 8, 12, 8, 3),
+                                                                                                                       (10, 4.9, 7, 11, 9, 4),
+                                                                                                                       (20, 4.6, 8, 12, 10, 5);
 
 -- Tabela servico
 INSERT INTO servico (tempo_medio, valor_servico, nome_servico) VALUES

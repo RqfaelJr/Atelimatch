@@ -6,8 +6,6 @@ import jakarta.validation.constraints.Pattern;
 public record DadosCadastroEndereco(@NotBlank
                                     String estado,
                                     @NotBlank
-                                    String uf,
-                                    @NotBlank
                                     String cidade,
                                     @NotBlank
                                     String bairro,

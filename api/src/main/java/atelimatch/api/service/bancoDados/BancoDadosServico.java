@@ -11,13 +11,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import atelimatch.api.domain.servico.Servico;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
 import java.util.List;
-import java.util.Map;
+
 
 @Service
 public class BancoDadosServico {

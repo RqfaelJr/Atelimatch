@@ -1,7 +1,6 @@
 package atelimatch.api.domain.servico;
 
-import atelimatch.api.domain.materiaprima.MateriaPrima;
-import atelimatch.api.domain.pedido.Pedido;
+
 import atelimatch.api.domain.pedido.pedidoservico.PedidoServico;
 import atelimatch.api.domain.pessoa.atelie.Atelie;
 import jakarta.persistence.*;
