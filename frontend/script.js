@@ -1375,8 +1375,54 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btn-cancelar-pedido-atelie').addEventListener('click', () => 
         toggleModal('modal-pedido-atelie-alterar', false));
 
+    document.getElementById('btn-deletar-conta-cliente').addEventListener('click', () => {
+        
+        fetch(`http://localhost:8080/cliente/${localStorage.getItem("idPessoa")}`, { 
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                alert("Você tem pedidos registrados, não é possível deletar a conta")
+                throw new Error('Falha ao deletar o perfil. Status: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(() => {
+            localStorage.clear();
+            location.reload();
+        })
+        .catch(err => {
+            console.error("Erro ao deletar cliente:", err);
+        });
+    });
 
 
+    document.getElementById('btn-deletar-conta-atelie').addEventListener('click', () => {
+        
+        fetch(`http://localhost:8080/atelie/${localStorage.getItem("idPessoa")}`, { 
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                alert("Você tem pedidos registrados, não é possível deletar a conta")
+                throw new Error('Falha ao deletar o perfil. Status: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(() => {
+            localStorage.clear();
+            location.reload();
+        })
+        .catch(err => {
+            console.error("Erro ao deletar atelie:", err);
+        });
+    });
 
 
     // Código para a navegação das abas da tela principal
