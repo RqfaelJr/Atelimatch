@@ -21,7 +21,7 @@
             }
         }
     </script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="min-h-screen bg-white">
     
@@ -1053,7 +1053,19 @@
         </div>
     </div>
 
-
+    <div id="modal-graficos" class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div class="modal-content bg-white p-6 rounded-lg max-w-4xl w-full overflow-y-auto">
+          <h2 class="text-2xl font-bold mb-4">Gráficos</h2>
+      
+          <canvas id="grafico1" height="150"></canvas>
+          <canvas id="grafico2" height="150" class="mt-6"></canvas>
+          <canvas id="grafico3" height="150" class="mt-6"></canvas>
+      
+          <div class="flex justify-end pt-4">
+            <button onclick="toggleModal('modal-graficos', false)" class="px-4 py-2 bg-red-500 text-white rounded">Fechar</button>
+          </div>
+        </div>
+      </div>
 
     <script src="script.js"></script>
 </body>

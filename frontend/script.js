@@ -113,6 +113,7 @@ function handleAction(action) {
             break;
         case 'plotar-graficos':
             console.log("Plotar Gráficos...");
+            abrirGraficos();
             break;
         default:
             console.warn("Ação desconhecida:", action);
@@ -213,6 +214,75 @@ async function excluirEspecialidade(id) {
     }
 }
 
+
+async function abrirGraficos() {
+    toggleModal('modal-graficos', true);
+
+    try {
+        const response = await fetch('http://localhost:8080/admin/graficos');
+        const data = await response.json();
+        console.log('teste')
+        // Exemplo de estrutura esperada da API
+        // data = {
+        //   grafico1: { labels: [...], valores: [...] },
+        //   grafico2: { labels: [...], valores: [...] },
+        //   grafico3: { labels: [...], valores: [...] }
+        // }
+
+        // Destrói os gráficos antigos se existirem
+        if (window.chart1) window.chart1.destroy();
+        if (window.chart2) window.chart2.destroy();
+        if (window.chart3) window.chart3.destroy();
+
+        const ctx1 = document.getElementById('grafico1').getContext('2d');
+        window.chart1 = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: data.grafico1.labels,
+                datasets: [{
+                    label: 'Gráfico 1',
+                    data: data.grafico1.valores,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                }]
+            }
+        });
+
+        const ctx2 = document.getElementById('grafico2').getContext('2d');
+        window.chart2 = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: data.grafico2.labels,
+                datasets: [{
+                    label: 'Gráfico 2',
+                    data: data.grafico2.valores,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    fill: false
+                }]
+            }
+        });
+
+        const ctx3 = document.getElementById('grafico3').getContext('2d');
+        window.chart3 = new Chart(ctx3, {
+            type: 'pie',
+            data: {
+                labels: data.grafico3.labels,
+                datasets: [{
+                    label: 'Gráfico 3',
+                    data: data.grafico3.valores,
+                    backgroundColor: [
+                        'rgba(255, 205, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(255, 99, 132, 0.6)'
+                    ]
+                }]
+            }
+        });
+
+    } catch (error) {
+        console.error('Erro ao buscar dados da API:', error);
+        alert('Erro ao carregar gráficos.');
+    }
+}
 
 // Configuração dos eventos quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function() {
