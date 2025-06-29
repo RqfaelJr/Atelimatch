@@ -96,9 +96,12 @@ public class BancoDadosServico {
     }
 
     public GraficoDTO valorVendasPorMesAtelie() {
-        String sql = "SELECT pe.nome_pessoa AS nome_atelie, TO_CHAR(p.data_entrega, 'MM/YYYY') AS mes_ano, SUM(p.valor_total) AS total_vendas " +
-        "FROM pedido p JOIN atelie a ON p.id_atelie = a.id_pessoa JOIN pessoa pe ON a.id_pessoa = pe.id_pessoa " +
-        "GROUP BY pe.nome_pessoa, mes_ano;";
+        String sql = "SELECT pe.nome_pessoa AS nome_atelie,  TO_CHAR(p.data_entrega, 'MM/YYYY') AS mes_ano, SUM(p.valor_total) AS total_vendas " +
+        "FROM pedido p " +
+        "JOIN atelie a ON p.id_atelie = a.id_pessoa " +
+        "JOIN pessoa pe ON a.id_pessoa = pe.id_pessoa " +
+        "WHERE pe.id_pessoa = 1 " +
+        "GROUP BY pe.nome_pessoa, TO_CHAR(p.data_entrega, 'MM/YYYY');";
 
         List<String> labels = new ArrayList<>();
         List<Double> valores = new ArrayList<>();
