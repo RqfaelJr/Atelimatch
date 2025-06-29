@@ -18,7 +18,7 @@ public class GroqAI {
     }
 
     public String consultaAI(String linguagemNatural) throws IOException, InterruptedException {
-        var schema = SchemaLoader.carregarSchema("/db/schema.txt");
+        var schema = SchemaLoader.carregarSchema("/Users/heloisamello/Atelimatch/api/src/main/resources/db/schema.txt");
         String apiKey = "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";
         String apiUrl = "https://api.groq.com/openai/v1/chat/completions";
 
