@@ -1,9 +1,14 @@
 package atelimatch.api.domain.pessoa;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record DadosAutenticacao(
 
-        String usuario,
-        String senha
+    @NotBlank
+    String usuario,
+
+    @NotBlank
+    String senha
 
 ) {
 }

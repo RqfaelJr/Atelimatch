@@ -1,7 +1,6 @@
 package atelimatch.api.controller;
 
 import atelimatch.api.domain.especialidade.*;
-import atelimatch.api.domain.pessoa.atelie.DadosListagemAtelie;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

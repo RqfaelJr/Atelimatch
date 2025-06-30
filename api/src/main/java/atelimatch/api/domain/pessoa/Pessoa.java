@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "idPessoa")
 @Inheritance(strategy = InheritanceType.JOINED) // Mudar para entity e @Inheritance(strategy = InheritanceType.JOINED)
 public class Pessoa {
     @Id

@@ -1,6 +1,5 @@
 package atelimatch.api.controller;
 
-import atelimatch.api.domain.especialidade.DadosListagemEspecialidade;
 import atelimatch.api.domain.formapagamento.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,5 @@
 package atelimatch.api.controller;
 
-import atelimatch.api.domain.especialidade.DadosListagemEspecialidade;
 import atelimatch.api.domain.servico.*;
 import atelimatch.api.service.bancoDados.BancoDadosServico;
 import jakarta.validation.Valid;

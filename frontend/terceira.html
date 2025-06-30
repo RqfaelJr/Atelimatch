@@ -1176,17 +1176,25 @@
 
 
 
-    <div id="modal-graficos" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-        <div class="modal-content bg-white p-6 rounded-lg max-w-4xl w-full overflow-y-auto">
-          <h2 class="text-2xl font-bold mb-4">Gráficos</h2>
-      
-          <canvas id="grafico1" height="150"></canvas>
-          <canvas id="grafico2" height="150" class="mt-6"></canvas>
-          <canvas id="grafico3" height="150" class="mt-6"></canvas>
-      
-          <div class="flex justify-end pt-4">
-            <button onclick="toggleModal('modal-graficos', false)" class="px-4 py-2 bg-red-500 text-white rounded">Fechar</button>
-          </div>
+    <!-- Modal -->
+    <div id="modal-graficos" 
+     class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start pt-10 z-50 overflow-auto"
+     role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+        <div class="modal-content bg-white p-6 rounded-lg max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-xl">
+            <h2 id="modalTitle" class="text-3xl font-bold mb-6 text-center">Relatórios e Gráficos</h2>
+            <div id="conteudo-graficos"></div>
+            <div class="flex justify-end gap-4 pt-6">
+                <button id="btnBaixarGraficos"
+                        class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold"
+                        aria-label="Baixar gráficos">
+                    Baixar gráficos (PNG)
+                </button>
+                <button onclick="toggleModal2(false)" 
+                        class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded font-semibold" 
+                        aria-label="Fechar modal">
+                    Fechar
+                </button>
+            </div>
         </div>
     </div>
 

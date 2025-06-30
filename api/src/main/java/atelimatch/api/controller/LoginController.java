@@ -1,6 +1,5 @@
 package atelimatch.api.controller;
 
-import atelimatch.api.domain.especialidade.DadosDetalhamentoEspecialidade;
 import atelimatch.api.domain.pessoa.DadosAutenticacao;
 import atelimatch.api.domain.pessoa.atelie.Atelie;
 import atelimatch.api.domain.pessoa.atelie.AtelieRepository;
@@ -31,7 +30,7 @@ public class LoginController {
     private ClienteRepository clienteRepository;
 
     @PostMapping
-    public ResponseEntity login(@RequestBody @Valid DadosAutenticacao dados, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<?> login(@RequestBody @Valid DadosAutenticacao dados, UriComponentsBuilder uriBuilder) {
         var id = atelieRepository.acharIdComLogin(dados.usuario(), dados.senha());
         if (id != null) {
             Optional<Atelie> atelie = atelieRepository.findById(id);

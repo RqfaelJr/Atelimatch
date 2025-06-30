@@ -115,7 +115,7 @@ function handleAction(action) {
             abrirModalFormaPagamento();
             break;
         case 'plotar-graficos':
-            console.log("Plotar Gráficos...");
+            
             abrirGraficos();
             break;
         default:
@@ -610,141 +610,229 @@ async function excluirEspecialidade(id) {
 }
 
 
-async function abrirGraficos() {
-    toggleModal('modal-graficos', true);
+const modal = document.getElementById('modal-graficos');
+const conteudoGraficos = document.getElementById('conteudo-graficos');
 
+
+
+function toggleModal2(show = true) {
+    if (show) {
+        modal.classList.add('active');
+    } else {
+        modal.classList.remove('active');
+
+        if (window.charts) {
+            window.charts.forEach(chart => chart.destroy());
+            window.charts = [];
+        }
+
+        conteudoGraficos.innerHTML = '';
+    }
+}
+
+function baixarTodosGraficos() {
+    // Pega todos os canvases dentro do container de gráficos
+    const canvases = document.querySelectorAll('#conteudo-graficos canvas');
+
+    canvases.forEach((canvas, index) => {
+        const link = document.createElement('a');
+        link.download = `grafico${index + 1}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+}
+
+
+async function abrirGraficos() {
+    toggleModal2(true);
     try {
         const response = await fetch('http://localhost:8080/admin/graficos');
         const data = await response.json();
-        console.log('teste')
-        // Exemplo de estrutura esperada da API
-        // data = {
-        //   grafico1: { labels: [...], valores: [...] },
-        //   grafico2: { labels: [...], valores: [...] },
-        //   grafico3: { labels: [...], valores: [...] }
-        // }
 
-        // Destrói os gráficos antigos se existirem
-        if (window.chart1) window.chart1.destroy();
-        if (window.chart2) window.chart2.destroy();
-        if (window.chart3) window.chart3.destroy();
+        conteudoGraficos.innerHTML = '';
+        window.charts = [];
 
-        const ctx1 = document.getElementById('grafico1').getContext('2d');
-        window.chart1 = new Chart(ctx1, {
+        function criarSecaoGrafico(titulo, descricao, dados) {
+            const container = document.createElement('section');
+            container.classList.add('mb-10');
+
+            // Título
+            const h3 = document.createElement('h3');
+            h3.textContent = titulo;
+            h3.className = 'text-xl font-semibold mb-2';
+            container.appendChild(h3);
+
+            // Descrição
+            const pDesc = document.createElement('p');
+            pDesc.textContent = descricao;
+            pDesc.className = 'mb-4 text-gray-700';
+            container.appendChild(pDesc);
+
+            // SQL
+            const preSQL = document.createElement('pre');
+            preSQL.textContent = dados.sql;
+            preSQL.style.backgroundColor = '#f9fafb';
+            preSQL.style.padding = '8px';
+            preSQL.style.borderRadius = '4px';
+            preSQL.style.fontSize = '0.9rem';
+            preSQL.style.overflowX = 'auto';
+            container.appendChild(preSQL);
+
+            // Tabela com resultado completo e cabeçalhos reais
+            if (dados.resultado && dados.resultado.colunas && dados.resultado.dados) {
+                const table = document.createElement('table');
+                table.className = 'table-sample';
+
+                // Cabeçalho
+                const thead = document.createElement('thead');
+                const trHead = document.createElement('tr');
+                dados.resultado.colunas.forEach(col => {
+                    const th = document.createElement('th');
+                    th.textContent = col;
+                    trHead.appendChild(th);
+                });
+                thead.appendChild(trHead);
+                table.appendChild(thead);
+
+                // Corpo
+                const tbody = document.createElement('tbody');
+                dados.resultado.dados.forEach(row => {
+                    const tr = document.createElement('tr');
+                    row.forEach(cell => {
+                        const td = document.createElement('td');
+                        td.textContent = cell ?? '';
+                        tr.appendChild(td);
+                    });
+                    tbody.appendChild(tr);
+                });
+                table.appendChild(tbody);
+
+                container.appendChild(table);
+            }
+
+            // Canvas para gráfico
+            const canvas = document.createElement('canvas');
+            canvas.height = 180;
+            canvas.className = 'mt-4 rounded shadow';
+            container.appendChild(canvas);
+
+            conteudoGraficos.appendChild(container);
+
+            return canvas;
+        }
+
+        // Consulta 1
+        let descricao1 = "Objetivo: Obter a quantidade total de pedidos agrupados por ateliê, para entender a demanda de cada um.";
+        const canvas1 = criarSecaoGrafico("Consulta 1: Pedidos por Ateliê", descricao1, data.grafico1);
+        window.charts.push(new Chart(canvas1.getContext('2d'), {
             type: 'bar',
             data: {
                 labels: data.grafico1.labels,
                 datasets: [{
                     label: 'Total de Pedidos',
                     data: data.grafico1.valores,
-                    backgroundColor: [
-                        'rgba(255, 205, 86, 0.6)'
-                    ]
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderRadius: 4
                 }]
             },
             options: {
+                responsive: true,
                 plugins: {
+                    legend: { display: false },
                     title: {
                         display: true,
                         text: 'Quantidade de Pedidos por Ateliê',
-                        font: {
-                            size: 18
-                        },
-                        padding: {
-                            top: 10,
-                            bottom: 20
-                        }
+                        font: { size: 16 }
+                    },
+                    tooltip: { enabled: true }
+                },
+                scales: {
+                    y: { beginAtZero: true, title: {display:true, text:'Pedidos'} }
+                }
+            }
+        }));
+
+        // Consulta 2
+        let descricao2 = "Objetivo: Calcular o valor médio gasto pelos clientes em cada forma de pagamento, para identificar tendências financeiras.";
+        const canvas2 = criarSecaoGrafico("Consulta 2: Valor Médio por Forma de Pagamento", descricao2, data.grafico2);
+        window.charts.push(new Chart(canvas2.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: data.grafico2.labels,
+                datasets: [{
+                    label: 'Valor Médio (R$)',
+                    data: data.grafico2.valores,
+                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'Valor Médio Gasto por Forma de Pagamento',
+                        font: { size: 16 }
+                    },
+                    tooltip: { enabled: true }
+                },
+                scales: {
+                    y: { beginAtZero: true, title: {display:true, text:'R$'} }
+                }
+            }
+        }));
+
+        // Consulta 3
+        let descricao3 = "Objetivo: Analisar o valor vendido por mês do Ateliê com ID 6, para observar variações temporais nas vendas.";
+        const canvas3 = criarSecaoGrafico("Consulta 3: Valor Vendido por Mês no Ateliê 6", descricao3, data.grafico3);
+        window.charts.push(new Chart(canvas3.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: data.grafico3.labels,
+                datasets: [{
+                    label: 'Valor Vendido (R$)',
+                    data: data.grafico3.valores,
+                    backgroundColor: 'rgba(75, 192, 192, 0.3)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    title: {
+                        display: true,
+                        text: 'Valor Vendido Por Mês do Ateliê 6',
+                        font: { size: 16 }
+                    },
+                    tooltip: { enabled: true }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Valor em R$' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Mês/Ano' }
                     }
                 }
             }
-        });
+        }));
 
+        document.getElementById('btnBaixarGraficos').onclick = baixarTodosGraficos;
 
-        const ctx2 = document.getElementById('grafico2').getContext('2d');
-window.chart2 = new Chart(ctx2, {
-    type: 'bar', 
-    data: {
-        labels: data.grafico2.labels,
-        datasets: [{
-            label: 'Valor Médio (R$)',
-            data: data.grafico2.valores,
-            borderColor: 'rgba(255, 99, 132, 1)',
-            backgroundColor: 'rgba(255, 99, 132, 0.3)',
-            fill: true
-        }]
-    },
-    options: {
-        plugins: {
-            title: {
-                display: true,
-                text: 'Valor Médio Gasto por Forma de Pagamento',
-                font: {
-                    size: 18
-                },
-                padding: {
-                    top: 10,
-                    bottom: 20
-                }
-            }
-        }
-    }
-});
-
-
-const ctx3 = document.getElementById('grafico3').getContext('2d');
-window.chart3 = new Chart(ctx3, {
-    type: 'line',
-    data: {
-        labels: data.grafico3.labels,
-        datasets: [{
-            label: 'Valor Vendido (R$)',
-            data: data.grafico3.valores,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.3
-        }]
-    },
-    options: {
-        plugins: {
-            title: {
-                display: true,
-                text: 'Valor Vendido Por Mês do Ateliê 1',
-                font: {
-                    size: 18
-                },
-                padding: {
-                    top: 10,
-                    bottom: 20
-                }
-            }
-        },
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Valor em R$'
-                }
-            },
-            x: {
-                title: {
-                    display: true,
-                    text: 'Mês/Ano'
-                }
-            }
-        }
-    }
-});
 
     } catch (error) {
         console.error('Erro ao buscar dados da API:', error);
-        alert('Erro ao carregar gráficos.');
+        alert('Erro ao carregar gráficos e dados.');
     }
 }
-
 // Configuração dos eventos quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function() {
     // Configurar botões para abrir os modais de cadastro

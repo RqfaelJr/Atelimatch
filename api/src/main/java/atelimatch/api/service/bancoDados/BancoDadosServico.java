@@ -1,6 +1,7 @@
 package atelimatch.api.service.bancoDados;
 
 import atelimatch.api.domain.grafico.GraficoDTO;
+import atelimatch.api.domain.grafico.ResultadoConsultaDTO;
 import atelimatch.api.domain.pessoa.atelie.DadosListagemAtelie;
 import atelimatch.api.domain.servico.DadosListagemServico;
 import jakarta.persistence.EntityManager;
@@ -100,7 +101,7 @@ public class BancoDadosServico {
         "FROM pedido p " +
         "JOIN atelie a ON p.id_atelie = a.id_pessoa " +
         "JOIN pessoa pe ON a.id_pessoa = pe.id_pessoa " +
-        "WHERE pe.id_pessoa = 1 " +
+        "WHERE pe.id_pessoa = 6 " +
         "GROUP BY pe.nome_pessoa, TO_CHAR(p.data_entrega, 'MM/YYYY');";
 
         List<String> labels = new ArrayList<>();
@@ -113,6 +114,31 @@ public class BancoDadosServico {
 
         return new GraficoDTO(labels, valores);
     }
+
+    public ResultadoConsultaDTO buscarResultadoCompletoComColunas(String sql) {
+        return jdbcTemplate.query(sql, rs -> {
+            List<List<String>> rows = new ArrayList<>();
+            List<String> colunas = new ArrayList<>();
+
+            int colCount = rs.getMetaData().getColumnCount();
+            for (int i = 1; i <= colCount; i++) {
+                colunas.add(rs.getMetaData().getColumnLabel(i));
+            }
+
+            // Importante: avança para a primeira linha
+            while (rs.next()) {
+                List<String> row = new ArrayList<>();
+                for (int i = 1; i <= colCount; i++) {
+                    row.add(rs.getString(i));
+                }
+                rows.add(row);
+            }
+
+            return new ResultadoConsultaDTO(colunas, rows);
+        });
+    }
+
+
 
     
 
