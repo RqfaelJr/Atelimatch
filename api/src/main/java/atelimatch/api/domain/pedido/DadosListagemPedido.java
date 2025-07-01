@@ -5,5 +5,5 @@ public record DadosListagemPedido(Integer idPedido, String descricao, String nom
         this(pedido.getIdPedido(), pedido.getDescricaoPedido(), pedido.getAtelie().getNomePessoa(), pedido.getStatus());
     }
 
-     // ARRUMAR DPS
+
 }

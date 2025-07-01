@@ -38,13 +38,14 @@ public class Atelie extends Pessoa{
     private Set<Servico> servicos = new HashSet<>();
 
 
-    public Atelie(String nomePessoa, String email, String senha, String usuario, String telefone, Endereco endereco, Especialidade especialidade, Integer inicio01, Integer fim01, Integer inicio02, Integer fim02) {
+    public Atelie(String nomePessoa, String email, String senha, String usuario, String telefone, Endereco endereco, String cnpj, Especialidade especialidade, Integer inicio01, Integer fim01, Integer inicio02, Integer fim02) {
         this.nomePessoa = nomePessoa;
         this.email = email;
         this.senha = senha;
         this.usuario = usuario;
         this.telefone = telefone;
         this.endereco = endereco;
+        this.cnpj = cnpj;
         this.especialidade = especialidade;
         this.notaAvaliacao = 0.0f;
         this.qntdNotas = 0;

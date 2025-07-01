@@ -150,8 +150,9 @@ INSERT INTO pessoa (email, senha, usuario, nome_pessoa, telefone, cnpj, id_ender
 ('mariasouza@email.com', 'mariasouza', 'mariasouza', 'Maria Souza', '11976543210', NULL, 12),
 ('pedroalves@email.com', 'pedroalves', 'pedroalves', 'Pedro Alves', '11965432109', NULL, 13),
 ('anapaula@email.com', 'anapaula', 'anapaula', 'Ana Paula Oliveira', '11954321098', NULL, 14),
-('carlosrocha@email.com', 'carlosrocha', 'carlosrocha', 'Carlos Rocha', '11943210987', NULL, 15);
-
+('carlosrocha@email.com', 'carlosrocha', 'carlosrocha', 'Carlos Rocha', '11943210987', NULL, 15),
+('admin@email.com', 'admin', 'admin', 'admin Atelie', '11000000000', '00000000000000', 1),
+('admin2@email.com', 'admin', 'adm', 'admin Cliente', '11100000000', NULL, 2);
 
 -- Tabela cliente (corrigida)
 INSERT INTO cliente (id_pessoa, data_nascimento, cpf) VALUES
@@ -164,7 +165,8 @@ INSERT INTO cliente (id_pessoa, data_nascimento, cpf) VALUES
 (12, '1988-07-12', '78901234567'),
 (13, '1995-11-30', '89012345678'),
 (14, '1983-05-18', '90123456789'),
-(15, '1976-09-22', '01234567890');
+(15, '1976-09-22', '01234567890'),
+(17, '2000-01-01', '01277788899');
 
 -- Tabela atelie (corrigida)
 
@@ -187,7 +189,8 @@ INSERT INTO atelie (id_pessoa, qntd_notas, nota_avaliacao, inicio_01, fim_01, id
 (7, 30, 4.5, 9, 13, 7, 2),
 (8, 15, 4.7, 8, 12, 8, 3),
 (9, 10, 4.9, 7, 11, 9, 4),
-(10, 20, 4.6, 8, 12, 10, 5);
+(10, 20, 4.6, 8, 12, 10, 5),
+(16, 0, 0, 8, 17, 16, 3);
 
 
 -- Tabela servico (20 serviços)

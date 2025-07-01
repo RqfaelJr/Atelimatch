@@ -33,7 +33,7 @@ public class CadastroAtelie {
         for (int i = 0; i < dados.idsServico().toArray().length; i++) {
             servicos.add(servicoRepository.getReferenceById(dados.idsServico().get(i)));
         }
-        var atelie = new Atelie(dados.nomePessoa(), dados.email(), dados.senha(), dados.usuario(), dados.telefone(), endereco, especialidade, dados.inicio01(), dados.fim01(), dados.inicio02(), dados.fim02());
+        var atelie = new Atelie(dados.nomePessoa(), dados.email(), dados.senha(), dados.usuario(), dados.telefone(), endereco, dados.cnpj(), especialidade, dados.inicio01(), dados.fim01(), dados.inicio02(), dados.fim02());
         atelie.getServicos().addAll(servicos);
         atelie = atelieRepository.saveAndFlush(atelie);
 
