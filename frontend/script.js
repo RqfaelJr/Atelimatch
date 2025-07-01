@@ -49,22 +49,6 @@ function showMessageModal(type, title, message) {
     toggleModal('message-modal', true);
 }
 
-// // Função para mostrar uma página e esconder as outras
-// function showPage(pageId) {
-//     // Esconde todas as páginas
-//     document.querySelectorAll('.page').forEach(page => {
-//         page.classList.remove('active');
-//         page.classList.add('hidden'); // Garante que a página seja oculta com Tailwind
-//     });
-    
-//     // Mostra a página solicitada
-//     const page = document.getElementById(pageId);
-//     if (page) {
-//         page.classList.add('active');
-//         page.classList.remove('hidden'); // Torna a página visível
-//     }
-// }
-
 function handleAction(action) {
     const urlBase = "http://localhost:8080/admin";
 
@@ -231,7 +215,7 @@ function fecharModalServicos() {
 
 async function carregarServicos() {
   try {
-    const response = await fetch(apiServicos + "/todas"); // ou apenas apiServicos se você não criou "/todas"
+    const response = await fetch(apiServicos + "/todas");
     const data = await response.json();
     const servicos = data.content || data;
 
@@ -532,7 +516,7 @@ async function carregarEspecialidades() {
     try {
         const response = await fetch(apiEspecialidade);
         const data = await response.json();
-        const especialidades = data.content || data; // Acessa 'content' se for paginado, ou a resposta direta se não for
+        const especialidades = data.content || data; 
 
         const lista = document.getElementById("listaEspecialidades");
         lista.innerHTML = "";
@@ -586,7 +570,7 @@ async function salvarEspecialidade(event) {
 
         fecharModalEspecialidade();
         showMessageModal('success', 'Sucesso', id ? 'Especialidade atualizada com sucesso!' : 'Especialidade cadastrada com sucesso!');
-        carregarEspecialidades(); // Recarrega a lista
+        carregarEspecialidades(); 
     } catch (error) {
         console.error("Erro ao salvar especialidade:", error);
         showMessageModal('error', 'Erro', 'Não foi possível salvar a especialidade. Tente novamente.');
@@ -910,9 +894,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('idPessoa', dadosResposta.idPessoa)
                 localStorage.setItem('userName', dadosResposta.nomePessoa);
 
-                // Exemplo: Atualizar um elemento na tela principal com o nome do usuário
-                
-
                 if (dadosResposta.inicio01) {
                     const userNameElement = document.querySelector('.nome-atelie');
                     if (userNameElement) {
@@ -957,40 +938,35 @@ document.addEventListener('DOMContentLoaded', function() {
     if (formCadastroCliente) {
         formCadastroCliente.addEventListener('submit', function(e) {
             e.preventDefault();
-
+    
             const formData = new FormData(formCadastroCliente);
             const dados = Object.fromEntries(formData.entries());
             delete dados.confirmarSenha;
             const json = JSON.stringify(dados);
             console.log(json);
-
-            fetch ('http://localhost:8080/cliente', {
+    
+            fetch('http://localhost:8080/cliente', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: json
             })
-            .then(resp => resp.json())
+            .then(async resp => {
+                if (!resp.ok) {
+                    const erro = await resp.json().catch(() => ({}));
+                    throw new Error(erro.message || 'Erro desconhecido no cadastro');
+                }
+                return resp.json();
+            })
             .then(dadosResposta => {
-                toggleModal('modal-cadastro-cliente', false); // Fechar o modal de cadastro
+                toggleModal('modal-cadastro-cliente', false);
                 showMessageModal('success', 'Cadastro de Cliente Concluído!', 'Sua conta de cliente foi criada com sucesso. Bem-vindo(a)!');
-                formCadastroCliente.reset(); // Limpar formulário
+                formCadastroCliente.reset();
             })
             .catch(erro => {
                 showMessageModal('error', 'Erro no Cadastro', 'Não foi possível cadastrar o cliente. Verifique os dados e tente novamente.');
-            })
-            console.log(json)
-            const success = true; // Troque para false para testar a mensagem de erro
-            
-            if (success) {
-                toggleModal('modal-cadastro-cliente', false); // Fechar o modal de cadastro
-                showMessageModal('success', 'Cadastro de Cliente Concluído!', 'Sua conta de cliente foi criada com sucesso. Bem-vindo(a)!');
-                formCadastroCliente.reset(); // Limpar formulário
-            } else {
-                // Exemplo de erro (você receberia a mensagem do backend)
-                showMessageModal('error', 'Erro no Cadastro', 'Não foi possível cadastrar o cliente. Verifique os dados e tente novamente.');
-            }
+            });
         });
     }
     
@@ -1003,11 +979,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const dados = Object.fromEntries(formData.entries());
             delete dados.confirmarSenha;
             
-            dados.idsServico = JSON.parse(dados.idsServico).map(id => parseInt(id, 10));
-            console.log(dados.idsServico)
+            if (dados.idsServico) {
+                try {
+                    const parsed = JSON.parse(dados.idsServico);
+                    dados.idsServico = Array.isArray(parsed) ? parsed.map(id => parseInt(id, 10)) : [];
+                } catch (e) {
+                    dados.idsServico = []; 
+                }
+            } else {
+                dados.idsServico = [];
+            }
+            
             const json = JSON.stringify(dados);
 
-            console.log(json);
+            
 
             fetch ('http://localhost:8080/atelie', {
                 method: 'POST',
@@ -1016,34 +1001,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: json
             })
-            .then(resp => resp.json())
+            .then(async resp => {
+                if (!resp.ok) {
+                    const erro = await resp.json().catch(() => ({}));
+                    throw new Error(erro.message || 'Erro desconhecido no cadastro');
+                }
+                return resp.json();
+            })
             .then(dadosResposta => {
-                toggleModal('modal-cadastro-atelie', false); // Fechar o modal de cadastro
+                toggleModal('modal-cadastro-atelie', false);
                 showMessageModal('success', 'Cadastro de Ateliê Concluído!', 'Sua conta de ateliê foi criada com sucesso. Bem-vindo(a)!');
-                formCadastroAtelie.reset(); // Limpar formulário
+                formCadastroAtelie.reset();
             })
             .catch(erro => {
                 showMessageModal('error', 'Erro no Cadastro', 'Não foi possível cadastrar o ateliê. Verifique os dados e tente novamente.');
             })
-
-
-            const success = true; // Troque para false para testar a mensagem de erro
-
-            if (success) {
-                toggleModal('modal-cadastro-atelie', false); // Fechar o modal de cadastro
-                showMessageModal('success', 'Cadastro de Ateliê Concluído!', 'Seu ateliê foi cadastrado com sucesso. Comece a receber pedidos!');
-                formCadastroAtelie.reset(); // Limpar formulário
-            } else {
-                // Exemplo de erro (você receberia a mensagem do backend)
-                showMessageModal('error', 'Erro no Cadastro', 'Não foi possível cadastrar o ateliê. Tente novamente mais tarde.');
-            }
         });
     }
 
 
     document.getElementById('form-endereco').addEventListener('submit', async function(e) {
         e.preventDefault();
-        // Pega valores
+        
         const endereco = {
             estado: document.getElementById('modal-estado').value,
             cidade: document.getElementById('modal-cidade').value,
@@ -1053,7 +1032,7 @@ document.addEventListener('DOMContentLoaded', function() {
             numero: document.getElementById('modal-numero').value,
             complemento: document.getElementById('modal-complemento').value,
         };
-        // Enviar para a API
+        
     try {
         const resp = await fetch('http://localhost:8080/endereco', {
             method: 'POST',
@@ -1071,10 +1050,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             console.error('Campo hidden #endereco-id não encontrado no formulário do ateliê.');
         }
-        // (Opcional) mostrar resumo para usuário
-        // document.getElementById('endereco-resumo').innerText =
-        //     `Rua: ${endereco.rua}, Nº ${endereco.numero}, Bairro: ${endereco.bairro}, Cidade: ${endereco.cidade}, Estado: ${endereco.estado}`;
-
+        
         toggleModal('modal-endereco', false);
 
         } catch (err) {
@@ -1087,7 +1063,7 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleModal('modal-especialidade', true);
         const lista = document.getElementById('lista-especialidade');
         lista.innerHTML = '<div>Carregando...</div>';
-        // Troque esta URL pela da sua API!
+        
         const resp = await fetch('http://localhost:8080/especialidade');
         const especialidades = await resp.json();
         lista.innerHTML = `
@@ -1128,13 +1104,13 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleModal('modal-servico', true);
         const lista = document.getElementById('lista-servico');
         lista.innerHTML = '<div>Carregando...</div>';
-        // Troque esta URL pela da sua API!
-        const resp = await fetch('http://localhost:8080/servico');
+        
+        const resp = await fetch('http://localhost:8080/servico/todas');
         const servicos = await resp.json();
         lista.innerHTML = `
         <label class="block mb-2 font-medium text-gray-700">Escolha os serviços:</label>
         <div class="space-y-2">
-            ${servicos.content.map(e => `
+            ${servicos.map(e => `
                 <label class="flex items-center space-x-2">
                     <input type="checkbox" name="servico" value="${e.idServico}" class="form-checkbox">
                     <span>${e.nome}</span>
@@ -1174,14 +1150,14 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const cliente = document.getElementById('cliente-id')
         cliente.value = localStorage.getItem('idPessoa')
-        // Limpa o select e mostra "carregando"
+        
         select.innerHTML = '<option>Carregando...</option>';
     
         try {
             const resp = await fetch('http://localhost:8080/atelie');
             const data = await resp.json();
     
-            // Substitui pelas opções reais
+            
             select.innerHTML = '<option value="">Selecione um ateliê</option>' +
                 data.content.map(e => `
                     <option value="${e.idAtelie}">${e.nome}</option>
@@ -1257,7 +1233,7 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleModal('modal-formaPagamento', true);
         const lista = document.getElementById('lista-formaPagamento');
         lista.innerHTML = '<div>Carregando...</div>';
-        // Troque esta URL pela da sua API!
+        
         const resp = await fetch('http://localhost:8080/formapagamento');
         const formaPagamento = await resp.json();
         lista.innerHTML = `
@@ -1298,7 +1274,7 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleModal('modal-medida', true);
         const lista = document.getElementById('lista-medida');
         lista.innerHTML = '<div>Carregando...</div>';
-        // Troque esta URL pela da sua API!
+        
         const resp = await fetch('http://localhost:8080/medida');
         const medida = await resp.json();
         lista.innerHTML = `
@@ -1346,7 +1322,7 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleModal('modal-servico-pedido', true);
         const lista = document.getElementById('lista-servico-pedido');
         lista.innerHTML = '<div>Carregando...</div>';
-        // Troque esta URL pela da sua API!
+       
         const resp = await fetch('http://localhost:8080/servico/atelie/' + dados.idAtelie);
         const servico = await resp.json();
         console.log(servico)
@@ -1424,7 +1400,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log(JSON.stringify(servicoPedido));
     
-        // Se quiser esconder o modal
+        
         toggleModal('modal-servico-pedido', false);
     
         document.getElementById('servico-pedido-ids').value = JSON.stringify(servicoPedido);
@@ -1494,7 +1470,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     lista.innerHTML = data.content.map(a => `
                         <div class="py-2 border-b">
                             <span class="text-gray-800">
-                            ${a.nome}
+                            ${a.nome} | Nota: ${a.nota} | Avaliações: ${a.qtdNotas}
                             </span>
                         </div>
                     `).join('');
@@ -1517,7 +1493,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search-field');
     searchInput.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
-            event.preventDefault(); // Opcional: evita o submit padrão em forms
+            event.preventDefault();
             const termoBusca = searchInput.value.trim();
             console.log(JSON.stringify(termoBusca))
             if (termoBusca) {
@@ -1536,7 +1512,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         lista.innerHTML = data.content.map(a => `
                             <div class="py-2 border-b">
                                 <span class="text-gray-800">
-                                ${a.nome}
+                                ${a.nome} | Nota: ${a.nota} | Avaliações: ${a.qtdNotas}
                                 </span>
                             </div>
                         `).join('');
@@ -1876,9 +1852,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         listaPedidosContainer.innerHTML = '<p class="text-gray-500">Carregando pedidos...</p>';
         
-        // Busca os dados da sua API
-        // Assumindo que a API retorna um objeto com uma propriedade `content` que é um array de pedidos
-        fetch(`http://localhost:8080/pedido/atelie/${localStorage.getItem("idPessoa")}`) // <-- Adapte a URL se necessário
+        
+        fetch(`http://localhost:8080/pedido/atelie/${localStorage.getItem("idPessoa")}`) 
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Falha ao buscar os pedidos.');
@@ -2145,7 +2120,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
     closeScreen.addEventListener('click', closeSidebar);
     overlay.addEventListener('click', closeSidebar);
-
-    
-
 });
