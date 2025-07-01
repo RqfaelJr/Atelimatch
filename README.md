@@ -21,7 +21,7 @@ Funcionalidades Principais
 
 Tecnologias Utilizadas
 
-    • Java: backend da aplicação
+    • Java com SpringBoot: backend da aplicação
 
     • HTML5, CSS3 e JavaScript: frontend responsivo e interativo
 
@@ -39,13 +39,6 @@ Como Executar o Projeto
 
     5. Acesse a aplicação pelo endereço configurado (ex: http://localhost:8080)
 
-Estrutura do Projeto
-
-    • src/: código-fonte Java do backend
-
-    • public/ ou web/: arquivos HTML, CSS e JavaScript do frontend
-
-    • scripts/: scripts SQL para criação e migração do banco PostgreSQL
 
 Público-Alvo
 
