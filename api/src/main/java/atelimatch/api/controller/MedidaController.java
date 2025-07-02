@@ -17,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/medida")
+@CrossOrigin(origins = "*")
 public class MedidaController {
 
     @Autowired

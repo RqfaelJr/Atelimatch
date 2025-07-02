@@ -13,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/formapagamento")
+@CrossOrigin(origins = "*")
 public class FormaPagamentoController {
 
     @Autowired

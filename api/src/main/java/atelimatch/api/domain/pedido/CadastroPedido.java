@@ -64,8 +64,16 @@ public class CadastroPedido {
             for (DadosMateriaPrima Dmp : s.materiasPrima()) {
                 MateriaPrima mp = materiaPrimaRepository.getReferenceById(Dmp.idMateriaPrima());
 
-                MateriaPrimaServico mps = new MateriaPrimaServico(new MateriaPrimaServicoId(servico.getIdServico(), mp.getIdMateriaPrima()), servico, mp, mp.getQtdeMateriaPrima(), mp.getUnidadeMateriaPrima());
-                servico.getServicoMateriasPrima().add(mps);
+                MateriaPrimaServicoId mpsId = new MateriaPrimaServicoId(servico.getIdServico(), mp.getIdMateriaPrima());
+
+                // verificar se já existe na coleção para evitar duplicata
+                boolean existe = servico.getServicoMateriasPrima().stream()
+                    .anyMatch(mps -> mps.getIdMateriaPrimaServico().equals(mpsId));
+
+                if (!existe) {
+                    MateriaPrimaServico mps = new MateriaPrimaServico(mpsId, servico, mp, mp.getQtdeMateriaPrima(), mp.getUnidadeMateriaPrima());
+                    servico.getServicoMateriasPrima().add(mps);
+                }
             }
         }
         pedido.getPedidoServicos().addAll(pedidoServicos);

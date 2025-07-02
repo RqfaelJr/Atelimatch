@@ -126,6 +126,17 @@ public class BancoDadosServico {
         });
     }
 
+    public Page<DadosListagemAtelie> buscarAtelieSemNota(String sql, Pageable pageable) {
+        List<DadosListagemAtelie> resultado = jdbcTemplate.query(sql, (rs, rowNum) ->
+            new DadosListagemAtelie(
+                rs.getInt("id_pessoa"),
+                rs.getString("nome_pessoa"),
+                rs.getFloat("nota_avaliacao"),
+                rs.getInt("qntd_notas")
+            )
+        );
+        return new PageImpl<>(resultado, pageable, resultado.size());
+    }
 
 
     

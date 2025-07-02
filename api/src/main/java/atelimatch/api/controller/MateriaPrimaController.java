@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/materiaprima")
+@CrossOrigin(origins = "*")
 public class MateriaPrimaController {
 
     @Autowired

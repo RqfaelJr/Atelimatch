@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/especialidade")
+@CrossOrigin(origins = "*")
 public class EspecialidadeController {
     @Autowired
     private EspecialidadeRepository repository;

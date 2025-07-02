@@ -13,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/pedido")
+@CrossOrigin(origins = "*")
 public class PedidoController {
 
     @Autowired

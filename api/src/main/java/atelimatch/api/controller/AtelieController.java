@@ -17,6 +17,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/atelie")
+@CrossOrigin(origins = "*")
 public class AtelieController {
 
     @Autowired
@@ -72,5 +73,6 @@ public class AtelieController {
         var page = bancoDadosServico.buscarAtelie(sql, paginacao);
         return ResponseEntity.ok(page);
     }
+
 
 }
