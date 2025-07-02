@@ -113,26 +113,26 @@ CREATE TABLE medida_pedido (
 
 -- Tabela endereco (20 endereços)
 INSERT INTO endereco (estado, bairro, cidade, rua, cep, numero, complemento) VALUES
-('RN', 'Alto Vera Cruz', 'Viana', 'Fazenda Ana Lívia Freitas', '26542351', 26, 'Complemento 1'),
-('AP', 'Minaslandia', 'Monteiro Paulista', 'Quadra Teixeira', '61849593', 760, 'Complemento 2'),
-('RR', 'Betânia', 'Gonçalves', 'Fazenda Castro', '4752553', 282, 'Complemento 3'),
-('RR', 'Nova Granada', 'da Cunha', 'Feira de da Cruz', '6483503', 251, 'Complemento 4'),
-('SE', 'Lagoa', 'Campos do Oeste', 'Largo de da Rosa', '6724238', 229, 'Complemento 5'),
-('GO', 'Vila Primeiro De Maio', 'Nunes da Praia', 'Conjunto Silva', '1012269', 143, 'Complemento 6'),
-('MG', 'Mineirão', 'Souza de Fernandes', 'Aeroporto de Correia', '5146270', 755, 'Complemento 7'),
-('PE', 'Vila Santo Antônio', 'Jesus', 'Rodovia de da Paz', '52880957', 105, 'Complemento 8'),
-('AC', 'Camponesa 2ª Seção', 'Duarte do Norte', 'Travessa Cardoso', '71822782', 693, 'Complemento 9'),
-('GO', 'São Geraldo', 'da Rosa da Prata', 'Vila de da Paz', '6578713', 759, 'Complemento 10'),
-('SP', 'Jardim Paulista', 'São Paulo', 'Avenida Paulista', '01310930', 1000, 'Conjunto 101'),
-('RJ', 'Copacabana', 'Rio de Janeiro', 'Avenida Atlântica', '22021001', 500, 'Apto 302'),
-('MG', 'Savassi', 'Belo Horizonte', 'Rua Antônio de Albuquerque', '30112010', 245, 'Sala 405'),
-('RS', 'Moinhos de Vento', 'Porto Alegre', 'Rua Padre Chagas', '90570050', 89, 'Casa 2'),
-('PR', 'Batel', 'Curitiba', 'Avenida do Batel', '80420090', 1866, 'Bloco B'),
-('BA', 'Barra', 'Salvador', 'Avenida Oceânica', '40140130', 345, 'Cobertura'),
-('PE', 'Boa Viagem', 'Recife', 'Avenida Boa Viagem', '51021000', 1234, 'Apto 1501'),
-('CE', 'Meireles', 'Fortaleza', 'Avenida Beira Mar', '60165080', 2200, 'Sala 10'),
-('DF', 'Asa Sul', 'Brasília', 'Quadra 302', '70232900', 12, 'Conjunto 8'),
-('SC', 'Centro', 'Florianópolis', 'Rua Felipe Schmidt', '88010200', 345, 'Loja 5');
+('Rio Grande do Norte', 'Alto Vera Cruz', 'Viana', 'Fazenda Ana Lívia Freitas', '26542351', 26, 'Complemento 1'),
+('Amapá', 'Minaslandia', 'Monteiro Paulista', 'Quadra Teixeira', '61849593', 760, 'Complemento 2'),
+('Roraima', 'Betânia', 'Gonçalves', 'Fazenda Castro', '4752553', 282, 'Complemento 3'),
+('Roraima', 'Nova Granada', 'da Cunha', 'Feira de da Cruz', '6483503', 251, 'Complemento 4'),
+('Sergipe', 'Lagoa', 'Campos do Oeste', 'Largo de da Rosa', '6724238', 229, 'Complemento 5'),
+('Goiás', 'Vila Primeiro De Maio', 'Nunes da Praia', 'Conjunto Silva', '1012269', 143, 'Complemento 6'),
+('Minas Gerais', 'Mineirão', 'Souza de Fernandes', 'Aeroporto de Correia', '5146270', 755, 'Complemento 7'),
+('Pernambuco', 'Vila Santo Antônio', 'Jesus', 'Rodovia de da Paz', '52880957', 105, 'Complemento 8'),
+('Acre', 'Camponesa 2ª Seção', 'Duarte do Norte', 'Travessa Cardoso', '71822782', 693, 'Complemento 9'),
+('Goiás', 'São Geraldo', 'da Rosa da Prata', 'Vila de da Paz', '6578713', 759, 'Complemento 10'),
+('São Paulo', 'Jardim Paulista', 'São Paulo', 'Avenida Paulista', '01310930', 1000, 'Conjunto 101'),
+('Rio de Janeiro', 'Copacabana', 'Rio de Janeiro', 'Avenida Atlântica', '22021001', 500, 'Apto 302'),
+('Minas Gerais', 'Savassi', 'Belo Horizonte', 'Rua Antônio de Albuquerque', '30112010', 245, 'Sala 405'),
+('Rio Grande do Sul', 'Moinhos de Vento', 'Porto Alegre', 'Rua Padre Chagas', '90570050', 89, 'Casa 2'),
+('Paraná', 'Batel', 'Curitiba', 'Avenida do Batel', '80420090', 1866, 'Bloco B'),
+('Bahia', 'Barra', 'Salvador', 'Avenida Oceânica', '40140130', 345, 'Cobertura'),
+('Pernambuco', 'Boa Viagem', 'Recife', 'Avenida Boa Viagem', '51021000', 1234, 'Apto 1501'),
+('Ceará', 'Meireles', 'Fortaleza', 'Avenida Beira Mar', '60165080', 2200, 'Sala 10'),
+('Distrito Federal', 'Asa Sul', 'Brasília', 'Quadra 302', '70232900', 12, 'Conjunto 8'),
+('Santa Catarina', 'Centro', 'Florianópolis', 'Rua Felipe Schmidt', '88010200', 345, 'Loja 5');
 
 -- Tabela pessoa (20 pessoas)
 INSERT INTO pessoa (email, senha, usuario, nome_pessoa, telefone, cnpj, id_endereco) VALUES

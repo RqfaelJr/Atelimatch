@@ -50,9 +50,9 @@ public class AdminController {
                     "GROUP BY TO_CHAR(p.data_entrega, 'MM/YYYY') ORDER BY TO_CHAR(p.data_entrega, 'MM/YYYY');";
 
         // Dados gráficos (labels + valores)
-        GraficoDTO g1 = bancoServico.buscarQuantidadePedidoAtelie();
-        GraficoDTO g2 = bancoServico.valorMedioGastoPorFormaPagamento();
-        GraficoDTO g3 = bancoServico.valorVendasPorMesAtelie();
+        GraficoDTO g1 = bancoServico.buscarQuantidadePedidoAtelie(sql1);
+        GraficoDTO g2 = bancoServico.valorMedioGastoPorFormaPagamento(sql2);
+        GraficoDTO g3 = bancoServico.valorVendasPorMesAtelie(sql3);
 
         // Resultado completo com colunas para tabelas no frontend
         ResultadoConsultaDTO resultado1 = bancoServico.buscarResultadoCompletoComColunas(sql1);

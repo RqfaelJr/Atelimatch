@@ -1,6 +1,7 @@
 package atelimatch.api.controller;
 
 import atelimatch.api.domain.especialidade.*;
+import atelimatch.api.domain.medida.DadosListagemMedida;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/especialidade")
@@ -52,6 +55,14 @@ public class EspecialidadeController {
     public ResponseEntity<Page<DadosListagemEspecialidade>> detalhar(@PageableDefault(size = 10)Pageable paginacao) {
             var page = repository.findAll(paginacao).map(DadosListagemEspecialidade::new);
             return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/todas")
+    public ResponseEntity<List<DadosListagemEspecialidade>> listarTodas() {
+        var especialidades = repository.findAll().stream()
+                .map(DadosListagemEspecialidade::new)
+                .toList();
+        return ResponseEntity.ok(especialidades);
     }
 
 }

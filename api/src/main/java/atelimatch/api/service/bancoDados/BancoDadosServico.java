@@ -64,10 +64,7 @@ public class BancoDadosServico {
         );
     }
 
-    public GraficoDTO buscarQuantidadePedidoAtelie() {
-        String sql = "SELECT pe.nome_pessoa AS nome_atelie, COUNT(p.id_pedido) AS total_pedido " +
-        "FROM pedido p JOIN atelie a on p.id_atelie = a.id_pessoa JOIN pessoa pe ON a.id_pessoa = pe.id_pessoa " +
-        "GROUP BY pe.nome_pessoa;";
+    public GraficoDTO buscarQuantidadePedidoAtelie(String sql) {
 
         List<String> labels = new ArrayList<>();
         List<Double> valores = new ArrayList<>();
@@ -80,10 +77,7 @@ public class BancoDadosServico {
         return new GraficoDTO(labels, valores);
     }
 
-    public GraficoDTO valorMedioGastoPorFormaPagamento() {
-        String sql = "SELECT f.nome_forma_pagamento, ROUND(AVG(p.valor_total), 2) AS valor_medio " +
-        "FROM pedido p JOIN forma_pagamento f ON p.id_forma_pagamento = f.id_forma_pagamento " +
-        "GROUP BY f.nome_forma_pagamento;";
+    public GraficoDTO valorMedioGastoPorFormaPagamento(String sql) {
 
         List<String> labels = new ArrayList<>();
         List<Double> valores = new ArrayList<>();
@@ -96,13 +90,7 @@ public class BancoDadosServico {
         return new GraficoDTO(labels, valores);
     }
 
-    public GraficoDTO valorVendasPorMesAtelie() {
-        String sql = "SELECT pe.nome_pessoa AS nome_atelie,  TO_CHAR(p.data_entrega, 'MM/YYYY') AS mes_ano, SUM(p.valor_total) AS total_vendas " +
-        "FROM pedido p " +
-        "JOIN atelie a ON p.id_atelie = a.id_pessoa " +
-        "JOIN pessoa pe ON a.id_pessoa = pe.id_pessoa " +
-        "WHERE pe.id_pessoa = 6 " +
-        "GROUP BY pe.nome_pessoa, TO_CHAR(p.data_entrega, 'MM/YYYY');";
+    public GraficoDTO valorVendasPorMesAtelie(String sql) {
 
         List<String> labels = new ArrayList<>();
         List<Double> valores = new ArrayList<>();
