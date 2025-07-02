@@ -225,7 +225,7 @@ async function carregarServicos() {
       const li = document.createElement("li");
       li.className = "flex justify-between items-center border p-2 rounded";
       li.innerHTML = `
-        <span>${s.nome} - ${s.tempoMedio} min - R$ ${Number(s.valorServico).toFixed(2)}</span>
+        <span>${s.nome} - ${s.tempoMedio} dias - R$ ${Number(s.valorServico).toFixed(2)}</span>
         <div class="flex gap-2">
           <button onclick="editarServico(${s.idServico}, '${s.nome}', ${s.tempoMedio}, ${s.valorServico})" class="text-blue-600">Editar</button>
           <button onclick="excluirServico(${s.idServico})" class="text-red-600">Excluir</button>
@@ -514,7 +514,7 @@ function fecharModalEspecialidade() {
 
 async function carregarEspecialidades() {
     try {
-        const response = await fetch(apiEspecialidade);
+        const response = await fetch(apiEspecialidade + "/todas");
         const data = await response.json();
         const especialidades = data.content || data; 
 
@@ -1275,12 +1275,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const lista = document.getElementById('lista-medida');
         lista.innerHTML = '<div>Carregando...</div>';
         
-        const resp = await fetch('http://localhost:8080/medida');
+        const resp = await fetch('http://localhost:8080/medida/todas');
         const medida = await resp.json();
         lista.innerHTML = `
         <label class="block mb-2 font-medium text-gray-700">Escolha as medidas:</label>
         <div class="space-y-2">
-            ${medida.content.map(e => `
+            ${medida.map(e => `
                 <label class="flex items-center space-x-2">
                     <input type="checkbox" name="medida" value="${e.idMedida}" class="form-checkbox">
                     <span>${e.nome} ${e.valor}</span>
@@ -1531,8 +1531,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         }
     });
-
-    
 
     const linkPerfil = document.getElementById('link-ver-perfil');
     
@@ -1981,8 +1979,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!response.ok) {
                 alert("Você tem pedidos registrados, não é possível deletar a conta")
                 throw new Error('Falha ao deletar o perfil. Status: ' + response.status);
+                
             }
-            return response.json();
+            
         })
         .then(() => {
             localStorage.clear();
@@ -2007,7 +2006,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert("Você tem pedidos registrados, não é possível deletar a conta")
                 throw new Error('Falha ao deletar o perfil. Status: ' + response.status);
             }
-            return response.json();
+            
         })
         .then(() => {
             localStorage.clear();
